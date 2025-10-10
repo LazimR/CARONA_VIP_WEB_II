@@ -1,0 +1,1383 @@
+/* Auxiliar */
+
+/* CORES */
+:root {
+    --_fundo_branco: #f9f9fa;
+    --cinza: #6f6f70;
+    --preto: #172323;
+    --verde_escuro: #004753;
+}
+
+/* CONTAINER GERAL */
+html {
+    scroll-behavior: smooth;
+}
+body {
+    margin: 0;
+    font-family: 'Zen Kaku Gothic Antique', sans-serif;
+    height: 100vh;
+}
+
+h3, h6 {
+    font-family: 'Zen Kaku Gothic Antique', sans-serif;
+}
+
+.container {
+    display: flex;
+    height: 100%;
+    position: relative; /* Garante que elementos absolutos sejam posicionados em relação a este pai */
+}
+
+.esquerda {
+    flex: 1;
+}
+
+.esquerda img {
+    display: block;
+    padding-left: 0.0125rem; 
+    width: 25.9375rem; 
+    height: 45.5625rem; 
+}
+
+
+.direita {
+    width: 73%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--_fundo_branco);
+}
+
+.form-container {
+    background-color: var(--_fundo_branco);
+    padding: 3.125rem;
+    width: 25rem; 
+    text-align: center;
+    margin: 0 auto; /* Centraliza o formulário no eixo horizontal */
+}
+
+.form-container h3 {
+    text-align: center;
+    margin-bottom: 0.625rem; /* Espaçamento menor para ficar alinhado */
+}
+
+.form-container h6 {
+    text-align: center;
+    color: var(--cinza);
+    margin-bottom: 1.25rem; /* Espaçamento antes do formulário */
+}
+
+.form-group {
+    margin-bottom: 0.9375rem;
+    text-align: center; 
+}
+
+.form-group input {
+    width: 100%; 
+    max-width: 21.875rem; /* Define um limite para os inputs */
+    padding: 1.125rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.submit-btn {
+    background-color: var(--preto);
+    color: var(--_fundo_branco);
+    padding: 1rem;
+    border: none;
+    border-radius: 4px;
+    width: 88%;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.submit-btn:hover {
+    background-color: var(--cinza);
+}
+
+.imagem-no-input {
+    position: relative;
+}
+
+.imagem-no-input input {
+    padding-left: 40px; /* Espaço para o ícone */
+    width: 100%; /* Para respeitar o alinhamento */
+    max-width: 350px; /* Largura alinhada */
+}
+
+.imagem-no-input img {
+    position: absolute;
+    left: 32px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px; /* Tamanho consistente do ícone */
+    height: auto; /* Para manter as proporções */
+}
+
+.texto-inferior-direito {
+    position: fixed; 
+    bottom: 10px; 
+    right: 10px; 
+    font-size: 12px; 
+    color: var(--preto); 
+    padding: 5px 10px;
+    display: flex; 
+    align-items: center; 
+    cursor: pointer;
+}
+
+.texto-inferior-direito img {
+    width: 16px; /* Ajuste o tamanho da imagem conforme necessário */
+    height: 16px;
+    margin-right: 8px; /* Espaço entre a imagem e o texto */
+}
+
+.texto-inferior-direito a {
+    color: var(--preto);
+    text-decoration: none;
+}
+
+.texto-superior-direito {
+    position: absolute; 
+    top: 0.625rem; 
+    right: 0.75rem; 
+    font-size: 0.75rem; 
+    color: var(--preto); 
+    padding: 0.3125rem 0.625rem;
+    display: flex; 
+    align-items: center; 
+}
+
+.texto-superior-direito a {
+    color: var(--preto);
+}
+
+.texto-superior-direito p {
+    color: var(--cinza);
+}
+
+
+.texto-superior-esquerdo {
+    position: absolute; 
+    top: 0.625rem; 
+    left: 25.625rem; 
+    font-size: 0.75rem; 
+    color: var(--preto); 
+    padding: 0.3125rem 0.625rem;
+    display: flex; 
+    align-items: center; 
+}
+
+.texto-superior-esquerdo a {
+    color: var(--cinza);
+    text-decoration: none;
+}
+
+.texto-superior-esquerdo img {
+    margin-right: 8px; /* Espaço entre a imagem e o texto */
+}
+
+
+/* --- Sessão 01 --- */
+
+
+.sessao-01 {
+    position: relative;
+    padding: 16.875rem;
+    color: var(--preto);
+    z-index: 1;
+}
+
+.sessao-01::after {
+    content: "";
+    position: absolute;
+    bottom: -50px;
+    left: 0;
+    width: 100%;
+    height: 50px; /* Altura do desfoque */
+    background: linear-gradient(to top, rgba(101, 93, 93, 0), rgba(101, 93, 93, 0.1)); /* Ajuste as cores conforme necessário */
+    z-index: -1; /* Mantém o pseudo-elemento atrás do conteúdo da sessão */
+}
+
+.imagem-sessao-01 {
+    position: absolute; 
+    right: 5rem; 
+    padding-right: 5rem;
+    top: 60%; 
+    transform: translateY(-50%); 
+}
+
+.imagem-sessao-01 img {
+    width: 26.25rem;
+    height: auto;
+}
+
+.content-sessao-01 {
+    text-align: center;
+}
+
+.search-bar {
+    margin: -15.625rem auto 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 31.25rem;
+}
+
+.search-bar label {
+    display: flex;
+    align-items: center;
+    border-radius: 20px;
+    padding: 0.75rem;
+    width: 100%;
+}
+
+.search-bar input[type="text"] {
+    flex: 1;
+    padding: 0.9375rem;
+    border: none;
+    outline: none;
+    font-size: 1rem;
+    border-radius: 20px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%; /* Certifica-se de ocupar todo o espaço disponível */
+}
+
+.search-bar button {
+    background-color: var(--preto);
+    color: var(--_fundo_branco);
+    border: none;
+    padding: 0.875rem;
+    margin: 0.25rem;
+    width: 5.9375rem;
+    border-radius: 25px 25px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s;
+}
+
+.search-bar button:hover {
+    background-color: #003f47;
+}
+
+.search-bar .button-icon {
+    width: 1.25rem; /* Ajuste o tamanho da imagem */
+    height: 1.25rem;
+}
+
+.search-container {
+    position: relative;
+    width: 21.875rem; /* Largura do campo de pesquisa */
+    margin-left: -7.5rem;
+}
+
+.search-container input[type="text"] {
+    width: 100%;
+    height: 3.4375rem;
+    padding: 0 7.5rem 0 0.9375rem; /* Espaço extra para o botão no lado direito */
+    font-size: 1rem;
+    border: none;
+    border-radius: 25px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    outline: none;
+}
+
+.search-container button {
+    position: absolute;
+    left: 23.25rem; /* Posiciona o botão dentro do campo de pesquisa */
+    top: 50%;
+    transform: translateY(-60%);
+    height: 1.5625rem;
+    padding: 1rem;
+    border: none;
+    border-radius: 0.75rem;
+    background-color: #000; /* Cor do botão */
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+.texto-esquerda-sessao-01 {
+    position: absolute;
+    padding-left: 7.1875rem;
+    left: 1.875rem;
+    top: 60%;
+    transform: translateY(-50%); 
+}
+
+.texto-esquerda-sessao-01 img {
+    width: 25rem;
+    height: auto;
+}
+
+.seguir-rotas {
+    background-color: var(--preto);
+    color: var(--_fundo_branco);
+    border: none;
+    padding: 0.75rem;
+    width: 11.25rem;
+    margin-left: 2.3125rem;
+    border-radius: 25px 25px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s;
+}
+
+.seguir-rotas img {
+    width: 1.25rem;
+    height: 1.25rem;
+    margin: 0.4375rem;
+}
+
+.seguir-rotas a {
+    font-size: 0.75rem;
+    text-decoration: none;
+    color: var(--_fundo_branco);
+}
+
+.seguir-rotas:hover {
+    background-color: #003f47;
+}
+
+.imagem-sessao-01 {
+    position: absolute; 
+    right: 5rem; 
+    padding-right: 5rem;
+    top: 60%; 
+    transform: translateY(-50%); 
+}
+
+.imagem-sessao-01 img {
+    width: 26.25rem;
+    height: auto;
+}
+
+.menu-links {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+
+.menu-links li {
+    margin: 0 0.625rem;
+}
+
+.menu-links a {
+    text-decoration: none;
+    color: var(--preto);
+    font-weight: 500;
+}
+
+.menu-links a:hover {
+    color: #00575f;
+}
+
+.btn-cadastrar {
+    border: 2px solid #00575f;
+    padding: 0.5625rem 01.375rem;
+    border-radius: 20px;
+    font-weight: bold;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.btn-cadastrar:hover {
+    background-color: var(--preto);
+    color: #ffffff;
+}
+
+.logo {
+    font-size: 10px;
+    font-weight: bold;
+}
+
+.logo img {
+    margin-top: 0.5rem;
+    width: 14rem;
+    height: auto;
+}
+
+.menu {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5625rem 1.25rem;
+    background: transparent;
+    margin-top: -1rem;
+}
+
+.fundo-container {
+    background-image: url('../imagens/home/sessao_01/fundo.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+/* RESPONSIVIDADE */
+
+/* Estilos para telas pequenas */
+@media (max-width: 768px) {
+    .sessao-01 {
+        padding: 8rem 2rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .sessao-01 .imagem-sessao-01 {
+        display: none; /* Remove a imagem dos carros em telas pequenas */
+    }
+
+    .content-sessao-01 {
+        margin-bottom: 1rem;
+    }
+
+    .seguir-rotas {
+        width: 3rem; /* Aumenta a largura do botão */
+        height: 1rem; /* Ajusta a altura */
+        background-color: var(--preto);
+        color: var(--_fundo_branco);
+        padding: 0.75rem 2rem;
+        border-radius: 25px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background-color 0.3s;
+    }
+
+    .seguir-rotas:hover {
+        background-color: #003f47;
+    }
+
+    /* Reduzindo o tamanho da fonte do texto */
+    .sessao-01 h1 {
+        font-size: 1.0rem; /* Reduz o tamanho do título */
+    }
+
+    .sessao-01 p {
+        font-size: 0.5rem; /* Reduz o tamanho do texto */
+    }
+
+    /* Ajustes para os links do menu */
+    .menu-links a {
+        font-size: 0.6rem; /* Diminuindo o tamanho da fonte dos links do menu */
+    }
+
+    /* Ajustando o tamanho da logo */
+    .logo img {
+        width: 7rem; /* Reduz o tamanho da logo */
+        height: auto;
+    }
+
+    .texto-esquerda-sessao-01 {
+        position: absolute;
+        top: 50%; /* Centraliza verticalmente */
+        left: 50%; /* Centraliza horizontalmente */
+        transform: translate(-50%, -50%); /* Ajusta o ponto de referência para o centro */
+        text-align: center; /* Centraliza o texto dentro do elemento */
+        font-size: 1.5rem; /* Ajusta o tamanho da fonte para telas menores */
+        line-height: 1.5; /* Ajusta o espaçamento entre linhas */
+        margin-top: 10px;
+    }
+
+    .texto-esquerda-sessao-01 img{
+        position: relative;
+        width: 15rem; /* Reduz o tamanho da texto */
+        height: auto;
+    }
+
+
+    .search-bar {
+        padding: 8rem 0;
+    }
+
+    .search-container {
+        position: relative;
+        margin: 0 auto; /* Centraliza horizontalmente */
+    }
+
+    .search-bar input[type="text"] {
+        font-size: 0.8rem; /* Fonte menor */
+        padding: 0.4rem; /* Preenchimento menor */
+        height: 1.8rem; /* Altura reduzida */
+    }
+
+    .search-bar button {
+        font-size: 0.7rem; /* Fonte menor no botão */
+        padding: 0.4rem 0.8rem; /* Tamanho menor do botão */
+        height: 2rem; /* Altura menor */
+        margin: -1 auto; /* Centraliza horizontalmente */
+        left: 72%;
+    }
+
+    .seguir-rotas a {
+        font-size: 0.60rem; /* Ajusta o tamanho do texto do link */
+    }
+
+    .btn-cadastrar {
+        padding: 0.3625rem 0.375rem;
+    }
+    
+}   
+
+/* Estilos para telas médias */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .sessao-01 .imagem-sessao-01 {
+        display: none; /* Remove a imagem dos carros em telas pequenas */
+    }
+    .texto-esquerda-sessao-01 {
+        position: absolute;
+        top: 50%; /* Centraliza verticalmente */
+        left: 50%; /* Centraliza horizontalmente */
+        transform: translate(-50%, -50%); 
+        text-align: center; 
+        margin-top: 10px;
+    }
+
+    .texto-esquerda-sessao-01 img{
+        position: relative;
+        width: 18rem; /* Reduz o tamanho da texto */
+        height: auto;
+    }
+
+    .seguir-rotas {
+        width: 5rem; /* Aumenta a largura do botão */
+        height: 2rem; /* Ajusta a altura */
+        background-color: var(--preto);
+        color: var(--_fundo_branco);
+        padding: 0.75rem 2rem;
+        border-radius: 25px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background-color 0.3s;
+    }
+
+    .seguir-rotas:hover {
+        background-color: #003f47;
+    }
+}
+
+/* Estilos para telas grandes */
+@media (min-width: 1025px) {
+    .sessao-01 {
+        padding: 16.875rem;
+    }
+
+    .imagem-sessao-01 {
+        right: 5rem;
+        padding-right: 5rem;
+    }
+
+    .texto-esquerda-sessao-01 {
+        padding-left: 7.1875rem;
+        left: 1.875rem;
+    }
+
+    .search-bar {
+        max-width: 31.25rem;
+    }
+
+    .search-container button {
+        left: 23.25rem;
+    }
+}
+
+
+/* --- Sessão 02 --- */
+
+.sessao-02 {
+    padding: 16.875rem;
+    background-color: var(--_fundo_branco);
+}
+
+
+.content-sessao-02 {
+    text-align: center;
+    position: relative;
+}
+
+.content-sessao-02 p {
+    font-family: 'Times New Roman', sans-serif;
+    font-size: 1.875rem;
+    margin: -12.5rem auto 0 auto;
+}
+
+.texto-sessao-02 {
+    position: absolute;
+    top: 9.375rem; 
+    left: 31.25rem; 
+    width: 25rem;
+    text-align: left; 
+    font-size: 0.75rem;
+
+}
+
+.texto-sessao-02 h4 {
+    font-weight: normal; 
+}
+
+.imagem-seguranca {
+    position: absolute;
+    top: 4.6875rem; /* Ajuste para descer a imagem */
+    left: 5.625rem; /* Ajuste para movê-la para a direita */
+}
+
+.imagem-seguranca img {
+    width: 23.125rem;
+    height: auto;
+    padding-top: 3.75rem;
+    left: -17.5rem;
+    transform: translateY(-5%);
+}
+.imagem-localizacao {
+    position: absolute;
+    top: 60%; 
+    right: -16.875rem; 
+    transform: translateY(-35%); 
+}
+
+.imagem-localizacao img {
+    width: 21.875rem;
+    height: auto;
+}
+.imagem-malas {
+    position: absolute;
+    top: 60%; 
+    left: -16.8125rem; 
+    transform: translateY(-1%); 
+}
+
+.imagem-malas img {
+    width: 21.875rem;
+    height: auto;
+}
+
+@media (max-width: 1426px) {
+
+    .imagem-seguranca img {
+        display: none;
+    }
+    .content-sessao-02 p {
+        font-size: 1.8rem; 
+        margin: -10rem auto 0 auto; 
+    }
+
+    .texto-sessao-02 {
+        position: relative; /* Alinha o texto abaixo do anterior sem usar posição absoluta */
+        top: 0;
+        left: 0;
+        width: 100%;
+        text-align: center; 
+        font-size: 1rem;
+        margin-top: 2rem; /* Espaçamento entre o título e o texto */
+    }
+
+
+    .imagem-localizacao {
+        top: 50%; 
+        right: -17rem; 
+        transform: translateY(-30%); 
+    }
+
+    .imagem-localizacao img {
+        width: 15rem; 
+    }
+
+    .imagem-malas {
+        top: 50%; 
+        left: -17rem; 
+        transform: translateY(-1%); 
+    }
+
+    .imagem-malas img {
+        width: 15rem; 
+    }
+}
+
+@media (max-width: 840px) {
+
+    .sessao-02 {
+        padding: 6rem 1rem; /* Ajusta o padding para telas menores */
+    }
+    .imagem-localizacao img {
+        display: none;
+    }
+
+    .imagem-malas img {
+        display: none;
+    }
+
+    .content-sessao-02 p {
+        font-size: 1.25rem; 
+        margin: 0 auto 3rem auto; 
+    }
+
+    .texto-sessao-02 {
+        position: relative; /* Alinha o texto abaixo do anterior sem usar posição absoluta */
+        top: 0;
+        left: 0;
+        width: 100%; /* Garante que o texto ocupe toda a largura */
+        text-align: center; 
+        font-size: 1rem; 
+        margin-top: 2rem; 
+    }
+
+    .texto-sessao-02 h4 {
+        font-size: 0.875rem; 
+        font-weight: normal;
+        text-align: center;
+    }
+
+    .content-sessao-02 {
+        margin-top: 5rem; 
+    }
+}
+
+
+/* --- Sessão 03 --- */
+
+.sessao-03 {
+    padding: 9.375rem;
+    background-color: var(--_fundo_branco);
+}
+
+.content-sessao-03 {
+    text-align: center;
+}
+.content-sessao-03 p {
+    font-family: 'Times New Roman', sans-serif;
+    font-size: 1.875rem;
+    margin: -6.875rem auto 0 auto;
+}
+
+.container_sessao-03 {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; 
+    gap: 3rem; /* Espaçamento entre os cards */
+    padding: 2.5rem;
+    max-width: 90%;
+    background-color: var(--_fundo_branco);
+}
+
+
+.card {
+    background-color: #fff;
+    border-radius: 1.0625rem;
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.1);
+    padding: 1.25rem;
+    width: 240px;
+    height: auto;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-11px); 
+    box-shadow: 0 16px 25px rgba(0, 0, 0, 0.2); 
+}
+
+.card h2 {
+    font-size: 1.125rem;
+    color: var(--preto);
+    margin-bottom: 0.625rem;
+}
+
+.card p {
+    font-size: 0.875rem;
+    color: var(--preto);
+    margin: 0.3125rem 0;
+    padding-top: 0.625rem;
+}
+
+
+.origem {
+    display: flex;
+    flex-direction: column; /* Organiza os subgrupos verticalmente */
+    align-items: flex-start; /* Alinha à esquerda */
+    gap: 1.125rem; 
+    padding-top: 1.25rem;
+}
+
+.origem p {
+    font-size: 1.125rem;
+}
+
+.valor-viagem {
+    transform: translateY(-50%); 
+    margin-left: 10rem;
+}
+
+.valor-viagem button {
+    background-color: #7209b7;
+    padding: 0.625rem;
+    font-size: 0.8rem;
+    color: var(--_fundo_branco);
+    border-radius: 1.125rem;
+    width: 80%;
+    height: auto;
+    border: none;
+}
+
+
+.destino {
+    position: absolute;
+    transform: translateY(-95%);
+}
+
+.destino p {
+    padding-left: 1.875rem;
+}
+
+.imagem-localizacao-destino {
+    position: relative;
+    padding-left: 1.25rem; 
+    width: 100%;
+    max-width: 21.875rem;
+}
+
+
+.imagem-localizacao-destino img {
+    position: absolute;
+    left: 0.625rem;
+    top: -10%;
+    padding-top: 1rem;
+    transform: translateY(-1%);
+    width: 0.9375rem; 
+    height: auto; 
+    max-width: 100%;
+}
+
+
+.botao-detalhes {
+    padding-top: 3.4375rem;
+    text-align: center;
+}
+
+.botao-detalhes a {
+    display: inline-block;
+    background-color: #ff7300;
+    padding: 0.75rem 1.875rem; 
+    font-size: 1rem; 
+    color: var(--_fundo_branco);
+    border-radius: 1.125rem;
+    border: none;
+    text-decoration: none;
+    width: auto;
+    height: auto; 
+}
+
+.botao-detalhes a:hover {
+    background-color: #ff5700;
+}
+
+/* Responsividade */
+
+@media (max-width: 1024px) {
+    .sessao-03 {
+        padding: 6rem;
+    }
+
+    .valor-viagem {
+        width: 100px; /* Ocupará toda a largura disponível */
+    }
+}
+
+
+/* --- Sessão 04 --- */
+
+.sessao-04 {
+    padding: 6.875rem;
+    background-color: var(--_fundo_branco);
+}
+
+.content-sessao-04 {
+    text-align: center;
+    position: relative;
+}
+
+.imagem-sessao-04 {
+    position: absolute; 
+    right: 7.5rem;
+    display: flex; 
+    text-align: center;
+    transform: translateY(-80%);
+}
+
+.imagem-sessao-04 img {
+    width: 23.75rem;
+    height: auto;
+}
+
+.texto-esquerdo-sessao-04 {
+    font-family: 'Inter', sans-serif;
+    color: #000;
+    max-width: 24.375rem; 
+    max-height: 7.5rem;
+    text-align: left;
+    word-wrap: break-word; 
+    line-height: 1.3;
+}
+
+.texto-esquerdo-sessao-04 h2 {
+    position: absolute;
+    left: 15rem;
+    padding: 1.25rem;
+    transform: translateY(-280%);
+    word-wrap: break-word;
+}
+
+.texto-esquerdo-sessao-04 p {
+    position: absolute;
+    max-width: 24.375rem; 
+    max-height: 7.5rem;
+    left: 15.125rem;
+    padding: 1.25rem;
+    transform: translateY(-120%);
+    word-wrap: break-word;
+}
+
+.oferecer-carona-botao-sessao-04 {
+    position: absolute;
+    background-color: #054652;
+    border: none;
+    left: 16.25rem;
+    padding: 0.75rem;
+    font-size: 0.75rem;
+    width: 5.625rem;
+    margin-left: 6.875rem;
+    border-radius: 25px 25px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s;
+    transform: translateY(-53%);
+}
+
+.oferecer-carona-botao-sessao-04 a {
+    text-decoration: none;
+    color: var(--_fundo_branco);
+}
+
+
+.oferecer-carona-botao-sessao-04:hover {
+    background-color: #023238;
+}
+
+/* Responsividade para a Sessão 04 */
+
+@media (max-width: 1420px) {
+    .content-sessao-04 {
+        margin-top: -10rem;
+    }
+    .sessao-04 {
+        padding: 5rem 2rem; /* Reduz o padding geral */
+    }
+    .imagem-sessao-04 {
+        display: none; 
+    }
+
+    .texto-esquerdo-sessao-04 h2, .texto-esquerdo-sessao-04 p {
+        position: static; /* Remove o posicionamento absoluto */
+        transform: none; /* Remove a transformação */
+        text-align: center; /* Centraliza o texto */
+        padding: 1rem 0;
+    }
+
+    .texto-esquerdo-sessao-04 {
+        max-width: 100; /* Ajusta a largura do texto */
+        margin: 0 auto; /* Centraliza o conteúdo */
+    }
+
+    .oferecer-carona-botao-sessao-04 {
+        position: static; /* Remove o posicionamento absoluto */
+        margin: 1rem auto; /* Centraliza o botão */
+        transform: none; /* Remove a transformação */
+        margin-top: 80px;
+    }
+}
+
+
+/* Tela média (até 1024px) */
+@media (max-width: 1024px) {
+    .sessao-04 {
+        padding: 5rem 2rem; /* Reduz o padding geral */
+    }
+
+    .imagem-sessao-04 {
+        display: none; /* Esconde a imagem no responsivo */
+    }
+
+    .texto-esquerdo-sessao-04 h2, .texto-esquerdo-sessao-04 p {
+        position: static; /* Remove o posicionamento absoluto */
+        transform: none; /* Remove a transformação */
+        text-align: center; /* Centraliza o texto */
+        padding: 1rem 0;
+    }
+
+    .texto-esquerdo-sessao-04 {
+        max-width: 100; /* Ajusta a largura do texto */
+        margin: 0 auto; /* Centraliza o conteúdo */
+    }
+
+    .oferecer-carona-botao-sessao-04 {
+        position: static; /* Remove o posicionamento absoluto */
+        margin: 1rem auto; /* Centraliza o botão */
+        transform: none; /* Remove a transformação */
+        margin-top: 80px;
+    }
+}
+
+/* Tela pequena (até 768px) */
+@media (max-width: 768px) {
+    .sessao-04 {
+        padding: 3rem 1rem; /* Padding mais compacto */
+    }
+
+    .imagem-sessao-04 img {
+        display: none; /* Esconde a imagem no responsivo */
+    }
+
+    .texto-esquerdo-sessao-04 h2 {
+        font-size: 1rem; /* Título menor */
+    }
+
+    .texto-esquerdo-sessao-04 p {
+        font-size: 0.9rem; /* Texto ajustado */
+    }
+    .texto-esquerdo-sessao-04 {
+        max-width: 400px; /* Ajusta a largura do texto */
+    }
+
+    .oferecer-carona-botao-sessao-04 {
+        padding: 0.6rem; /* Botão mais compacto */
+        font-size: 0.8rem; /* Reduz o tamanho da fonte */
+        width: 5rem; /* Largura reduzida */
+        margin-top: 50px;
+    }
+}
+
+/* Tela muito pequena (até 480px) */
+@media (max-width: 480px) {
+    .sessao-04 {
+        padding: 2rem 0.5rem; /* Padding ainda mais reduzido */
+    }
+
+    .imagem-sessao-04 img {
+        width: 15rem; /* Imagem menor */
+    }
+
+    .texto-esquerdo-sessao-04 h2 {
+        font-size: 1.2rem; /* Título ainda menor */
+    }
+
+    .texto-esquerdo-sessao-04 p {
+        font-size: 0.8rem; /* Texto ajustado */
+    }
+
+    .oferecer-carona-botao-sessao-04 {
+        padding: 0.5rem; /* Botão compacto */
+        font-size: 0.75rem; /* Fonte reduzida */
+        width: 4.5rem; /* Botão menor */
+        border-radius: 20px; /* Ajusta o arredondamento */
+    }
+}
+
+
+/* --- Sessão 05 --- */
+
+.sessao-05 {
+    padding: 5rem 2rem;
+    background-color: var(--verde_escuro);
+}
+
+.content-sessao-05 {
+    text-align: center;
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.texto-sessao-05 {
+    font-family: 'Inter', sans-serif;
+    color: var(--_fundo_branco);
+    margin-bottom: 2rem;
+    text-align: left;
+    word-wrap: break-word; 
+    line-height: 1.5;
+}
+
+.texto-sessao-05 h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+}
+
+.texto-sessao-05 p {
+    font-size: 1rem;
+    max-width: 100%;
+}
+
+.saiba-mais-botao-sessao-05 {
+    background-color: var(--_fundo_branco);
+    border: none;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    border-radius: 25px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s;
+}
+
+.saiba-mais-botao-sessao-05 a {
+    text-decoration: none;
+    color: var(--verde_escuro);
+}
+
+
+.saiba-mais-botao-sessao-05:hover {
+    background-color: rgb(236, 224, 224);
+    color: var(--_fundo_branco);
+}
+
+/* Responsividade para a Sessão 05 */
+
+/* Tela média (até 1024px) */
+@media (max-width: 1024px) {
+    .sessao-05 {
+        padding: 4rem 1.5rem; /* Reduz o padding geral */
+    }
+
+    .texto-sessao-05 h2 {
+        font-size: 1.6rem; /* Reduz o tamanho do título */
+    }
+
+    .texto-sessao-05 p {
+        font-size: 0.9rem; /* Texto levemente menor */
+    }
+
+    .saiba-mais-botao-sessao-05 {
+        padding: 0.6rem 1.2rem; /* Botão menor */
+        font-size: 0.9rem; /* Reduz a fonte do botão */
+    }
+}
+
+/* Tela pequena (até 768px) */
+@media (max-width: 768px) {
+    .sessao-05 {
+        padding: 3rem 1rem; /* Reduz ainda mais o padding */
+    }
+
+    .content-sessao-05 {
+        max-width: 100%; /* Permite maior flexibilidade no layout */
+    }
+
+    .texto-sessao-05 {
+        margin-bottom: 1.5rem; /* Reduz o espaçamento inferior */
+        text-align: center; /* Centraliza o texto */
+    }
+
+    .texto-sessao-05 h2 {
+        font-size: 1.4rem; /* Título menor */
+    }
+
+    .texto-sessao-05 p {
+        font-size: 0.875rem; /* Texto menor para melhor legibilidade */
+    }
+
+    .saiba-mais-botao-sessao-05 {
+        padding: 0.5rem 1rem; /* Botão compacto */
+        font-size: 0.85rem; /* Fonte menor no botão */
+    }
+}
+
+/* Tela muito pequena (até 480px) */
+@media (max-width: 480px) {
+    .sessao-05 {
+        padding: 2rem 0.5rem; /* Padding reduzido ao mínimo */
+    }
+
+    .texto-sessao-05 h2 {
+        font-size: 1.2rem; /* Título ainda menor */
+    }
+
+    .texto-sessao-05 p {
+        font-size: 0.8rem; /* Texto ajustado */
+    }
+
+    .saiba-mais-botao-sessao-05 {
+        padding: 0.4rem 0.8rem; /* Botão mais compacto */
+        font-size: 0.8rem; /* Fonte reduzida */
+        border-radius: 20px; /* Ajusta o arredondamento para botões menores */
+    }
+}
+
+
+
+/* --- Sessão 06 --- */
+
+.sessao-06 {
+    padding: 5rem 2rem;
+    background-color: var(--_fundo_branco);
+}
+
+.content-sessao-06 {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; 
+    gap: 4rem; 
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.coontent-sessao-06 {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; 
+    gap: 4rem; 
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+
+.sessao-06-esquerda {
+    flex: 1;
+    text-align: center;
+    margin-left: -35rem; 
+}
+
+.sessao-06-esquerda p {
+    font-size: 1rem;
+    font-weight: bold;
+    color: var(--_texto_preto);
+    margin-bottom: 1rem;
+}
+
+.sessao-06-esquerda img {
+    max-width: 100%;
+    height: auto;
+}
+
+
+.coluna {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; 
+    gap: 0.5rem; 
+}
+
+.titulo {
+    font-size: 1rem;
+    font-weight: bold;
+    color: var(--_texto_preto);
+    margin-bottom: 1rem; 
+}
+
+.coluna a {
+    font-size: 0.875rem;
+    color: var(--_texto_preto);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.coluna a:hover {
+    color: #007bff; 
+}
+
+
+@media (max-width: 1024px) {
+    .sessao-06-esquerda {
+        margin-left: -2rem; 
+    }
+}
+
+
+@media (max-width: 768px) {
+    .sessao-06-esquerda {
+        margin-left: 0; 
+        text-align: center; 
+    }
+
+    .content-sessao-06 {
+        flex-direction: column;
+        align-items: center; 
+        gap: 2rem;
+    }
+
+    .sessao-06-esquerda img {
+        max-width: 70%; 
+    }
+
+    .coluna {
+        align-items: center; 
+    }
+}
+
+@media (max-width: 480px) {
+    .sessao-06 {
+        padding: 3rem 1rem;
+    }
+
+    .sessao-06-esquerda img {
+        max-width: 60%; 
+    }
+}
+
+
+/* Script Final Contato*/
+
+
+.modal {
+    display: none; /* Esconde o modal por padrão */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%;
+    text-align: center;
+    border-radius: 10px;
+}
+
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover, .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+

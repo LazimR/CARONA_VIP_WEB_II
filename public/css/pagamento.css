@@ -1,0 +1,452 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #172323;
+    font-family: Arial, sans-serif;
+   
+}
+
+/*altera o fundo da tela pix e cartao*/
+.principal {
+    width: 100%; 
+    height: calc(100vh - 20px); 
+    background-color: #D9D9D9;
+    align-items: center;
+    margin: 0;
+    padding: 10px 0; 
+    overflow-x: hidden; 
+}
+
+.container {
+   
+   margin: 0 auto;
+}
+.container h1{
+    color: #fff;
+}
+
+
+
+.area_externa {
+    display: flex;
+    justify-content: space-around;
+    gap: 5px; /* Reduz o espaço entre as áreas */
+    height: 420px;
+    background-color: #fff;
+    padding: 15px;
+}
+
+.metodo-pagamento,
+.resumo-compra {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 45px; /* Bordas arredondadas */
+    box-shadow: 0 8px 12px 4px rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-direction: column; /* Organiza os itens na vertical */
+    justify-content: space-between;
+    
+}
+
+.metodo-pagamento {
+    width: 500px; /* Reduz a largura da área de pagamento */
+}
+
+.resumo-compra {
+    width: 500px; /* Ajusta a largura da área de resumo */
+}
+
+.text-rsm{
+    margin-bottom: -10px;
+}
+
+.valor-total{
+    display: flex;
+    text-align: center;
+    justify-content: center;
+     
+}
+.valor{
+    background-color: orange;
+    color: #fff;
+    border: solid 2px orange;
+    margin-left: 20px;
+    border-radius: 20px;
+    width: 100px;
+   
+   
+    
+
+}
+/* Estilo para o formulário de pagamento */
+.area-formulario h4 {
+    margin: 3px 0;
+}
+
+.imagem-no-input{
+    display: flex;
+    align-items: center; /* Alinha verticalmente o conteúdo */
+    margin-bottom: 10px;
+}
+
+
+.imagem-no-input img {
+    width: 45px; 
+    height: auto;
+    margin-left: 10px;
+
+
+}
+
+
+.imagem-no-input a {
+    margin-left: 10px;
+}
+.botao-comp {
+    display: flex;
+    justify-content: center; /* Centraliza horizontalmente */
+    align-items: center; /* Centraliza verticalmente */
+    /*border: solid 1px blue;*/
+    margin-top: 2px;
+    padding: 5px;
+}
+
+.botao-cancel {
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    /*border: solid 1px red;*/
+    margin-bottom: 10px;
+}
+
+
+.submit-btn {
+    background-color: #000; 
+    color: white; 
+    border: none; /* Remove as bordas */
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer; /* Altera o cursor para indicar clique */
+    border-radius: 25px; /* Bordas arredondadas */
+    width: 80%; /* Divide igualmente o espaço para os botões */
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+.cancel-btn {
+    background-color: #fff; 
+    color: #000; 
+    border: none; 
+    text-decoration: none;
+    padding: 10px 20px; 
+    font-size: 16px;
+    cursor: pointer; 
+    border-radius: 25px;
+    width: 70%;
+    text-align: center;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 8px 12px 4px rgba(0, 0, 0, 0.15);
+}
+
+.submit-btn:hover {
+    background-color: #45a049; 
+}
+.cancel-btn:hover {
+    background-color: #c9302c; 
+}
+
+
+
+.form_caixa{
+    border: solid 2px black;
+}
+
+.form_caixa h6{
+    margin-left: 10px;
+}
+
+.ajuda{
+   padding: 30px;
+   text-align: right;
+}
+.ajuda a{
+    color: #fff;
+    
+    
+}
+    
+
+/*CSS da pagina do cartao e pix*/
+
+.area-centro{
+    border: solid 2px black;
+    background-color: white; 
+    display: flex; /* Layout flexível para dividir as áreas */
+    justify-content: space-between; /* Espaço entre as duas áreas */
+    gap: 20px; /* Espaço entre as áreas */
+    height: 440px; /* Aumenta a altura das áreas externas */
+    margin: 10px;
+}
+
+.area-esquerda,
+.area-direita {
+    padding: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra para destacar */
+    display: flex;
+    flex-direction: column; /* Organiza os itens na vertical */
+    justify-content: space-between; /* Espaço entre os itens */
+}
+
+.area-esquerda {
+    width: 50%; /* Reduz a largura da área de pagamento */
+    border-right: solid 2px black;
+    
+}
+
+    
+.area-direita {
+    width: 40%; /* Ajusta a largura da área de resumo */
+    
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column; /* Organiza na vertical */
+  
+}
+
+.form-group-date{
+    display: flex;
+    flex-direction:column;
+  
+  
+
+}
+.form-group-date input {
+    font-size: 14px; 
+    border: solid 1px #2c2828; 
+    margin-top: 2px;
+    width: 50%; 
+    padding: 5px;
+    height: 20px;
+    border-radius: 4px; 
+}
+
+
+.form-group input {
+    font-size: 14px; 
+    border: solid 1px #2c2828; 
+    border-radius: 4px; 
+    width: 60%; 
+    padding: 5px;
+    height: 20px;
+}
+
+
+
+.img-cartao{
+    margin-right: 140px;
+    margin-top: 30px;
+
+
+
+}
+.texto{
+    margin-right: 100px;
+    margin-top: 30px;
+    /*border: solid 2px black;*/
+
+
+}
+
+
+.area-botoes {
+    display: flex;
+    justify-content: flex-end; /* Move todos os botões para a direita */
+    gap: 10px; /* Espaço entre os botões */
+    padding: 10px; /* Espaçamento interno */
+   
+}
+
+.btn{
+    background-color: #0555be; /* Cor de fundo azul */
+    color: white; /* Texto branco */
+    border: none; /* Remove a borda */
+    padding: 10px 20px; /* Espaçamento interno */
+    text-align: center;
+    text-decoration: none;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 25px; /* Bordas arredondadas */
+    margin-top: 20px; /* Espaçamento superior */
+    transition: background-color 0.3s ease;
+}
+
+.btn-cancelar{
+    background-color: white;
+    border: none; 
+    padding: 10px 20px; /* Espaçamento interno */
+    text-align: center;
+    text-decoration: none;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 25px;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-cancelar:hover{
+    background-color: #b46557; 
+}
+
+.btn:hover {
+    background-color: #45a049; 
+}
+
+.texto-inferior-direito {
+    position: fixed; 
+    bottom: 10px; 
+    right: 10px; 
+    font-size: 12px; 
+    color: var(--preto); 
+    padding: 5px 10px;
+    display: flex; 
+    align-items: center; 
+    cursor: pointer;
+}
+
+.texto-inferior-direito img {
+    width: 16px; /* Ajuste o tamanho da imagem conforme necessário */
+    height: 16px;
+    margin-right: 8px; /* Espaço entre a imagem e o texto */
+}
+
+.texto-inferior-direito a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.2rem;
+}
+
+/* Estilização do Modal */
+.modal {
+    display: none; /* Esconde o modal por padrão */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%;
+    text-align: center;
+    border-radius: 10px;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover, .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+
+
+/* Ajustes gerais para dispositivos menores */
+@media (max-width: 768px) {
+    .container h1 {
+        text-align: center; /* Centraliza o título horizontalmente */
+        color: #fff; /* Cor do texto */
+        font-size: 24px; /* Ajuste o tamanho da fonte conforme necessário */
+        margin: 20px 0; /* Margem para espaçamento superior e inferior */
+    }
+
+
+    .area_externa {
+        flex-direction: column; /* Empilha as áreas verticalmente */
+        height: auto; /* Permite altura flexível */
+        padding: 10px;
+    }
+
+    .metodo-pagamento,
+    .resumo-compra {
+        width: 80%; 
+        margin-bottom: 15px; 
+        margin-left: 15px;
+    }
+
+    /* Colocando o container resumo-compra primeiro */
+    .resumo-compra {
+        order: -1; /* Garante que o resumo de compra venha antes */
+    }
+
+    .submit-btn, .cancel-btn {
+        width: 100%; /* Botões ocupam toda a largura */
+        margin-top: 15px; /* Espaçamento entre os botões */
+    }
+
+    /* Ajuste para os botões fora do método de pagamento */
+    .area-botoes {
+        display: flex;
+        justify-content: center; /* Centraliza os botões */
+        gap: 10px; 
+        width: 100%; /* Ocupa toda a largura disponível */
+    }
+
+    .area-botoes .btn,
+    .area-botoes .btn-cancelar {
+        width: 45%; /* Ajusta os botões para 45% de largura */
+        font-size: 16px; 
+    }
+}
+
+/* Ajustes para telas muito pequenas, como smartphones */
+@media (max-width: 480px) {
+    .container h1 {
+        text-align: center; /* Centraliza o título horizontalmente */
+        color: #fff; /* Cor do texto */
+        font-size: 20px; /* Ajuste o tamanho da fonte conforme necessário */
+        margin: 20px 0; /* Margem para espaçamento superior e inferior */
+    }
+    .area-formulario h4 {
+        font-size: 14px; /* Reduz o tamanho da fonte */
+    }
+
+    .imagem-no-input img {
+        width: 35px; /* Reduz o tamanho da imagem */
+    }
+
+    .valor {
+        width: 80px; /* Ajusta largura do total */
+        margin-left: 10px;
+    }
+
+    .ajuda {
+        padding: 15px;
+        text-align: right; /* Centraliza o texto */
+
+    }
+
+    .area-botoes {
+        flex-direction: column; /* Empilha os botões verticalmente */
+    }
+
+    .submit-btn, .cancel-btn {
+        width: 100%; /* Botões ocupam toda a largura do container */
+    }
+}
+

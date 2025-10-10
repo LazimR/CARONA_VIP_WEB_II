@@ -1,0 +1,301 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #1c1c1c;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: url('../imagens//Detalhes/Back.jpg') no-repeat center center fixed;
+    background-size: cover;
+    color: #000;
+    backdrop-filter: blur(8px); 
+  }
+  
+  .container {
+    width: 90%;
+    max-width: 600px;
+    background-color: #fff;
+    border-radius: 15px;
+    padding: 60px;
+    color: #333;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    
+  }
+  
+  .header p {
+    color: #bbb;
+    text-transform: uppercase;
+    font-size: 12px;
+    text-align: center;
+    margin-bottom: 15px;
+  }
+  
+  .content h1 {
+    font-size: 25px;
+    text-align: center;
+    margin-bottom: 20px;
+    margin-top: -30px; 
+  }
+  
+  .content h1 span {
+    color: orange;
+    font-weight: bold;
+  }
+  
+  .driver-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .driver-info {
+    display: flex;
+    align-items: center;
+  } 
+  
+  .driver-photo {
+    width: 150px; 
+    height: 150px;
+    border-radius: 50%;
+    margin-right: 15px;
+    margin-top: 20px;  
+  }
+  
+  .driver-details {
+    text-align: left;
+  }
+
+  
+  .driver-name {
+    font-weight: bold;
+    font-size: 22px; 
+    color: #333;
+  }
+  
+  .driver-rating {
+    background-color: #372D3B; 
+    color: white;
+    padding: 5px 10px;
+    border-radius: 10px;
+    font-size: 12px;
+    display: inline-block;
+    margin-top: 20px;
+  }
+  
+  .trip-info {
+    text-align: right;
+    margin-top: 30px; 
+  }
+  
+  .plate {
+    font-weight: bold;
+    font-size: 21px;
+    color: #333;
+    margin-bottom: 3px;
+  }  
+  
+  .car-model,
+  .route,
+  .time {
+    font-size: 14px;
+    color: #555; 
+  }
+
+
+  .route {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+  
+  .reserve-btn {
+    width: 52%;
+    text-align: center;
+    text-decoration: none;
+    padding: 10px;
+    background-color: #ff9300;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px white;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+
+
+    display: block;
+    margin: 0 auto;
+    margin-top: 100px;
+  }
+  .send-btn:hover {
+    background-color: #e69500; 
+    transform: scale(1.05);
+    transition: all 0.3s ease; 
+  }
+
+  .call-btn:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 50%; 
+    transition: all 0.3s ease; 
+  }
+
+  .contact-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: none;
+    border-radius: 15px;
+    padding: 10px 15px;
+    margin-top: 10px;
+    
+  }
+  
+  .message-input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+  }
+  
+  .message-box {
+    flex: 1;
+    font-size: 14px;
+    color: #555;
+    background-color: #ddd;
+    padding: 10px 15px;
+    border-radius: 25px;
+    text-align: left;
+    resize: none; 
+    height: 40px; 
+    box-sizing: border-box; 
+  }
+  
+  .call-btn {
+    background: none;
+    border: none;
+    margin-left: 10px;
+    cursor: pointer;
+  }
+  
+  .call-icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  
+.cidade {
+  font-size: 15px;
+  font-weight: bold;
+  margin: 0;
+  margin-right: 29px;
+}
+
+.icone-linha {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px; 
+  margin-top: 4px;
+}
+
+.icone {
+  width: 11px;
+  height: auto;
+  margin-top: -3px;
+  
+}
+
+.destino {
+  font-weight: bold;
+  margin-right: -5px;
+}
+
+.hora {
+  font-size: 16px;
+  margin-top: 4px;
+  font-weight: bold;
+  margin-right: 2px;
+  }
+
+.nomeCarro{
+    font-size: 14px;
+    font-weight: bold;
+    margin: 0;
+    margin-right: 10px;
+    margin-bottom: 3px;
+  }
+
+  .texto-superior-esquerdo {
+    position: absolute; 
+    top: 10px; 
+    left: 30px; 
+    font-size: 16px; 
+    color: var(--preto); 
+    padding: 5px 10px;
+    display: flex; 
+    align-items: center; 
+  }
+
+  .texto-superior-esquerdo a {
+      color: white;
+      text-decoration: none;
+  }
+
+  .texto-superior-esquerdo img {
+      margin-right: 8px; /* Espaço entre a imagem e o texto */
+  }
+
+  /* Responsividade */
+  @media (max-width: 768px) {
+    .container {
+      padding: 30px;
+    }
+
+    .driver-card {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .driver-info {
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+  
+    .driver-photo {
+      width: 80px;
+      height: 80px;
+    }
+  
+    .driver-details {
+      text-align: center;
+    }
+  
+    .trip-info {
+      text-align: center;
+      margin-top: 10px;
+    }
+  
+    .reserve-btn {
+      width: 100%;
+    }
+
+    .message-box {
+      font-size: 12px; 
+      padding: 10px 12px; 
+    }
+  }
+  
