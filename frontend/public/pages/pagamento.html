@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pagamento</title>
+    <link rel="stylesheet" href="/css/pagamento.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Pagamento</h1>
+        <div class="area_externa">
+            <!-- Área para selecionar o método de pagamento -->
+            <div class="metodo-pagamento">
+                <h2>Selecione um método de pagamento</h2>
+                <div class="area-formulario">
+                    <form action="#" method="post">
+                        <div class="form_caixa">
+                            <h4>Seu Cartão</h4>
+                            <div class="imagem-no-input">
+                                <button>+</button>
+                                <img src="/imagens/pagamento/bandeiras.png" alt="Bandeiras">
+                                <a href="/pages/cartão.html">Adicionar cartão</a> <h6>  Aceita várias bandeiras de cartão.</h6>
+                            </div>
+                            <hr>
+                            <h4>Pix</h4>
+                            <div class="imagem-no-input">
+                                <input type="radio" name="" id="">
+                                <img src="/imagens/pagamento/pix.png" alt="Pix">  <h6>O código Pix é válido por 30 minutos após a finalização do pedido.</h6>
+                            </div>
+                        </div>
+                        
+                        <!-- Botões dentro do formulário -->
+                        <div class="botao-comp">
+                            <button type="submit" class="submit-btn">Comprar</button>
+                        </div>
+                        
+                        <div class="botao-cancel">
+                            <a class="cancel-btn" href="/pages/detalhes.html">Cancelar</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Área para o resumo da compra -->
+            <div class="resumo-compra">
+                <h2>Resumo da Compra</h2>
+                <div class="area-resumo">
+                    <div class="text-rsm">
+                        <h3>ROTA A</h3>
+                    </div>
+                    <hr>
+                    <div class="text-rsm">
+                        <h4>Origem: Cidade A</h4>
+                    </div>
+                    <hr>
+                    <div class="text-rsm">
+                        <h4>Destino: Cidade B</h4>
+                    </div>
+                    <hr>
+                    <div class="text-rsm">
+                        <h4>Horario: 19:30</h4>
+                    </div>
+                    <hr>
+                    <div class="valor-total">
+                        <h4>Total:</h4>
+                        <h4 class="valor">R$ 20.00</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="texto-inferior-direito">
+            <a href="#" id="contact-link">precisa de ajuda ?</a>
+        </div>
+
+        <div id="contact-modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <p>Email de contato: <a href="mailto:contato@plataforma.com">contato@plataforma.com</a></p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+<script>
+    const modal = document.getElementById("contact-modal");
+    const contactLink = document.getElementById("contact-link");
+    const closeBtn = document.querySelector(".close");
+
+    contactLink.addEventListener("click", (e) => {
+        e.preventDefault(); 
+        modal.style.display = "block";
+    });
+
+    closeBtn.addEventListener("click", () => {
+        modal.style.display = "none";
+    });
+
+    window.addEventListener("click", (e) => {
+        if (e.target === modal) {
+            modal.style.display = "none";
+        }
+    });
+
+</script>

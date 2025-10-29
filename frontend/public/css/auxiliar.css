@@ -1,0 +1,80 @@
+/* Reset Básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+.golpes-container {
+    text-align: center;
+    padding: 50px 20px;
+}
+
+.title {
+    font-size: 2rem;
+    color: #003746;
+    margin-bottom: 30px;
+}
+
+.golpes-tips {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+}
+
+.tip {
+    max-width: 300px;
+    text-align: left;
+    padding: 20px;
+    margin-top: 100px; /* Adiciona margem superior */
+}
+
+.icon {
+    font-size: 1.5rem; /* Reduz o tamanho dos ícones em texto */
+    color: #003746;
+    margin-bottom: 15px;
+}
+
+.small-icon {
+    width: 40px; /* Diminui a largura */
+    height: auto; /* Mantém a proporção da imagem */
+}
+
+
+h2 {
+    font-size: 1.1rem;
+    color: #003746;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+p {
+    font-size: 0.95rem;
+    color: #555;
+    line-height: 1.4;
+}
+
+.texto-superior-esquerdo {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 12px;
+  color: #000;
+  padding: 5px 10px;
+  display: flex;
+  align-items: center;
+}
+
+.texto-superior-esquerdo a {
+    color: var(--cinza);
+    text-decoration: none;
+}
+

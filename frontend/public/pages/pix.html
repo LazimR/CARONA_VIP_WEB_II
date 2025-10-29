@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pix</title>
+    <link rel="stylesheet" href="/css/pix.css">
+</head>
+<body>
+    <div class="principal">
+        <div class="h1-title">
+            <h1>Pix</h1>
+        </div>
+
+        <div class="container-gerar">
+            <div class="form-group">
+                <label for="amount">Valor da Carona:</label>
+                <input type="number" id="amount" step="0.01" min="0.01" value="0.50" placeholder="0.50">
+            </div>
+            <div class="form-group">
+                <label for="description">Descrição:</label>
+                <input type="text" id="description" value="Carona VIP" placeholder="Descrição do pagamento">
+            </div>
+            <button id="pay-button" class="btn-gerar-pix">Gerar QR Code para Pagar</button>
+        </div>
+
+        <div id="pix-container" class="container-qrcode" style="display: none;">
+            <h3>Escaneie o QR Code para Pagar com Pix</h3>
+            
+            <div class="payment-info">
+                <p><strong>Valor:</strong> R$ <span id="payment-amount">0.00</span></p>
+                <p><strong>ID do Pagamento:</strong> <span id="payment-id">-</span></p>
+            </div>
+            
+            <img id="qr-code-img" src="" alt="PIX QR Code" style="width: 250px; height: 250px; border: 1px solid #ccc;">
+            
+            <p>Ou use o "Copia e Cola":</p>
+            <input type="text" id="qr-code-text" readonly style="width: 90%;">
+            
+            <div class="status-info">
+                <h3>Status: <span id="payment-status">Aguardando pagamento</span></h3>
+                <p>Válido por 30 minutos</p>
+                <button id="check-status" class="btn-check-status">Verificar Status</button>
+            </div>
+        </div>
+    
+        <div class="area-botoes">
+            <button id="copy-button" type="button" class="btn-copiar" style="display: none;">Copiar codigo</button>
+            <button type="reset" class="btn-cancel">Cancelar</button>
+        </div>
+    </div>
+    
+    <script>
+        const payButton = document.getElementById('pay-button');
+        const copyButton = document.getElementById('copy-button');
+        const checkStatusButton = document.getElementById('check-status');
+        const pixContainer = document.getElementById('pix-container');
+        const qrCodeImg = document.getElementById('qr-code-img');
+        const qrCodeText = document.getElementById('qr-code-text');
+        const containerGerar = document.querySelector('.container-gerar');
+        const amountInput = document.getElementById('amount');
+        const descriptionInput = document.getElementById('description');
+        const paymentAmount = document.getElementById('payment-amount');
+        const paymentId = document.getElementById('payment-id');
+        const paymentStatus = document.getElementById('payment-status');
+
+        let currentPaymentId = null;
+        let statusCheckInterval = null;
+
+        // Quando clicar em "Gerar PIX"
+        payButton.addEventListener('click', async () => {
+            try {
+                // Validação dos campos
+                const amount = parseFloat(amountInput.value);
+                const description = descriptionInput.value.trim();
+
+                if (!amount || amount <= 0) {
+                    alert('Por favor, insira um valor válido maior que zero.');
+                    return;
+                }
+
+                if (!description) {
+                    alert('Por favor, insira uma descrição.');
+                    return;
+                }
+
+                // Mostra loading
+                payButton.textContent = 'Gerando...';
+                payButton.disabled = true;
+
+                // Chama o backend
+                const response = await fetch('http://localhost:3000/create-pix-payment', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ 
+                        amount: amount,
+                        description: description
+                    })
+                });
+    
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.details || 'Falha ao gerar PIX');
+                }
+    
+                const pixData = await response.json();
+                currentPaymentId = pixData.payment_id;
+    
+                // Preenche os dados do PIX na tela
+                qrCodeImg.src = `data:image/png;base64,${pixData.qr_code_base64}`;
+                qrCodeText.value = pixData.qr_code_text;
+                paymentAmount.textContent = pixData.amount.toFixed(2);
+                paymentId.textContent = pixData.payment_id;
+                paymentStatus.textContent = 'Aguardando pagamento';
+    
+                // Mostra/Esconde os elementos corretos
+                containerGerar.style.display = 'none';
+                pixContainer.style.display = 'block';
+                copyButton.style.display = 'inline-block';
+                checkStatusButton.style.display = 'inline-block';
+
+                // Inicia verificação automática de status
+                startStatusCheck();
+    
+            } catch (error) {
+                console.error('Erro ao chamar o backend:', error);
+                alert('Erro ao gerar PIX: ' + error.message);
+                payButton.textContent = 'Gerar QR Code para Pagar';
+                payButton.disabled = false;
+            }
+        });
+
+        // Função para verificar status do pagamento
+        async function checkPaymentStatus() {
+            if (!currentPaymentId) return;
+
+            try {
+                const response = await fetch(`http://localhost:3000/payment-status/${currentPaymentId}`);
+                
+                if (!response.ok) {
+                    throw new Error('Erro ao verificar status');
+                }
+
+                const statusData = await response.json();
+                
+                // Atualiza o status na tela
+                const statusMap = {
+                    'pending': 'Aguardando pagamento',
+                    'approved': 'Pagamento aprovado!',
+                    'rejected': 'Pagamento rejeitado',
+                    'cancelled': 'Pagamento cancelado',
+                    'refunded': 'Pagamento estornado'
+                };
+
+                paymentStatus.textContent = statusMap[statusData.status] || statusData.status;
+
+                // Se pagamento foi aprovado, para a verificação automática
+                if (statusData.status === 'approved') {
+                    stopStatusCheck();
+                    alert('Pagamento aprovado com sucesso!');
+                }
+
+            } catch (error) {
+                console.error('Erro ao verificar status:', error);
+            }
+        }
+
+        // Inicia verificação automática de status
+        function startStatusCheck() {
+            stopStatusCheck(); // Para qualquer verificação anterior
+            statusCheckInterval = setInterval(checkPaymentStatus, 5000); // Verifica a cada 5 segundos
+        }
+
+        // Para verificação automática de status
+        function stopStatusCheck() {
+            if (statusCheckInterval) {
+                clearInterval(statusCheckInterval);
+                statusCheckInterval = null;
+            }
+        }
+
+        // Botão para verificar status manualmente
+        checkStatusButton.addEventListener('click', checkPaymentStatus);
+    
+        // Funcionalidade do botão "Copiar"
+        copyButton.addEventListener('click', () => {
+            qrCodeText.select();
+            document.execCommand('copy');
+            alert('Código PIX copiado!');
+        });
+
+        // Botão "Cancelar"
+        document.querySelector('.btn-cancel').addEventListener('click', () => {
+            stopStatusCheck();
+            window.history.back();
+        });
+
+        // Limpa recursos quando a página é fechada
+        window.addEventListener('beforeunload', () => {
+            stopStatusCheck();
+        });
+    </script>
+</body>
+</html>
