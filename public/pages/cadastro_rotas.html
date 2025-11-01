@@ -105,4 +105,102 @@
         }
     });
 
+    
+    // VERIFICAÇÃO DE LOGIN (Web Storage API)
+
+    // document.addEventListener("DOMContentLoaded", () => {
+    //     const user = sessionStorage.getItem("user") || localStorage.getItem("user");
+        
+    //     if (!user) {
+    //         alert("É necessArio estar logado");
+    //         window.location.href = "login.html";
+    //     }
+    // });
+
+
+    // Simular requisição assíncrona (Sem backend)
+    function enviarRotaAssincrona(rota) {
+        
+        // Simula delay de rede (1.5 segundos)
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                console.log("Resposta recebida:", { status: 200, message: "Rota salva!" });
+                resolve({ status: 200, data: rota });
+            }, 1500);
+        });
+
+    }
+
+
+    // // Quando o servidor estiver pronto (substitua a funcao acima)
+    // async function enviarRotaReal(rota) {
+    //     try {
+    //         const response = await fetch('https://seu-servidor.com/api/rotas', {
+    //             method: 'POST',
+    //             headers: { 'Content-Type': 'application/json' },
+    //             body: JSON.stringify(rota)
+    //         });
+            
+    //         const data = await response.json();
+    //         console.log(" Resposta do servidor:", data);
+    //         return data;
+    //     } catch (error) {
+    //         console.error(" Erro ao enviar para servidor:", error);
+    //         throw error;
+    //     }
+    // }
+
+
+    // WEB STORAGE API
+
+    function salvarRota(rota) {
+        // localStorage: persiste mesmo fechando navegador
+        let rotas = JSON.parse(localStorage.getItem("rotas")) || [];
+        rotas.push(rota);
+        localStorage.setItem("rotas", JSON.stringify(rotas));
+        
+        // sessionStorage: apaga ao fechar aba
+        sessionStorage.setItem("ultima_rota", JSON.stringify(rota));
+    }
+
+    function carregarRotas() {
+        return JSON.parse(localStorage.getItem("rotas")) || [];
+    }
+
+    // FORMULARIO
+
+    document.querySelector("form").addEventListener("submit", async function(e) {
+        e.preventDefault();
+        
+        const rota = {
+            id: Date.now(), // Gera ID único
+            origem: document.getElementById("origem").value,
+            destino: document.getElementById("destino").value,
+            valor: document.getElementById("valor_viagem").value,
+            data: document.getElementById("data").value,
+            hora: document.getElementById("hora").value
+        };
+
+        // Salvar localmente (Web Storage)
+        salvarRota(rota);
+
+        enviarRotaAssincrona(rota);
+
+
+        alert("Rota adicionada com sucesso!");
+        this.reset();
+        
+        // Exibir rotas salvas
+        console.log("Rotas salvas:", carregarRotas());
+    });
+
+
+    window.addEventListener("load", () => {
+        const rotas = carregarRotas();
+        console.log(`${rotas.length} rotas carregadas do localStorage`);
+    });
+
+
+
+
 </script>
