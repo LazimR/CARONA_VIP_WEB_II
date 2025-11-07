@@ -13,15 +13,15 @@
         </div>
         <div class="area-centro">
             <div class="area-esquerda">
-                <form action="#" method="post">
+                <form action="#" method="post" id="form-cartao">
                     <div class="form-group">
                         <h4>Número do cartão:</h4> 
-                        <input type="number" placeholder="0000 0000 0000 0000" maxlength="19">
+                        <input type="number" id="numeroCartao" placeholder="0000 0000 0000 0000" maxlength="19">
                     </div>
         
                     <div class="form-group">
                         <h4>Nome impresso no cartão:</h4> 
-                        <input type="text" placeholder="Seu Nome">
+                        <input type="text" id="nomeImpresso" placeholder="Seu Nome">
                     </div>
 
                     
@@ -29,19 +29,22 @@
                     <div class="form-group">
                         <h4>Data de Validade:</h4> 
                         <div class="form-group-date">
-                            <input type="number" id="expiry-month" name="expiry-month" placeholder="Mês (MM)" min="1" max="12" required>
-                            <input type="number" id="expiry-year" name="expiry-year" placeholder="Ano (AAAA)" min="2024" max="2100" required>
+                            <input type="number" id="dataValidade" name="expiry-month" placeholder="Mês (MM)" min="1" max="12" required>
+                            <input type="number" id="dataValidade" name="expiry-year" placeholder="Ano (AAAA)" min="2024" max="2100" required>
                         </div>
                     </div>
                     
                     <div class="form-group">
                         <h4>Código de segurança (CVV):</h4>
                             <div class="form-group-cvv">
-                                <input type="number" placeholder="123">   
+                                <input type="number" id="cvv" placeholder="123">   
                             </div>
                     </div>  
 
-
+                    <div class="area-botoes">
+                        <a class="btn-cancelar" href="pagamento.html">Cancelar</a>
+                        <button type="submit" class="btn">Adicionar Cartão</button>
+                    </div>
                 </form>
             </div>
             <div class="area_direita">
@@ -50,20 +53,37 @@
                 </div>
                 <div class="pyramid-container">
                     <div class="row">
-                        <img id="visa" src="/imagens/pagamento/visa 1.png" alt="Imagem 1">
+                        <img id="visa" src="../imagens/pagamento/visa 1.png" alt="Imagem 1">
                     </div>
                     <div class="row">
-                        <img id="elo" src="/imagens/pagamento/cartao-elo-removebg-preview 1.png" alt="Imagem 2">
-                        <img id="mastercard" src="/imagens/pagamento/mastercard.png" alt="Imagem 3">
+                        <img id="elo" src="../imagens/pagamento/cartao-elo-removebg-preview 1.png" alt="Imagem 2">
+                        <img id="mastercard" src="../imagens/pagamento/mastercard.png" alt="Imagem 3">
                     </div>
                 </div>
             </div>
         </div>
     
-        <div class="area-botoes">
-            <a class="btn-cancelar" href="/pages/pagamento.html">Cancelar</a>
-            <button type="submit" class="btn">Adicionar Cartão</button>
-        </div>
+        
     </div>
+
+    <script>
+        document.querySelector('form').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            let numeroCartao = document.getElementById("numeroCartao").value;
+            let nomeImpresso = document.getElementById("nomeImpresso").value;
+            let dataValidade = document.getElementById("dataValidade").value;
+            let cvv = document.getElementById("cvv").value;
+            let cartao = {
+                numeroCartao: numeroCartao,
+                nomeImpresso: nomeImpresso,
+                dataValidade: dataValidade,
+                cvv: cvv
+            };
+            localStorage.setItem("cartao", JSON.stringify(cartao));
+            alert("Cartão adicionado com sucesso!");
+            window.location.href = "pagamento.html";
+        });
+    </script>
 </body>
 </html>
