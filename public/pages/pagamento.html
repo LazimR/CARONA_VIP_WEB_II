@@ -204,10 +204,18 @@
         rota: getRota()
         };
 
+        // Se o metodo for PIX, redireciona para a tela do PIX
+        if (metodo.value === "pix") {
+            // Salva os dados do pagamento para usar na tela do PIX
+            localStorage.setItem("pagamentoAtual", JSON.stringify(pagamento));
+            window.location.href = "pix.html";
+            return;
+        }
+        //pagamento com cartao
         salvarPagamento(pagamento);
         await enviarPagamento(pagamento);
 
-        alert(`✅ Pagamento via ${metodo.value.toUpperCase()} realizado!`);
+        alert(`Pagamento via ${metodo.value.toUpperCase()} realizado!`);
         e.target.reset();
     });
 
