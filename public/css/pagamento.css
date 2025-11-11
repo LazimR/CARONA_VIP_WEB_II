@@ -1,40 +1,35 @@
 body {
     margin: 0;
     padding: 0;
-    background-color: #172323;
+    background-color: #f2f2f2;
     font-family: Arial, sans-serif;
    
 }
 
-/*altera o fundo da tela pix e cartao*/
-.principal {
-    width: 100%; 
-    height: calc(100vh - 20px); 
-    background-color: #D9D9D9;
-    align-items: center;
-    margin: 0;
-    padding: 10px 0; 
-    overflow-x: hidden; 
-}
-
 .container {
-   
-   margin: 0 auto;
+  min-height: 100vh; /* Garante altura da tela */
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Centraliza verticalmente */
+  align-items: center;     /* Centraliza horizontalmente */
+  background-color: #D9D9D9;
+  padding: 20px 0;
 }
+
+
 .container h1{
-    color: #fff;
+    color: #172323;
 }
-
-
 
 .area_externa {
     display: flex;
-    justify-content: space-around;
-    gap: 5px; /* Reduz o espaço entre as áreas */
-    height: 420px;
-    background-color: #fff;
-    padding: 15px;
+    justify-content: center;     /* Centraliza os blocos horizontalmente */
+    align-items: center;         /* Alinha verticalmente */
+    gap: 40px;                   /* Espaço entre os blocos */
+    background-color: transparent;
+    padding: 20px;
 }
+
 
 .metodo-pagamento,
 .resumo-compra {
@@ -49,65 +44,132 @@ body {
 }
 
 .metodo-pagamento {
-    width: 500px; /* Reduz a largura da área de pagamento */
+    width: 100%;
+    max-width: 600px;
 }
 
 .resumo-compra {
-    width: 500px; /* Ajusta a largura da área de resumo */
+    width: 600px; /* Ajusta a largura da área de resumo */
 }
 
-.text-rsm{
-    margin-bottom: -10px;
+.text-rsm {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+  text-align: left;
 }
 
-.valor-total{
-    display: flex;
-    text-align: center;
-    justify-content: center;
-     
-}
-.valor{
-    background-color: orange;
-    color: #fff;
-    border: solid 2px orange;
-    margin-left: 20px;
-    border-radius: 20px;
-    width: 100px;
-   
-   
-    
 
+.valor-total {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
 }
+
+.valor {
+  background-color: orange;
+  color: #fff;
+  border: solid 2px orange;
+  border-radius: 20px;
+  width: 120px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+
 /* Estilo para o formulário de pagamento */
 .area-formulario h4 {
     margin: 3px 0;
 }
 
-.imagem-no-input{
-    display: flex;
-    align-items: center; /* Alinha verticalmente o conteúdo */
-    margin-bottom: 10px;
+.imagem-no-input {
+  display: flex;
+  justify-content:space-around; /* Distribui os elementos */
+  align-items: center;
+  margin-bottom: 4px;
+  padding: 6px;
+  background-color: #fff;
+  border-radius: 8px;
+  flex-wrap: wrap; /* Responsivo */
+}
+
+.imagem-no-input button {
+  padding: 8px 12px;
+  font-size: 15px;
+  background-color: #81578d;
+  color: white;
+  border: none;
+  cursor: pointer;
+  display: flex;
+}
+
+.cartao-salvo {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; /* Alinha tudo à esquerda */
+  background-color: #fff;
+  padding: 10px;
+  border-radius: 8px;
+  gap: 10px; /* Espaço entre os elementos */
+  width: 100%;
+}
+
+
+.cartao-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  flex: 1;
+}
+
+.cartao-label img {
+  width: 60px;
+  height: auto;
+}
+
+.cartao-label h6 {
+  font-size: 16px;
+  color: #333;
+  margin: 0;
+}
+
+.btn-remover {
+  background-color: #c9302c;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 20px;
+  cursor: pointer;
+  margin-left: 10px;
 }
 
 
 .imagem-no-input img {
-    width: 45px; 
-    height: auto;
-    margin-left: 10px;
+  width: 60px; /* Aumenta a imagem */
+  height: auto;
+  margin-left: 10px;
+}
 
-
+.imagem-no-input h6 {
+  margin-left: auto;
+  font-size: 16px;
+  color: #333;
+  flex: 1; /* Ocupa espaço restante */
 }
 
 
-.imagem-no-input a {
-    margin-left: 10px;
-}
 .botao-comp {
     display: flex;
     justify-content: center; /* Centraliza horizontalmente */
     align-items: center; /* Centraliza verticalmente */
     /*border: solid 1px blue;*/
-    margin-top: 2px;
+    margin-bottom: 8px;
     padding: 5px;
 }
 
@@ -157,12 +219,25 @@ body {
 
 
 
-.form_caixa{
+.form_caixa {
     border: solid 2px black;
 }
 
+.form_caixa h4 {
+    margin-bottom: 0px; /* ou 4px se quiser um pequeno espaço */
+}
+
+.img-bandeiras {
+  width: 70px; /* Aumenta a imagem das bandeiras */
+  height: auto;
+}
+
+
+.form_caixa{
+    padding: 10px;
+}
 .form_caixa h6{
-    margin-left: 10px;
+    margin-left: 25px;
 }
 
 .ajuda{
@@ -322,7 +397,7 @@ body {
 }
 
 .texto-inferior-direito a {
-    color: white;
+    color: #172323;
     text-decoration: none;
     font-size: 1.2rem;
 }
@@ -374,6 +449,7 @@ body {
         font-size: 24px; /* Ajuste o tamanho da fonte conforme necessário */
         margin: 20px 0; /* Margem para espaçamento superior e inferior */
     }
+
 
 
     .area_externa {
@@ -449,4 +525,25 @@ body {
         width: 100%; /* Botões ocupam toda a largura do container */
     }
 }
+
+@media (max-width: 600px) {
+  .texto-inferior-direito {
+    bottom: 5px;
+    right: 5px;
+    font-size: 10px;
+    padding: 4px 8px;
+    flex-direction: column; /* empilha imagem e texto */
+    align-items: flex-start;
+  }
+
+  .texto-inferior-direito img {
+    margin-right: 0;
+    margin-bottom: 4px;
+  }
+
+  .texto-inferior-direito a {
+    font-size: 1rem;
+  }
+}
+
 

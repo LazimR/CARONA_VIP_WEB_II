@@ -131,26 +131,6 @@
 
     }
 
-
-    // // Quando o servidor estiver pronto (substitua a funcao acima)
-    // async function enviarRotaReal(rota) {
-    //     try {
-    //         const response = await fetch('https://seu-servidor.com/api/rotas', {
-    //             method: 'POST',
-    //             headers: { 'Content-Type': 'application/json' },
-    //             body: JSON.stringify(rota)
-    //         });
-            
-    //         const data = await response.json();
-    //         console.log(" Resposta do servidor:", data);
-    //         return data;
-    //     } catch (error) {
-    //         console.error(" Erro ao enviar para servidor:", error);
-    //         throw error;
-    //     }
-    // }
-
-
     // WEB STORAGE API
 
     function salvarRota(rota) {
@@ -199,8 +179,6 @@
         const rotas = carregarRotas();
         console.log(`${rotas.length} rotas carregadas do localStorage`);
     });
-
-
 
 
 </script>
