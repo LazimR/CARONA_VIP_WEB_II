@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Cadastro de Rotas</title>
-        <link rel="stylesheet" href="/css/cadastro_rotas.css">
+        <link rel="stylesheet" href="../css/cadastro_rotas.css">
     </head>
 
 
@@ -18,7 +18,7 @@
 
                     <div class="form-group">
                         <div class="imagem-no-input">
-                            <img src="/imagens/cadastro_rotas/origem.png" alt="origem">
+                            <img src="../imagens/cadastro_rotas/origem.png" alt="origem">
                             <input type="text" id="origem" name="origem" placeholder="Origem" required>
                         </div>
                     </div>
@@ -26,7 +26,7 @@
 
                     <div class="form-group">
                         <div class="imagem-no-input">
-                            <img src="/imagens/cadastro_rotas/destino.png" alt="destino">
+                            <img src="../imagens/cadastro_rotas/destino.png" alt="destino">
                             <input type="text" id="destino" name="destino" placeholder="Destino" required>
                         </div>
                     </div>
@@ -34,7 +34,7 @@
 
                     <div class="form-group">
                         <div class="imagem-no-input">
-                            <img src="/imagens/cadastro_rotas/valor_viagem.png" alt="valor">
+                            <img src="../imagens/cadastro_rotas/valor_viagem.png" alt="valor">
                             <input type="text" id="valor_viagem" name="valor_viagem" placeholder="valor da Viagem" required>
                         </div>
                     </div>
@@ -44,14 +44,14 @@
                     <div class="form-container-data-hora">
                         <div class="form-group-data-hora">
                             <div class="imagem-no-input-data-hora">
-                                <img src="/imagens/cadastro_rotas/data.png" alt="data">
+                                <img src="../imagens/cadastro_rotas/data.png" alt="data">
                                 <input type="date" id="data" name="data" placeholder="Data" required>
                             </div>
                         </div>
                     
                         <div class="form-group-data-hora">
                             <div class="imagem-no-input-data-hora">
-                                <img src="/imagens/cadastro_rotas/hora.png" alt="hora">
+                                <img src="../imagens/cadastro_rotas/hora.png" alt="hora">
                                 <input type="time" id="hora" name="hora" placeholder="hora" required>
                             </div>
                         </div>
@@ -72,7 +72,7 @@
 
         <div class="texto-superior-esquerdo">
             <img src="../imagens/login/seta_esquerda.png" alt= "seta esquerda">
-            <a href="/index.html">Retornar ao Menu</a>
+            <a href="index.html">Retornar ao Menu</a>
         </div>
 
         <div id="contact-modal" class="modal">
@@ -104,5 +104,81 @@
             modal.style.display = "none";
         }
     });
+
+    
+    // VERIFICAÇÃO DE LOGIN (Web Storage API)
+
+    // document.addEventListener("DOMContentLoaded", () => {
+    //     const user = sessionStorage.getItem("user") || localStorage.getItem("user");
+        
+    //     if (!user) {
+    //         alert("É necessArio estar logado");
+    //         window.location.href = "login.html";
+    //     }
+    // });
+
+
+    // Simular requisição assíncrona (Sem backend)
+    function enviarRotaAssincrona(rota) {
+        
+        // Simula delay de rede (1.5 segundos)
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                console.log("Resposta recebida:", { status: 200, message: "Rota salva!" });
+                resolve({ status: 200, data: rota });
+            }, 1500);
+        });
+
+    }
+
+    // WEB STORAGE API
+
+    function salvarRota(rota) {
+        // localStorage: persiste mesmo fechando navegador
+        let rotas = JSON.parse(localStorage.getItem("rotas")) || [];
+        rotas.push(rota);
+        localStorage.setItem("rotas", JSON.stringify(rotas));
+        
+        // sessionStorage: apaga ao fechar aba
+        sessionStorage.setItem("ultima_rota", JSON.stringify(rota));
+    }
+
+    function carregarRotas() {
+        return JSON.parse(localStorage.getItem("rotas")) || [];
+    }
+
+    // FORMULARIO
+
+    document.querySelector("form").addEventListener("submit", async function(e) {
+        e.preventDefault();
+        
+        const rota = {
+            id: Date.now(), // Gera ID único
+            origem: document.getElementById("origem").value,
+            destino: document.getElementById("destino").value,
+            valor: document.getElementById("valor_viagem").value,
+            data: document.getElementById("data").value,
+            hora: document.getElementById("hora").value
+        };
+
+        // Salvar localmente (Web Storage)
+        salvarRota(rota);
+
+        enviarRotaAssincrona(rota);
+
+
+        alert("Rota adicionada com sucesso!");
+        this.reset();
+        
+        // Exibir rotas salvas
+        console.log("Rotas salvas:", carregarRotas());
+    });
+
+
+    window.addEventListener("load", () => {
+        const rotas = carregarRotas();
+        console.log(`${rotas.length} rotas carregadas do localStorage`);
+    });
+
 
 </script>
