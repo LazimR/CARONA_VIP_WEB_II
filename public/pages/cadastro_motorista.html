@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Cadastro de Motorista</title>
+        <link rel="stylesheet" href="../css/styles.css">
+    </head>
+
+
+    <body>
+        <div class="container">
+            <!-- Lado Esquerdo -->
+            <div class="esquerda">
+                <img src="../imagens/cadastro_motorista/Tela_Motorista.png" alt="Homem pegando no volante">
+            </div>
+
+            <div class="direita">
+                <div class="form-container">
+                    <h3>Torne-se um Colaborador</h3>
+                    <h6>CADASTRE-SE COMO MOTORISTA</h6>
+                    <form action="#" method="post">
+
+                        <div class="form-group">
+                            <div class="imagem-no-input">
+                                <img src="../imagens/cadastro_motorista/cnh.png" alt="CNH">
+                                <input type="text" id="cnh" name="cnh" placeholder="CNH" required>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <div class="imagem-no-input">
+                                <img src="../imagens/cadastro_motorista/telefone.png" alt="Telefone">
+                                <input type="text" id="telefone" name="telefone" placeholder="Telefone" required>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <div class="imagem-no-input">
+                                <img src="../imagens/cadastro_motorista/modelo_carro.png" alt="Modelo Carro">
+                                <input type="text" id="modelo_carro" name="modelo_carro" placeholder="Modelo do Carro" required>
+                            </div>
+                        </div>
+
+                        
+                        <div class="form-group">
+                            <div class="imagem-no-input">
+                                <img src="../imagens/cadastro_motorista/quant_passageiros.png" alt="Quant passageiros">
+                                <input type="text" id="quant_passageiros" name="quant_passageiros" placeholder="Quantidade de Passageiros" required>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <div class="imagem-no-input">
+                                <img src="../imagens/cadastro_motorista/placa.png" alt="Placa">
+                                <input type="text" id="placa_carro" name="placa_carro" placeholder="Placa do Carro" required>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <div class="imagem-no-input">
+                                <img id="seta-direita" src="../imagens/cadastro_motorista/seta.png" alt="Seta">
+                                <button type="submit" class="submit-btn">Torne-se um membro</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+        <div class="texto-inferior-direito">
+            <img src="../imagens/cadastro_motorista/info.png" alt="info">
+            <a href="#" id="contact-link">precisa de ajuda ?</a>
+        </div>
+
+        <div id="contact-modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <p>Email de contato: <a href="mailto:contato@plataforma.com">contato@plataforma.com</a></p>
+            </div>
+        </div>
+
+        <div class="texto-superior-esquerdo">
+            <img src="../imagens/login/seta_esquerda.png" alt= "seta esquerda">
+            <a href="index.html">Retornar ao Menu</a>
+        </div>
+    </body>
+</html> 
+
+
+<script>
+    const modal = document.getElementById("contact-modal");
+    const contactLink = document.getElementById("contact-link");
+    const closeBtn = document.querySelector(".close");
+
+    contactLink.addEventListener("click", (e) => {
+        e.preventDefault(); 
+        modal.style.display = "block";
+    });
+
+    closeBtn.addEventListener("click", () => {
+        modal.style.display = "none";
+    });
+
+    window.addEventListener("click", (e) => {
+        if (e.target === modal) {
+            modal.style.display = "none";
+        }
+    });
+
+</script>

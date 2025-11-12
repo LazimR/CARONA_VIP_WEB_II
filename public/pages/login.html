@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    </head>
+
+
+    <body>
+        <div class="tamanho_fundo">
+            <div class="container">
+                <!-- Lado Esquerdo -->
+                <div class="esquerda">
+                    <img src="../imagens/login/login.png" alt="Homem pegando no volante">
+                </div>
+
+                <div class="direita">
+                    <div class="form-container">
+                        <h3>BEM-VINDO</h3>
+                        <h6>Faça login para continuar</h6>
+                        <form action="#" method="post" id="loginForm">
+
+                            
+                            <div class="form-group">
+                                <div class="imagem-no-input">
+                                    <img src="../imagens/login/usuario.png" alt="Ícone">
+                                    <input type="text" id="usuario" name="usuario" placeholder="Usuário" required>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <div class="imagem-no-input">
+                                    <img src="../imagens/login/senha.png" alt="Ícone">
+                                    <input type="password" id="senha" name="senha" placeholder="Senha" required>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <div class="imagem-no-input">
+                                    <img id="seta-direita" src="../imagens/cadastro_motorista/seta.png" alt="Ícone">
+                                    <button type="submit" class="submit-btn">Entrar</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="texto-inferior-direito">
+            <img src="../imagens/cadastro_motorista/info.png" alt="Ícone de ajuda">
+            <a href="#" id="contact-link">precisa de ajuda ?</a>
+        </div>
+
+        <div class="texto-superior-direito">
+            <p>Ainda não é membro? <a href="cadastro_usuario.html"><b>CADASTRE-SE AGORA</b></a></p>
+        </div>
+
+        <div class="texto-superior-esquerdo">
+            <img src="../imagens/login/seta_esquerda.png" alt= "seta esquerda">
+            <a href="index.html">Retornar ao Menu</a>
+        </div>
+
+        <div id="contact-modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <p>Email de contato: <a href="mailto:contato@plataforma.com">contato@plataforma.com</a></p>
+            </div>
+        </div>
+    </body>
+</html> 
+
+<script>
+    const modal = document.getElementById("contact-modal");
+    const contactLink = document.getElementById("contact-link");
+    const closeBtn = document.querySelector(".close");
+
+    contactLink.addEventListener("click", (e) => {
+        e.preventDefault(); 
+        modal.style.display = "block";
+    });
+
+    closeBtn.addEventListener("click", () => {
+        modal.style.display = "none";
+    });
+
+    window.addEventListener("click", (e) => {
+        if (e.target === modal) {
+            modal.style.display = "none";
+        }
+    });
+
+    // ========== VALIDAÇÃO DE FORMULÁRIOS ==========
+
+    function validarUsuario(usuario) {
+        return usuario && usuario.trim().length >= 3;
+    }
+
+    function validarSenha(senha) {
+        return senha && senha.length >= 8;
+    }
+
+    // Validação em tempo real
+    document.getElementById("usuario").addEventListener("blur", function(e) {
+        const usuario = e.target.value;
+        if (usuario && !validarUsuario(usuario)) {
+            e.target.setCustomValidity("Usuário deve ter no mínimo 3 caracteres");
+            e.target.reportValidity();
+        } else {
+            e.target.setCustomValidity("");
+        }
+    });
+
+    document.getElementById("senha").addEventListener("blur", function(e) {
+        const senha = e.target.value;
+        if (senha && !validarSenha(senha)) {
+            e.target.setCustomValidity("Senha deve ter no mínimo 8 caracteres");
+            e.target.reportValidity();
+        } else {
+            e.target.setCustomValidity("");
+        }
+    });
+
+    // ========== WEB STORAGE API ==========
+
+    function carregarUsuarios() {
+        return JSON.parse(localStorage.getItem("usuarios")) || [];
+    }
+
+    function verificarCredenciais(usuario, senha) {
+        const usuarios = carregarUsuarios();
+        const senhaHash = btoa(senha); // Mesmo método usado no cadastro
+
+        const usuarioEncontrado = usuarios.find(u => 
+            (u.usuario === usuario || u.email === usuario) && 
+            u.senhaHash === senhaHash
+        );
+
+        return usuarioEncontrado || null;
+    }
+
+    // ========== COOKIE STORE API ==========
+
+    async function salvarCookie(nome, valor, diasExpiracao = 7) {
+        try {
+            if ('cookieStore' in window) {
+                // Cookie Store API (moderna)
+                const dataExpiracao = new Date();
+                dataExpiracao.setDate(dataExpiracao.getDate() + diasExpiracao);
+
+                await cookieStore.set({
+                    name: nome,
+                    value: valor,
+                    expires: dataExpiracao.getTime(),
+                    sameSite: 'strict',
+                    secure: window.location.protocol === 'https:'
+                });
+            } else {
+                // Fallback para cookies tradicionais
+                const dataExpiracao = new Date();
+                dataExpiracao.setTime(dataExpiracao.getTime() + (diasExpiracao * 24 * 60 * 60 * 1000));
+                document.cookie = `${nome}=${valor};expires=${dataExpiracao.toUTCString()};path=/;SameSite=Strict`;
+            }
+        } catch (error) {
+            console.error("Erro ao salvar cookie:", error);
+        }
+    }
+
+    async function lerCookie(nome) {
+        try {
+            if ('cookieStore' in window) {
+                const cookie = await cookieStore.get(nome);
+                return cookie ? cookie.value : null;
+            } else {
+                // Fallback para cookies tradicionais
+                const nomeCookie = nome + "=";
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    let cookie = cookies[i].trim();
+                    if (cookie.indexOf(nomeCookie) === 0) {
+                        return cookie.substring(nomeCookie.length, cookie.length);
+                    }
+                }
+                return null;
+            }
+        } catch (error) {
+            console.error("Erro ao ler cookie:", error);
+            return null;
+        }
+    }
+
+    async function deletarCookie(nome) {
+        try {
+            if ('cookieStore' in window) {
+                await cookieStore.delete(nome);
+            } else {
+                document.cookie = `${nome}=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;`;
+            }
+        } catch (error) {
+            console.error("Erro ao deletar cookie:", error);
+        }
+    }
+
+    // ========== WEB AUTHENTICATION API (WebAuthn) ==========
+
+    async function autenticarWebAuthn(usuario) {
+        try {
+            if (!window.PublicKeyCredential) {
+                console.warn("Web Authentication API não suportada neste navegador");
+                return false;
+            }
+
+            // Carregar credenciais salvas
+            const credenciais = JSON.parse(localStorage.getItem("webauthn_credenciais")) || [];
+            const credencialUsuario = credenciais.find(c => {
+                const usuarios = carregarUsuarios();
+                const user = usuarios.find(u => u.id === c.userId);
+                return user && (user.usuario === usuario || user.email === usuario);
+            });
+
+            if (!credencialUsuario) {
+                console.warn("Credencial WebAuthn não encontrada para este usuário");
+                return false;
+            }
+
+            // Gerar challenge aleatório
+            const challenge = new Uint8Array(32);
+            crypto.getRandomValues(challenge);
+
+            // Configuração para autenticação
+            const publicKeyCredentialRequestOptions = {
+                challenge: challenge,
+                allowCredentials: [{
+                    id: new Uint8Array(credencialUsuario.id),
+                    type: 'public-key',
+                    transports: ['usb', 'nfc', 'ble', 'internal']
+                }],
+                timeout: 60000,
+                userVerification: 'preferred'
+            };
+
+            // Autenticar
+            const assertion = await navigator.credentials.get({
+                publicKey: publicKeyCredentialRequestOptions
+            });
+
+            return assertion !== null;
+        } catch (error) {
+            console.warn("Erro ao autenticar com WebAuthn:", error);
+            return false;
+        }
+    }
+
+    // ========== HTTP AUTHENTICATION (Basic Auth simulada) ==========
+
+    function criarTokenHTTPAuth(usuario, senha) {
+        // Simula Basic Authentication (Base64 encoding)
+        const credentials = `${usuario}:${senha}`;
+        return btoa(credentials);
+    }
+
+    function validarTokenHTTPAuth(token) {
+        try {
+            const credentials = atob(token);
+            const [usuario, senha] = credentials.split(':');
+            return verificarCredenciais(usuario, senha);
+        } catch (error) {
+            return null;
+        }
+    }
+
+    // ========== FORMULÁRIO DE LOGIN ==========
+
+    document.getElementById("loginForm").addEventListener("submit", async function(e) {
+        e.preventDefault();
+
+        const usuario = document.getElementById("usuario").value.trim();
+        const senha = document.getElementById("senha").value;
+
+        // Validações
+        if (!validarUsuario(usuario)) {
+            alert("Usuário inválido. Deve ter no mínimo 3 caracteres.");
+            return;
+        }
+
+        if (!validarSenha(senha)) {
+            alert("Senha inválida. Deve ter no mínimo 8 caracteres.");
+            return;
+        }
+
+        try {
+            // Verificar credenciais no Web Storage
+            const usuarioEncontrado = verificarCredenciais(usuario, senha);
+
+            if (!usuarioEncontrado) {
+                // Tentar autenticação WebAuthn como alternativa
+                const webAuthnSucesso = await autenticarWebAuthn(usuario);
+                
+                if (!webAuthnSucesso) {
+                    alert("Usuário ou senha inválidos!");
+                    return;
+                }
+            }
+
+            // Criar token de autenticação HTTP
+            const tokenHTTP = criarTokenHTTPAuth(usuario, senha);
+
+            // Salvar cookie de sessão
+            const tokenSessao = btoa(JSON.stringify({
+                usuario: usuarioEncontrado ? usuarioEncontrado.usuario : usuario,
+                email: usuarioEncontrado ? usuarioEncontrado.email : usuario,
+                timestamp: Date.now(),
+                httpAuth: tokenHTTP
+            }));
+            await salvarCookie("session_token", tokenSessao, 7);
+            await salvarCookie("http_auth_token", tokenHTTP, 7);
+
+            // Salvar no sessionStorage
+            sessionStorage.setItem("usuario_logado", JSON.stringify({
+                usuario: usuarioEncontrado ? usuarioEncontrado.usuario : usuario,
+                email: usuarioEncontrado ? usuarioEncontrado.email : usuario
+            }));
+
+            // Salvar no localStorage para persistência
+            localStorage.setItem("ultimo_usuario_logado", JSON.stringify({
+                usuario: usuarioEncontrado ? usuarioEncontrado.usuario : usuario,
+                timestamp: Date.now()
+            }));
+
+            alert("Login realizado com sucesso!");
+            console.log("Usuário logado:", usuarioEncontrado || usuario);
+
+            // Redirecionar para página de rotas
+            window.location.href = "MinhasRotas.html";
+        } catch (error) {
+            alert("Erro ao realizar login: " + error.message);
+            console.error("Erro:", error);
+        }
+    });
+
+    // ========== VERIFICAR SESSÃO EXISTENTE ==========
+
+    window.addEventListener("load", async () => {
+        // Verificar se já existe sessão ativa
+        const tokenSessao = await lerCookie("session_token");
+        const usuarioLogado = sessionStorage.getItem("usuario_logado");
+
+        if (tokenSessao && usuarioLogado) {
+            try {
+                const sessao = JSON.parse(atob(tokenSessao));
+                const agora = Date.now();
+                const tempoSessao = agora - sessao.timestamp;
+                const umaSemana = 7 * 24 * 60 * 60 * 1000;
+
+                // Se a sessão ainda é válida (menos de 7 dias)
+                if (tempoSessao < umaSemana) {
+                    console.log("Sessão ativa encontrada para:", sessao.usuario);
+                    // Opcional: redirecionar automaticamente
+                    // window.location.href = "MinhasRotas.html";
+                } else {
+                    // Sessão expirada
+                    await deletarCookie("session_token");
+                    await deletarCookie("http_auth_token");
+                    sessionStorage.removeItem("usuario_logado");
+                }
+            } catch (error) {
+                console.error("Erro ao verificar sessão:", error);
+            }
+        }
+
+        // Carregar último usuário logado (opcional: preencher campo)
+        const ultimoUsuario = localStorage.getItem("ultimo_usuario_logado");
+        if (ultimoUsuario) {
+            try {
+                const usuario = JSON.parse(ultimoUsuario);
+                // Opcional: preencher campo de usuário
+                // document.getElementById("usuario").value = usuario.usuario;
+            } catch (error) {
+                console.error("Erro ao carregar último usuário:", error);
+            }
+        }
+    });
+
+    // ========== LOGOUT ==========
+
+    async function logout() {
+        await deletarCookie("session_token");
+        await deletarCookie("http_auth_token");
+        sessionStorage.removeItem("usuario_logado");
+        localStorage.removeItem("ultimo_usuario_logado");
+        window.location.href = "login.html";
+    }
+
+    // Expor função de logout globalmente (caso precise ser chamada de outras páginas)
+    window.logout = logout;
+
+</script>

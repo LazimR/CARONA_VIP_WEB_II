@@ -1,0 +1,228 @@
+:root {
+    /* Cores */
+    --_fundo_branco: #f9f9fa;
+    --cinza: #6f6f70;
+    --preto: #172323;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background: url('../imagens/cadastro_rotas/fundo_cadastro_rotas.png') no-repeat center center;
+    background-size: cover;
+    font-family: 'Zen Kaku Gothic Antique', sans-serif;
+    height: 100vh; /* Altura total da tela */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column; /* Para permitir centralização flexível */
+}
+
+
+/* Container principal */
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    backdrop-filter: blur(5px);
+    flex-direction: column; /* Adiciona flexibilidade na direção */
+
+}
+
+.form-container {
+    padding: 20px;
+    width: 100%;
+    max-width: 400px; /* Limita a largura do formulário */
+    text-align: center;
+    border-radius: 8px;
+}
+
+.form-container h3 {
+    text-align: center;
+    margin-bottom: 15   px; /* Espaçamento menor para ficar alinhado */
+    font-family: 'Zen Kaku Gothic Antique', sans-serif;
+}
+
+.form-container h6 {
+    text-align: center;
+    color: var(--cinza);
+    margin-bottom: 20px; /* Espaçamento antes do formulário */
+    font-family: 'Zen Kaku Gothic Antique', sans-serif;
+
+}
+
+.form-group {
+    margin-bottom: 15px;
+    text-align: center; 
+}
+
+
+.form-group input {
+    width: 100%; 
+    padding: 20px;
+    border: 1px solid var(--preto);
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+
+.submit-btn {
+    background-color: var(--preto);
+    color: var(--_fundo_branco);
+    padding: 16px;
+    border: none;
+    border-radius: 4px;
+    width: 88%;
+    cursor: pointer;
+    font-size: 16px;
+    padding-top: 14px;
+}   
+
+
+.submit-btn:hover {
+    background-color: var(--cinza);
+    font-family: 'Zen Kaku Gothic Antique', sans-serif;
+}
+
+
+.imagem-no-input {
+    position: relative;
+}
+
+.imagem-no-input input {
+    padding-left: 40px; /* Espaço para o ícone */
+    width: 100%; /* Para respeitar o alinhamento */
+    max-width: 350px; /* Largura alinhada */
+}
+
+.imagem-no-input img {
+    position: absolute;
+    left: 32px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px; /* Tamanho consistente do ícone */
+    height: auto; /* Para manter as proporções */
+}
+
+.texto-inferior-direito {
+    position: fixed; 
+    bottom: 10px; 
+    right: 10px; 
+    font-size: 16px; 
+    color: var(--preto); 
+    padding: 5px 10px;
+    display: flex; 
+    align-items: center; 
+    cursor: pointer;
+}
+
+.texto-inferior-direito img {
+    width: 16px; /* Ajuste o tamanho da imagem conforme necessário */
+    height: 16px;
+    margin-right: 8px; /* Espaço entre a imagem e o texto */
+}
+
+.texto-inferior-direito a {
+    color: var(--preto);
+    text-decoration: none;
+}
+
+.texto-superior-esquerdo {
+    position: absolute; 
+    top: 10px; 
+    left: 20px; 
+    font-size: 16px; 
+    color: var(--preto); 
+    padding: 5px 10px;
+    display: flex; 
+    align-items: center; 
+}
+
+.texto-superior-esquerdo a {
+    color: var(--preto);
+    text-decoration: none;
+}
+
+
+.form-container-data-hora {
+    display: flex;
+    gap: 20px; /* Espaço entre os inputs */
+    justify-content: center; /* Centraliza na página */
+    align-items: center; /* Alinha verticalmente */
+    padding-bottom: 15px;
+}
+
+
+
+.form-group-data-hora {
+    display: flex;
+    flex-direction: column; 
+    align-items: center;
+    text-align: center;
+}
+
+
+.imagem-no-input-data-hora {
+    position: relative;
+}
+
+
+.imagem-no-input-data-hora input {
+    padding-left: 40px;
+    width: 132px; 
+    max-width: 350px;
+    padding: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-align: center; 
+    border: 1px solid var(--preto);
+}   
+
+
+.imagem-no-input-data-hora img {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 18px; 
+    height: auto;
+}
+
+/* Estilização do Modal */
+.modal {
+    display: none; /* Esconde o modal por padrão */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%;
+    text-align: center;
+    border-radius: 10px;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover, .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}

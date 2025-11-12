@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pagamento</title>
+    <link rel="stylesheet" href="../css/pagamento.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Pagamento</h1>
+        <div class="area_externa">
+            <!-- Área para selecionar o método de pagamento -->
+            <div class="metodo-pagamento">
+                <h2>Selecione um método de pagamento</h2>
+                <div class="area-formulario">
+                    <form id="form-pagamento" action="#" method="post">
+                        <div class="form_caixa">
+                            <h4>Seu Cartão</h4>
+                            <!-- Cartão salvo (exibido via JS se existir) -->
+                            <div class="imagem-no-input" id="area-cartao">
+                                <button type="button" onclick="window.location.href='cartão.html'">+</button>
+                                <div class="img-bandeiras">
+                                    <img src="../imagens/pagamento/bandeiras.png" alt="Bandeiras">
+                                </div>
+                                <h6>Adicione um cartão — Aceitamos diversas bandeiras.</h6>
+                            </div>
+
+                            <!-- Aqui os cartões serão inseridos -->
+                            <div id="cartoes-salvos"></div>
+
+                            <div id="cartoes-salvos"></div>
+
+                            <!-- Pix -->
+                            <div class="imagem-no-input">
+                                <input type="radio" name="metodo_pagamento" value="pix" id="pix">
+                                <img class="img-pix" src="../imagens/pagamento/pix.png" alt="Pix">
+                                <h6>O código Pix é válido por 30 minutos após a finalização do pedido.</h6>
+                            </div>
+                            
+                        </div>
+                        
+                        <!-- Botões dentro do formulário -->
+                        <div class="botao-comp">
+                            <button type="submit" class="submit-btn">Comprar</button>
+                        </div>
+                        
+                        <div class="botao-cancel">
+                            <a class="cancel-btn" href="detalhes.html">Cancelar</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Área para o resumo da compra -->
+            <div class="resumo-compra">
+                <h2>Resumo da Compra</h2>
+                <div class="area-resumo">
+                    <div class="text-rsm">
+                        <h3>ROTA A</h3>
+                    </div>
+                    <hr>
+                    <div class="text-rsm">
+                        <h4>Origem: Cidade A</h4>
+                    </div>
+                    <hr>
+                    <div class="text-rsm">
+                        <h4>Destino: Cidade B</h4>
+                    </div>
+                    <hr>
+                    <div class="text-rsm">
+                        <h4>Horario: 19:30</h4>
+                    </div>
+                    <hr>
+                    <div class="valor-total">
+                        <h4>Total:</h4>
+                        <h4 class="valor">R$ 20.00</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="texto-inferior-direito">
+            <a href="#" id="contact-link">precisa de ajuda ?</a>
+        </div>
+
+        <div id="contact-modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <p>Email de contato: <a href="mailto:contato@plataforma.com">contato@plataforma.com</a></p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+<script>
+
+    const modal = document.getElementById("contact-modal");
+    const contactLink = document.getElementById("contact-link");
+    const closeBtn = document.querySelector(".close");
+
+    contactLink.addEventListener("click", (e) => {
+        e.preventDefault(); 
+        modal.style.display = "block";
+    });
+
+    closeBtn.addEventListener("click", () => {
+        modal.style.display = "none";
+    });
+
+    window.addEventListener("click", (e) => {
+        if (e.target === modal) {
+            modal.style.display = "none";
+        }
+    });
+    // ========== UTILITÁRIOS ==========
+    const getRota = () =>
+        JSON.parse(localStorage.getItem("rotaSelecionada")) || {
+        nome: "Rota A",
+        origem: "Cidade A",
+        destino: "Cidade B",
+        horario: "19:30",
+        valor: "20.00"
+        };
+
+    const salvarPagamento = (pagamento) => {
+        const pagamentos = JSON.parse(localStorage.getItem("pagamentos") || "[]");
+        pagamentos.push(pagamento);
+        localStorage.setItem("pagamentos", JSON.stringify(pagamentos));
+    };
+
+    const enviarPagamento = (pagamento) =>
+        new Promise((resolve) => {
+        console.log("Enviando pagamento...");
+        setTimeout(() => {
+            console.log("Pagamento aprovado!");
+            resolve({ status: 200, data: pagamento });
+        }, 1500);
+        });
+
+    const exibirCartaoSalvo = () => {
+        const cartao = JSON.parse(localStorage.getItem("cartao"));
+            if (!cartao) return;
+
+            const final = cartao.numeroCartao.slice(-4);
+            document.getElementById("area-cartao").innerHTML = `
+            <div class="cartao-salvo">
+                <input type="radio" name="metodo_pagamento" value="cartao" id="cartao" checked>
+                <h6>${final} — ${cartao.nomeImpresso}</h6>
+                <button type="button" id="removerCartao" class="btn-remover">Remover</button>
+            </div>
+            `;
+
+            document.getElementById("removerCartao").onclick = () => {
+            if (confirm("Remover este cartão?")) {
+                localStorage.removeItem("cartao");
+                location.reload();
+            }
+        };
+    };
+
+
+    const preencherResumoRota = () => {
+        const rota = getRota();
+        const campos = {
+        "nome-rota": rota.nome,
+        "origem-rota": `Origem: ${rota.origem}`,
+        "destino-rota": `Destino: ${rota.destino}`,
+        "horario-rota": `Horário: ${rota.horario}`,
+        "valor-rota": `R$ ${rota.valor}`
+        };
+
+        Object.entries(campos).forEach(([id, texto]) => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = texto;
+        });
+    };
+
+    const configurarModalAjuda = () => {
+        const modal = document.getElementById("contact-modal");
+        document.getElementById("contact-link").onclick = (e) => {
+        e.preventDefault();
+        modal.style.display = "block";
+        };
+        document.querySelector(".close").onclick = () => (modal.style.display = "none");
+        window.onclick = (e) => {
+        if (e.target === modal) modal.style.display = "none";
+        };
+    };
+
+    // ========== EVENTOS ==========
+    document.getElementById("form-pagamento").addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const metodo = document.querySelector('input[name="metodo_pagamento"]:checked');
+        if (!metodo) return alert("Selecione um método de pagamento!");
+
+        const pagamento = {
+        id: Date.now(),
+        metodo: metodo.value,
+        valor: getRota().valor,
+        data: new Date().toLocaleString(),
+        rota: getRota()
+        };
+
+        // Se o metodo for PIX, redireciona para a tela do PIX
+        if (metodo.value === "pix") {
+            // Salva os dados do pagamento para usar na tela do PIX
+            localStorage.setItem("pagamentoAtual", JSON.stringify(pagamento));
+            window.location.href = "pix.html";
+            return;
+        }
+        //pagamento com cartao
+        salvarPagamento(pagamento);
+        await enviarPagamento(pagamento);
+
+        alert(`Pagamento via ${metodo.value.toUpperCase()} realizado!`);
+        e.target.reset();
+    });
+
+    window.onload = () => {
+        preencherResumoRota();
+        exibirCartaoSalvo();
+        configurarModalAjuda();
+    };
+
+
+</script>

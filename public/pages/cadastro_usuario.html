@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Cadastro de usuário</title>
+        <link rel="stylesheet" href="../css/styles.css">
+    </head>
+
+
+    <body>
+        <div class="container">
+            <!-- Lado Esquerdo -->
+                <div class="esquerda">
+                <img src="../imagens/cadastro_usuario/cadastro_usuario.png" alt="Homem pegando no volante">
+            </div>
+
+             <!-- Lado direito -->
+            <div class="direita">
+                <div class="form-container">
+                    <h3>BEM-VINDO</h3>
+                    <h6>CADASTRE-SE</h6>
+                    <form action="#" method="post">
+
+                        <div class="form-group">
+                            <div class="imagem-no-input">
+                                <img src="../imagens/cadastro_usuario/cpf.png" alt="Ícone">
+                                <input type="text" id="cpf" name="cpf" placeholder="CPF" required>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <div class="imagem-no-input">
+                                <img src="../imagens/cadastro_usuario/usuario.png" alt="Ícone">
+                                <input type="text" id="usuario" name="usuario" placeholder="Nome de usuário" required>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <div class="imagem-no-input">
+                                <img src="../imagens/cadastro_usuario/email.png" alt="Ícone">
+                                <input type="email" id="email" name="email" placeholder="E-mail" required>
+                            </div>
+                        </div>
+
+                        
+                        <div class="form-group">
+                            <div class="imagem-no-input">
+                                <img src="../imagens/cadastro_usuario/senha.png" alt="Ícone">
+                                <input type="password" id="senha_usuario" name="senha_usuario" placeholder="Senha" required>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <div class="imagem-no-input">
+                                <img src="../imagens/cadastro_usuario/branco.png" alt="Ícone">
+                                <input type="password" id="confirma_senha" name="confirma_senha" placeholder="Confirmar Senha" required>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <div class="imagem-no-input">
+                                <img id="seta-direita" src="../imagens/cadastro_motorista/seta.png" alt="Ícone">
+                                <button type="submit" class="submit-btn">Torne-se um membro</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+        <div class="texto-inferior-direito">
+            <img src="../imagens/cadastro_motorista/info.png" alt="Ícone de ajuda">
+            <a href="#" id="contact-link">precisa de ajuda ?</a>
+        </div>
+
+        <div class="texto-superior-direito">
+            <p>Já é membro? <a href="login.html"><b>Faça Login</b></a></p>
+        </div>
+
+        <div class="texto-superior-esquerdo">
+            <img src="../imagens/login/seta_esquerda.png" alt= "seta esquerda">
+            <a href="index.html">Retornar ao Menu</a>
+        </div>
+
+        <div id="contact-modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <p>Email de contato: <a href="mailto:contato@plataforma.com">contato@plataforma.com</a></p>
+            </div>
+        </div>
+    </body>
+</html> 
+
+<script>
+    const modal = document.getElementById("contact-modal");
+    const contactLink = document.getElementById("contact-link");
+    const closeBtn = document.querySelector(".close");
+
+    contactLink.addEventListener("click", (e) => {
+        e.preventDefault(); 
+        modal.style.display = "block";
+    });
+
+    closeBtn.addEventListener("click", () => {
+        modal.style.display = "none";
+    });
+
+    window.addEventListener("click", (e) => {
+        if (e.target === modal) {
+            modal.style.display = "none";
+        }
+    });
+
+    // ========== VALIDAÇÃO DE FORMULÁRIOS ==========
+
+    // Validação de CPF
+    function validarCPF(cpf) {
+        cpf = cpf.replace(/[^\d]+/g, '');
+        
+        if (cpf.length !== 11 || /^(\d)\1{10}$/.test(cpf)) {
+            return false;
+        }
+
+        let soma = 0;
+        let resto;
+
+        for (let i = 1; i <= 9; i++) {
+            soma += parseInt(cpf.substring(i - 1, i)) * (11 - i);
+        }
+        resto = (soma * 10) % 11;
+        if ((resto === 10) || (resto === 11)) resto = 0;
+        if (resto !== parseInt(cpf.substring(9, 10))) return false;
+
+        soma = 0;
+        for (let i = 1; i <= 10; i++) {
+            soma += parseInt(cpf.substring(i - 1, i)) * (12 - i);
+        }
+        resto = (soma * 10) % 11;
+        if ((resto === 10) || (resto === 11)) resto = 0;
+        if (resto !== parseInt(cpf.substring(10, 11))) return false;
+
+        return true;
+    }
+
+    // Validação de Email
+    function validarEmail(email) {
+        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return regex.test(email);
+    }
+
+    // Validação de Senha
+    function validarSenha(senha) {
+        // Mínimo 8 caracteres, pelo menos uma letra e um número
+        const regex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*#?&]{8,}$/;
+        return regex.test(senha);
+    }
+
+    // Formatação de CPF
+    function formatarCPF(cpf) {
+        cpf = cpf.replace(/[^\d]+/g, '');
+        return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
+    }
+
+    // Aplicar máscara de CPF
+    document.getElementById("cpf").addEventListener("input", function(e) {
+        let valor = e.target.value.replace(/[^\d]+/g, '');
+        if (valor.length <= 11) {
+            e.target.value = formatarCPF(valor);
+        }
+    });
+
+    // Validação em tempo real
+    document.getElementById("cpf").addEventListener("blur", function(e) {
+        const cpf = e.target.value;
+        if (cpf && !validarCPF(cpf)) {
+            e.target.setCustomValidity("CPF inválido");
+            e.target.reportValidity();
+        } else {
+            e.target.setCustomValidity("");
+        }
+    });
+
+    document.getElementById("email").addEventListener("blur", function(e) {
+        const email = e.target.value;
+        if (email && !validarEmail(email)) {
+            e.target.setCustomValidity("Email inválido");
+            e.target.reportValidity();
+        } else {
+            e.target.setCustomValidity("");
+        }
+    });
+
+    document.getElementById("senha_usuario").addEventListener("blur", function(e) {
+        const senha = e.target.value;
+        if (senha && !validarSenha(senha)) {
+            e.target.setCustomValidity("Senha deve ter no mínimo 8 caracteres, incluindo letras e números");
+            e.target.reportValidity();
+        } else {
+            e.target.setCustomValidity("");
+        }
+    });
+
+    document.getElementById("confirma_senha").addEventListener("blur", function(e) {
+        const senha = document.getElementById("senha_usuario").value;
+        const confirmaSenha = e.target.value;
+        if (confirmaSenha && senha !== confirmaSenha) {
+            e.target.setCustomValidity("As senhas não coincidem");
+            e.target.reportValidity();
+        } else {
+            e.target.setCustomValidity("");
+        }
+    });
+
+    // ========== WEB STORAGE API ==========
+
+    function salvarUsuario(usuario) {
+        // Verificar se usuário já existe
+        const usuarios = carregarUsuarios();
+        const usuarioExistente = usuarios.find(u => 
+            u.cpf === usuario.cpf || 
+            u.email === usuario.email || 
+            u.usuario === usuario.usuario
+        );
+
+        if (usuarioExistente) {
+            throw new Error("Usuário, CPF ou Email já cadastrado");
+        }
+
+        // Hash simples da senha (em produção, use bcrypt ou similar)
+        usuario.senhaHash = btoa(usuario.senha); // Base64 (não seguro, apenas exemplo)
+        delete usuario.senha; // Remove senha em texto claro
+
+        // localStorage: persiste mesmo fechando navegador
+        usuarios.push(usuario);
+        localStorage.setItem("usuarios", JSON.stringify(usuarios));
+
+        // sessionStorage: apaga ao fechar aba
+        sessionStorage.setItem("ultimo_usuario_cadastrado", JSON.stringify({
+            usuario: usuario.usuario,
+            email: usuario.email
+        }));
+    }
+
+    function carregarUsuarios() {
+        return JSON.parse(localStorage.getItem("usuarios")) || [];
+    }
+
+    // ========== COOKIE STORE API ==========
+
+    async function salvarCookie(nome, valor, diasExpiracao = 7) {
+        try {
+            if ('cookieStore' in window) {
+                // Cookie Store API (moderna)
+                const dataExpiracao = new Date();
+                dataExpiracao.setDate(dataExpiracao.getDate() + diasExpiracao);
+
+                await cookieStore.set({
+                    name: nome,
+                    value: valor,
+                    expires: dataExpiracao.getTime(),
+                    sameSite: 'strict',
+                    secure: window.location.protocol === 'https:'
+                });
+            } else {
+                // Fallback para cookies tradicionais
+                const dataExpiracao = new Date();
+                dataExpiracao.setTime(dataExpiracao.getTime() + (diasExpiracao * 24 * 60 * 60 * 1000));
+                document.cookie = `${nome}=${valor};expires=${dataExpiracao.toUTCString()};path=/;SameSite=Strict`;
+            }
+        } catch (error) {
+            console.error("Erro ao salvar cookie:", error);
+        }
+    }
+
+    async function lerCookie(nome) {
+        try {
+            if ('cookieStore' in window) {
+                const cookie = await cookieStore.get(nome);
+                return cookie ? cookie.value : null;
+            } else {
+                // Fallback para cookies tradicionais
+                const nomeCookie = nome + "=";
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    let cookie = cookies[i].trim();
+                    if (cookie.indexOf(nomeCookie) === 0) {
+                        return cookie.substring(nomeCookie.length, cookie.length);
+                    }
+                }
+                return null;
+            }
+        } catch (error) {
+            console.error("Erro ao ler cookie:", error);
+            return null;
+        }
+    }
+
+    // ========== WEB AUTHENTICATION API (WebAuthn) ==========
+
+    async function registrarCredencialWebAuthn(usuario) {
+        try {
+            if (!window.PublicKeyCredential) {
+                console.warn("Web Authentication API não suportada neste navegador");
+                return null;
+            }
+
+            // Gerar challenge aleatório
+            const challenge = new Uint8Array(32);
+            crypto.getRandomValues(challenge);
+
+            // Configuração para registro
+            const publicKeyCredentialCreationOptions = {
+                challenge: challenge,
+                rp: {
+                    name: "Carona VIP",
+                    id: window.location.hostname,
+                },
+                user: {
+                    id: new TextEncoder().encode(usuario.usuario),
+                    name: usuario.email,
+                    displayName: usuario.usuario,
+                },
+                pubKeyCredParams: [{ alg: -7, type: "public-key" }],
+                authenticatorSelection: {
+                    authenticatorAttachment: "platform",
+                    userVerification: "preferred"
+                },
+                timeout: 60000,
+                attestation: "direct"
+            };
+
+            // Registrar credencial
+            const credential = await navigator.credentials.create({
+                publicKey: publicKeyCredentialCreationOptions
+            });
+
+            // Salvar credencial ID no Web Storage
+            const credentialData = {
+                id: Array.from(new Uint8Array(credential.rawId)),
+                userId: usuario.id,
+                type: credential.type
+            };
+
+            let credenciais = JSON.parse(localStorage.getItem("webauthn_credenciais")) || [];
+            credenciais.push(credentialData);
+            localStorage.setItem("webauthn_credenciais", JSON.stringify(credenciais));
+
+            return credential;
+        } catch (error) {
+            console.warn("Erro ao registrar credencial WebAuthn:", error);
+            return null;
+        }
+    }
+
+    // ========== FORMULÁRIO ==========
+
+    document.querySelector("form").addEventListener("submit", async function(e) {
+        e.preventDefault();
+
+        // Validações
+        const cpf = document.getElementById("cpf").value;
+        const usuario = document.getElementById("usuario").value;
+        const email = document.getElementById("email").value;
+        const senha = document.getElementById("senha_usuario").value;
+        const confirmaSenha = document.getElementById("confirma_senha").value;
+
+        // Validação de CPF
+        if (!validarCPF(cpf)) {
+            alert("CPF inválido");
+            return;
+        }
+
+        // Validação de Email
+        if (!validarEmail(email)) {
+            alert("Email inválido");
+            return;
+        }
+
+        // Validação de Senha
+        if (!validarSenha(senha)) {
+            alert("Senha deve ter no mínimo 8 caracteres, incluindo letras e números");
+            return;
+        }
+
+        // Validação de confirmação de senha
+        if (senha !== confirmaSenha) {
+            alert("As senhas não coincidem");
+            return;
+        }
+
+        try {
+            const novoUsuario = {
+                id: Date.now(),
+                cpf: cpf.replace(/[^\d]+/g, ''),
+                usuario: usuario,
+                email: email,
+                senha: senha, // Será removida após hash
+                dataCadastro: new Date().toISOString()
+            };
+
+            // Salvar no Web Storage
+            salvarUsuario(novoUsuario);
+
+            // Tentar registrar credencial WebAuthn (opcional)
+            await registrarCredencialWebAuthn(novoUsuario);
+
+            // Salvar cookie de sessão
+            const tokenSessao = btoa(JSON.stringify({
+                usuario: novoUsuario.usuario,
+                email: novoUsuario.email,
+                timestamp: Date.now()
+            }));
+            await salvarCookie("session_token", tokenSessao, 7);
+
+            // Salvar no sessionStorage
+            sessionStorage.setItem("usuario_logado", JSON.stringify({
+                usuario: novoUsuario.usuario,
+                email: novoUsuario.email
+            }));
+
+            alert("Cadastro realizado com sucesso!");
+            console.log("Usuários cadastrados:", carregarUsuarios());
+
+            // Redirecionar para login
+            window.location.href = "login.html";
+        } catch (error) {
+            alert("Erro ao cadastrar: " + error.message);
+            console.error("Erro:", error);
+        }
+    });
+
+    // Carregar dados ao iniciar
+    window.addEventListener("load", () => {
+        const usuarios = carregarUsuarios();
+        console.log(`${usuarios.length} usuários cadastrados no localStorage`);
+    });
+
+</script>

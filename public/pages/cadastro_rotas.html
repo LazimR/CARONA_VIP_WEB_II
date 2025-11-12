@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Cadastro de Rotas</title>
+        <link rel="stylesheet" href="../css/cadastro_rotas.css">
+    </head>
+
+
+    <body>
+        <div class="container">
+
+            <div class="form-container">
+                <h3>BEM VINDO</h3>
+                <h6>CADASTRO DE ROTAS</h6>
+                <form action="#" method="post">
+
+                    <div class="form-group">
+                        <div class="imagem-no-input">
+                            <img src="../imagens/cadastro_rotas/origem.png" alt="origem">
+                            <input type="text" id="origem" name="origem" placeholder="Origem" required>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <div class="imagem-no-input">
+                            <img src="../imagens/cadastro_rotas/destino.png" alt="destino">
+                            <input type="text" id="destino" name="destino" placeholder="Destino" required>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <div class="imagem-no-input">
+                            <img src="../imagens/cadastro_rotas/valor_viagem.png" alt="valor">
+                            <input type="text" id="valor_viagem" name="valor_viagem" placeholder="valor da Viagem" required>
+                        </div>
+                    </div>
+
+
+
+                    <div class="form-container-data-hora">
+                        <div class="form-group-data-hora">
+                            <div class="imagem-no-input-data-hora">
+                                <img src="../imagens/cadastro_rotas/data.png" alt="data">
+                                <input type="date" id="data" name="data" placeholder="Data" required>
+                            </div>
+                        </div>
+                    
+                        <div class="form-group-data-hora">
+                            <div class="imagem-no-input-data-hora">
+                                <img src="../imagens/cadastro_rotas/hora.png" alt="hora">
+                                <input type="time" id="hora" name="hora" placeholder="hora" required>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <button type="submit" class="submit-btn">ADICIONAR ROTA</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+        <div class="texto-inferior-direito">
+            <img src="../imagens/cadastro_motorista/info.png" alt="Ícone de ajuda">
+            <a href="#" id="contact-link">precisa de ajuda ?</a>
+        </div>
+
+        <div class="texto-superior-esquerdo">
+            <img src="../imagens/login/seta_esquerda.png" alt= "seta esquerda">
+            <a href="index.html">Retornar ao Menu</a>
+        </div>
+
+        <div id="contact-modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <p>Email de contato: <a href="mailto:contato@plataforma.com">contato@plataforma.com</a></p>
+            </div>
+        </div>
+    </body>
+</html> 
+
+
+<script>
+    const modal = document.getElementById("contact-modal");
+    const contactLink = document.getElementById("contact-link");
+    const closeBtn = document.querySelector(".close");
+
+    contactLink.addEventListener("click", (e) => {
+        e.preventDefault(); 
+        modal.style.display = "block";
+    });
+
+    closeBtn.addEventListener("click", () => {
+        modal.style.display = "none";
+    });
+
+    window.addEventListener("click", (e) => {
+        if (e.target === modal) {
+            modal.style.display = "none";
+        }
+    });
+
+    
+    // VERIFICAÇÃO DE LOGIN (Web Storage API)
+
+    // document.addEventListener("DOMContentLoaded", () => {
+    //     const user = sessionStorage.getItem("user") || localStorage.getItem("user");
+        
+    //     if (!user) {
+    //         alert("É necessArio estar logado");
+    //         window.location.href = "login.html";
+    //     }
+    // });
+
+
+    // Simular requisição assíncrona (Sem backend)
+    function enviarRotaAssincrona(rota) {
+        
+        // Simula delay de rede (1.5 segundos)
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                console.log("Resposta recebida:", { status: 200, message: "Rota salva!" });
+                resolve({ status: 200, data: rota });
+            }, 1500);
+        });
+
+    }
+
+    // WEB STORAGE API
+
+    function salvarRota(rota) {
+        // localStorage: persiste mesmo fechando navegador
+        let rotas = JSON.parse(localStorage.getItem("rotas")) || [];
+        rotas.push(rota);
+        localStorage.setItem("rotas", JSON.stringify(rotas));
+        
+        // sessionStorage: apaga ao fechar aba
+        sessionStorage.setItem("ultima_rota", JSON.stringify(rota));
+    }
+
+    function carregarRotas() {
+        return JSON.parse(localStorage.getItem("rotas")) || [];
+    }
+
+    // FORMULARIO
+
+    document.querySelector("form").addEventListener("submit", async function(e) {
+        e.preventDefault();
+        
+        const rota = {
+            id: Date.now(), // Gera ID único
+            origem: document.getElementById("origem").value,
+            destino: document.getElementById("destino").value,
+            valor: document.getElementById("valor_viagem").value,
+            data: document.getElementById("data").value,
+            hora: document.getElementById("hora").value
+        };
+
+        // Salvar localmente (Web Storage)
+        salvarRota(rota);
+
+        enviarRotaAssincrona(rota);
+
+
+        alert("Rota adicionada com sucesso!");
+        this.reset();
+        
+        // Exibir rotas salvas
+        console.log("Rotas salvas:", carregarRotas());
+    });
+
+
+    window.addEventListener("load", () => {
+        const rotas = carregarRotas();
+        console.log(`${rotas.length} rotas carregadas do localStorage`);
+    });
+
+
+</script>
