@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minhas Rotas</title>
+
+    <style>
+        body {
+            font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+            line-height: 1.5;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 0.87);
+            background-color: #242424;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+
+        .texto-superior-esquerdo {
+            width: 100%;
+            max-width: 800px;
+            margin-bottom: 20px;
+        }
+
+        .texto-superior-esquerdo a {
+            font-weight: 500;
+            color: #646cff;
+            text-decoration: none;
+            font-size: 1.1rem;
+        }
+        .texto-superior-esquerdo a:hover {
+            color: #535bf2;
+            text-decoration: underline;
+        }
+
+        .titulo {
+            color: #FFFFFF;
+            font-size: 2.5rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-top: 0;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .rotas-table {
+            background-color: #1a1a1a;
+            border: 1px solid #555;
+            border-radius: 8px;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .table-header {
+            text-align: center;
+            padding: 20px;
+            background-color: #2f2f2f;
+            border-bottom: 1px solid #555;
+        }
+
+        .table-header span {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #FFFFFF;
+            text-transform: uppercase;
+        }
+
+        .table-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 25px 20px;
+            border-bottom: 1px solid #444;
+        }
+
+        .table-row:last-child {
+            border-bottom: none;
+        }
+
+        .table-row span {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.87);
+        }
+
+        .buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .button-link {
+            border-radius: 8px;
+            border: 1px solid transparent;
+            padding: 0.6em 1.2em;
+            font-size: 1em;
+            font-weight: 500;
+            font-family: inherit;
+            cursor: pointer;
+            transition: border-color 0.25s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .button-link:hover {
+            border-color: #646cff;
+        }
+
+        .button-link.details {
+            background-color: #f9f9f9;
+            color: #213547;
+        }
+
+        .button-link.cancel {
+            background-color: #1a1a1a;
+            color: rgba(255, 255, 255, 0.87);
+            border: 1px solid #555;
+        }
+        .button-link.cancel:hover {
+             border-color: #646cff;
+        }
+
+    </style>
+</head>
+
+<body>
+    
+    <div class="texto-superior-esquerdo">
+        <a href="index.html">Retornar ao Menu</a>
+    </div>
+
+    <div>
+        <h1 class="titulo">Minhas Rotas</h1>
+    </div>
+
+    <div class="container">
+        <div class="rotas-table">
+            <div class="table-header">
+                <span>ROTAS</span>
+            </div>
+
+            <div class="table-row">
+                <span>ROTA 06</span>
+                <div class="buttons">
+                    <a href="../pages/detalhes.html" class="button-link details">Detalhes</a>
+                    <a href="../pages/index.html" class="button-link cancel">Cancelar</a>
+                </div>
+            </div>
+
+            <div class="table-row">
+                <span>ROTA 07</span>
+                <div class="buttons">
+                    <a href="../pages/detalhes.html" class="button-link details">Detalhes</a>
+                    <a href="../pages/index.html" class="button-link cancel">Cancelar</a>
+                </div>
+            </div>
+
+            <div class="table-row">
+                <span>ROTA 08</span>
+                <div class="buttons">
+                    <a href="../pages/detalhes.html" class="button-link details">Detalhes</a>
+                    <a href="../pages/index.html" class="button-link cancel">Cancelar</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</body>
+
+</html>

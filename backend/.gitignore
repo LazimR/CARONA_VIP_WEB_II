@@ -1,0 +1,20 @@
+# Arquivos de ambiente (contêm informações sensíveis)
+.env
+.env.local
+.env.production
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Dependências
+node_modules/
+
+# Arquivos temporários
+.tmp/
+.cache/
+
+# Arquivos do sistema
+.DS_Store
+Thumbs.db
