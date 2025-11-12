@@ -108,14 +108,14 @@
     
     // VERIFICAÇÃO DE LOGIN (Web Storage API)
 
-    // document.addEventListener("DOMContentLoaded", () => {
-    //     const user = sessionStorage.getItem("user") || localStorage.getItem("user");
+    document.addEventListener("DOMContentLoaded", () => {
+         const user = sessionStorage.getItem("usuario_logado") || localStorage.getItem("user");
         
-    //     if (!user) {
-    //         alert("É necessArio estar logado");
-    //         window.location.href = "login.html";
-    //     }
-    // });
+        if (!user) {
+            alert("É necessArio estar logado");
+            window.location.href = "login.html";
+        }
+     });
 
 
     // Simular requisição assíncrona (Sem backend)
