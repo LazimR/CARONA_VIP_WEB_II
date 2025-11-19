@@ -3,66 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pix</title>
+    <title>Pagamento da Carona</title>
     <link rel="stylesheet" href="/css/pix.css">
 </head>
 <body>
     <div class="principal">
-        <div class="h1-title">
-            <h1>Pix</h1>
+        <!-- Header com Logo -->
+        <header class="header-pagamento">
+            <div class="logo-container">
+                <img src="/imagens/home/sessao_01/logo.jpeg" alt="Logo Carona Certa" class="logo-img">
+            </div>
+        </header>
+
+        <!-- Título e Instruções -->
+        <div class="titulo-section">
+            <h1>Pagamento da Carona</h1>
+            <p class="instrucao">Finalize o pagamento via Pix para confirmar sua vaga.</p>
         </div>
 
-        <div class="container-gerar">
-            <div class="form-group">
-                <label for="amount">Valor da Carona:</label>
-                <input type="number" id="amount" step="0.01" min="0.01" value="0.50" placeholder="0.50">
+        <!-- Detalhes da Carona -->
+        <div class="detalhes-carona">
+            <div class="detalhe-item">
+                <span class="detalhe-label">Motorista:</span>
+                <span class="detalhe-value" id="motorista-name">João Silva</span>
             </div>
-            <div class="form-group">
-                <label for="description">Descrição:</label>
-                <input type="text" id="description" value="Carona VIP" placeholder="Descrição do pagamento">
+            <div class="detalhe-item">
+                <span class="detalhe-label">Destino:</span>
+                <span class="detalhe-value" id="destino-route">Picos → Teresina</span>
             </div>
-            <button id="pay-button" class="btn-gerar-pix">Gerar QR Code para Pagar</button>
+            <div class="detalhe-item">
+                <span class="detalhe-label">Horário:</span>
+                <span class="detalhe-value" id="horario-viagem">Hoje às 14:00</span>
+            </div>
+            <div class="detalhe-item">
+                <span class="detalhe-label">Valor da Carona:</span>
+                <span class="detalhe-value" id="valor-carona">R$ 25,00</span>
+            </div>
         </div>
 
+        <!-- Container para gerar PIX (inicialmente visível) -->
+        <div class="container-gerar" id="container-gerar">
+            <button id="pay-button" class="btn-gerar-pix">Gerar Pix</button>
+        </div>
+
+        <!-- Container do QR Code (inicialmente oculto) -->
         <div id="pix-container" class="container-qrcode" style="display: none;">
-            <h3>Escaneie o QR Code para Pagar com Pix</h3>
+            <h3 class="qrcode-title">QR Code Gerado</h3>
+            <p class="qrcode-instruction">Aponte a câmera do celular para pagar</p>
             
-            <div class="payment-info">
-                <p><strong>Valor:</strong> R$ <span id="payment-amount">0.00</span></p>
-                <p><strong>ID do Pagamento:</strong> <span id="payment-id">-</span></p>
-            </div>
-            
-            <img id="qr-code-img" src="" alt="PIX QR Code" style="width: 250px; height: 250px; border: 1px solid #ccc;">
-            
-            <p>Ou use o "Copia e Cola":</p>
-            <input type="text" id="qr-code-text" readonly style="width: 90%;">
-            
-            <div class="status-info">
-                <h3>Status: <span id="payment-status">Aguardando pagamento</span></h3>
-                <p>Válido por 30 minutos</p>
-                <button id="check-status" class="btn-check-status">Verificar Status</button>
+            <div class="qrcode-wrapper">
+                <div class="qrcode-image-container">
+                    <img id="qr-code-img" src="" alt="PIX QR Code" class="qr-code-img">
+                </div>
+                <div class="qrcode-code-container">
+                    <div class="code-lines" id="code-lines">
+                        <div class="code-line"></div>
+                        <div class="code-line"></div>
+                    </div>
+                    <input type="text" id="qr-code-text" readonly class="qr-code-text" style="display: none;">
+                    <button id="copy-button" type="button" class="btn-copiar-codigo">Copiar código</button>
+                </div>
             </div>
         </div>
-    
+
+        <!-- Status do Pagamento -->
+        <div class="status-section">
+            <p class="status-label">Status:</p>
+            <p class="status-value" id="payment-status">Aguardando pagamento...</p>
+        </div>
+
+        <!-- Botão Cancelar -->
         <div class="area-botoes">
-            <button id="copy-button" type="button" class="btn-copiar" style="display: none;">Copiar codigo</button>
-            <button type="reset" class="btn-cancel">Cancelar</button>
+            <button type="button" class="btn-cancel">Cancelar</button>
         </div>
     </div>
     
     <script>
         const payButton = document.getElementById('pay-button');
         const copyButton = document.getElementById('copy-button');
-        const checkStatusButton = document.getElementById('check-status');
         const pixContainer = document.getElementById('pix-container');
         const qrCodeImg = document.getElementById('qr-code-img');
         const qrCodeText = document.getElementById('qr-code-text');
-        const containerGerar = document.querySelector('.container-gerar');
-        const amountInput = document.getElementById('amount');
-        const descriptionInput = document.getElementById('description');
-        const paymentAmount = document.getElementById('payment-amount');
-        const paymentId = document.getElementById('payment-id');
+        const containerGerar = document.getElementById('container-gerar');
         const paymentStatus = document.getElementById('payment-status');
+        const valorCaronaElement = document.getElementById('valor-carona');
 
         let currentPaymentId = null;
         let statusCheckInterval = null;
@@ -70,17 +94,13 @@
         // Quando clicar em "Gerar PIX"
         payButton.addEventListener('click', async () => {
             try {
-                // Validação dos campos
-                const amount = parseFloat(amountInput.value);
-                const description = descriptionInput.value.trim();
+                // Extrai o valor da carona do texto (ex: "R$ 25,00" -> 25.00)
+                const valorTexto = valorCaronaElement.textContent.replace('R$', '').replace(',', '.').trim();
+                const amount = parseFloat(valorTexto);
+                const description = 'Carona VIP - ' + document.getElementById('destino-route').textContent;
 
                 if (!amount || amount <= 0) {
-                    alert('Por favor, insira um valor válido maior que zero.');
-                    return;
-                }
-
-                if (!description) {
-                    alert('Por favor, insira uma descrição.');
+                    alert('Por favor, verifique o valor da carona.');
                     return;
                 }
 
@@ -111,15 +131,22 @@
                 // Preenche os dados do PIX na tela
                 qrCodeImg.src = `data:image/png;base64,${pixData.qr_code_base64}`;
                 qrCodeText.value = pixData.qr_code_text;
-                paymentAmount.textContent = pixData.amount.toFixed(2);
-                paymentId.textContent = pixData.payment_id;
-                paymentStatus.textContent = 'Aguardando pagamento';
+                paymentStatus.textContent = 'Aguardando pagamento...';
+    
+                // Atualiza as linhas do código PIX
+                const codeLines = document.getElementById('code-lines');
+                const pixCode = pixData.qr_code_text;
+                // Divide o código em duas linhas (aproximadamente)
+                const midPoint = Math.floor(pixCode.length / 2);
+                codeLines.innerHTML = `
+                    <div class="code-line-text">${pixCode.substring(0, midPoint)}</div>
+                    <div class="code-line-text">${pixCode.substring(midPoint)}</div>
+                `;
     
                 // Mostra/Esconde os elementos corretos
                 containerGerar.style.display = 'none';
                 pixContainer.style.display = 'block';
-                copyButton.style.display = 'inline-block';
-                checkStatusButton.style.display = 'inline-block';
+                copyButton.style.display = 'block';
 
                 // Inicia verificação automática de status
                 startStatusCheck();
@@ -127,7 +154,7 @@
             } catch (error) {
                 console.error('Erro ao chamar o backend:', error);
                 alert('Erro ao gerar PIX: ' + error.message);
-                payButton.textContent = 'Gerar QR Code para Pagar';
+                payButton.textContent = 'Gerar Pix';
                 payButton.disabled = false;
             }
         });
@@ -147,7 +174,7 @@
                 
                 // Atualiza o status na tela
                 const statusMap = {
-                    'pending': 'Aguardando pagamento',
+                    'pending': 'Aguardando pagamento...',
                     'approved': 'Pagamento aprovado!',
                     'rejected': 'Pagamento rejeitado',
                     'cancelled': 'Pagamento cancelado',
@@ -180,14 +207,13 @@
                 statusCheckInterval = null;
             }
         }
-
-        // Botão para verificar status manualmente
-        checkStatusButton.addEventListener('click', checkPaymentStatus);
     
         // Funcionalidade do botão "Copiar"
         copyButton.addEventListener('click', () => {
+            qrCodeText.style.display = 'block';
             qrCodeText.select();
             document.execCommand('copy');
+            qrCodeText.style.display = 'none';
             alert('Código PIX copiado!');
         });
 

@@ -1,119 +1,298 @@
 body {
     margin: 0;
     padding: 0;
-    background-color: #172323;
+    background-color: #D9D9D9;
     font-family: Arial, sans-serif;
-   
 }
 
-.h1-title {
-    text-align: left; /* Centraliza o texto horizontalmente */
-    margin-left: 15px; /* Espaçamento acima e abaixo do título */
-}
-
-
-
-.area-botoes {
-    display: flex;
-    justify-content: flex-end; /* Move todos os botões para a direita */
-    gap: 10px; /* Espaço entre os botões */
-    padding: 10px; /* Espaçamento interno */
-   
-}
-.btn-cancelar{
-    background-color: white;
-    border: none; 
-    padding: 10px 20px; /* Espaçamento interno */
-    text-align: center;
-    text-decoration: none;
-    font-size: 14px;
-    cursor: pointer;
-    border-radius: 25px;
-    margin-top: 20px;
-    transition: background-color 0.3s ease;
-}
-
-
-/*altera o fundo da tela pix e cartao*/
 .principal {
     display: flex;
-    flex-direction: column; /* Garante que a área vai empilhar os elementos */
-    justify-content: space-between; /* Espaçamento entre o QR Code e os botões */
-    height: calc(100vh - 20px);
+    flex-direction: column;
+    min-height: 100vh;
     background-color: #D9D9D9;
+    padding: 0;
     margin: 0;
-    padding: 10px 0;
-    overflow-x: hidden;
 }
 
-
-/*CSS da pagina Pix*/
-
-
-.container-qrcode{
-    text-align: center;
-    border: solid 2px black;
-    background-color: white; 
-    height: 450px; /* Aumenta a altura das áreas externas */
-    margin: 10px;
-    padding-top: 30px; /* Adiciona espaçamento interno no topo */
+/* Header com Logo */
+.header-pagamento {
+    padding: 15px 15px 10px 15px;
+    background-color: #D9D9D9;
 }
 
+.logo-container {
+    display: flex;
+    align-items: center;
+}
 
-.btn-copiar{
-    background-color: white; 
-    color: rgb(5, 3, 3); 
-    border: none; /* Remove a borda */
-    padding: 10px 20px; /* Espaçamento interno */
-    text-align: center;
-    text-decoration: none;
+.logo-img {
+    width: 220px;
+    height: auto;
+    object-fit: contain;
+}
+
+/* Título e Instruções */
+.titulo-section {
+    padding: 15px 15px 10px 15px;
+}
+
+.titulo-section h1 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #000000;
+    margin: 0 0 10px 0;
+}
+
+.instrucao {
     font-size: 14px;
-    cursor: pointer;
-    border-radius: 25px; 
-    margin-top: 42px; 
-    transition: background-color 0.3s ease;
+    color: #000000;
+    margin: 0;
 }
 
-.btn-cancel{
-    background-color: white;
+/* Detalhes da Carona */
+.detalhes-carona {
+    background-color: #FFFFFF;
+    margin: 15px;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.detalhe-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #E0E0E0;
+}
+
+.detalhe-item:last-child {
+    border-bottom: none;
+}
+
+.detalhe-label {
+    font-size: 14px;
+    color: #000000;
+    font-weight: normal;
+}
+
+.detalhe-value {
+    font-size: 14px;
+    color: #000000;
+    font-weight: bold;
+    text-align: right;
+}
+
+/* Container Gerar PIX */
+.container-gerar {
+    padding: 20px 15px;
+    display: flex;
+    justify-content: center;
+}
+
+.btn-gerar-pix {
+    background-color: #007BFF;
+    color: #FFFFFF;
     border: none;
-    padding: 10px 20px; 
-    text-align: center;
-    text-decoration: none;
-    font-size: 14px;
+    padding: 15px 40px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 8px;
     cursor: pointer;
-    border-radius: 25px;
-    margin-top: 42px; 
+    width: 100%;
+    max-width: 400px;
     transition: background-color 0.3s ease;
 }
 
-
-.btn-cancel:hover{
-    background-color: #b46557; 
+.btn-gerar-pix:hover {
+    background-color: #0056b3;
 }
 
-.btn-copiar:hover {
-    background-color: #45a049; 
+.btn-gerar-pix:disabled {
+    background-color: #6c757d;
+    cursor: not-allowed;
 }
 
+/* Container QR Code */
+.container-qrcode {
+    background-color: #FFFFFF;
+    margin: 15px;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
 
-/* Ajustes para telas menores */
+.qrcode-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #000000;
+    margin: 0 0 10px 0;
+    text-align: left;
+}
+
+.qrcode-instruction {
+    font-size: 14px;
+    color: #000000;
+    margin: 0 0 20px 0;
+    text-align: left;
+}
+
+.qrcode-wrapper {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+}
+
+.qrcode-image-container {
+    flex-shrink: 0;
+}
+
+.qr-code-img {
+    width: 200px;
+    height: 200px;
+    border: 1px solid #E0E0E0;
+    border-radius: 8px;
+}
+
+.qrcode-code-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.code-lines {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.code-line {
+    height: 12px;
+    background-color: #E0E0E0;
+    border-radius: 4px;
+    width: 100%;
+}
+
+.code-line-text {
+    font-size: 11px;
+    color: #666666;
+    font-family: monospace;
+    word-break: break-all;
+    line-height: 1.4;
+    padding: 4px 0;
+}
+
+.qr-code-text {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #E0E0E0;
+    border-radius: 4px;
+    font-size: 12px;
+    font-family: monospace;
+}
+
+.btn-copiar-codigo {
+    background-color: #E0E0E0;
+    color: #000000;
+    border: none;
+    padding: 10px 20px;
+    font-size: 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    width: fit-content;
+    transition: background-color 0.3s ease;
+}
+
+.btn-copiar-codigo:hover {
+    background-color: #D0D0D0;
+}
+
+/* Status do Pagamento */
+.status-section {
+    padding: 10px 15px;
+    text-align: left;
+}
+
+.status-label {
+    font-size: 14px;
+    color: #000000;
+    margin: 0 0 5px 0;
+    font-weight: normal;
+}
+
+.status-value {
+    font-size: 14px;
+    color: #000000;
+    margin: 0;
+    font-weight: bold;
+}
+
+/* Área de Botões */
+.area-botoes {
+    padding: 15px;
+    display: flex;
+    justify-content: center;
+    margin-top: auto;
+    padding-bottom: 30px;
+}
+
+.btn-cancel {
+    background-color: #FFFFFF;
+    color: #FF0000;
+    border: 2px solid #FF0000;
+    padding: 12px 40px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.btn-cancel:hover {
+    background-color: #FF0000;
+    color: #FFFFFF;
+}
+
+/* Responsividade */
 @media (max-width: 768px) {
-
-    
-
-    .area_externa {
+    .qrcode-wrapper {
         flex-direction: column;
-        gap: 10px;
+        align-items: center;
     }
 
-    .metodo-pagamento, .resumo-compra {
-        width: 100%; 
-        max-width: 100%;
-    }
-
-    .submit-btn, .cancel-btn {
+    .qrcode-code-container {
         width: 100%;
     }
-    
+
+    .qr-code-img {
+        width: 250px;
+        height: 250px;
+    }
+
+    .btn-gerar-pix {
+        padding: 15px 30px;
+    }
+}
+
+@media (max-width: 480px) {
+    .titulo-section h1 {
+        font-size: 20px;
+    }
+
+    .detalhe-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+
+    .detalhe-value {
+        text-align: left;
+    }
+
+    .qr-code-img {
+        width: 200px;
+        height: 200px;
+    }
 }
