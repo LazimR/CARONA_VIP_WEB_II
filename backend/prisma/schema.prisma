@@ -1,0 +1,167 @@
+// =========================
+// PRISMA CONFIGURATION
+// =========================
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// =========================
+// ENUMS
+// =========================
+enum Role {
+  STANDARD
+  DRIVER
+  ADMIN
+}
+
+enum TripStatus {
+  OPEN
+  IN_PROGRESS
+  FINISHED
+  CANCELED
+}
+
+enum PassengerStatus {
+  PENDING
+  CONFIRMED
+  CANCELED
+}
+
+enum PaymentStatus {
+  PAID
+  FAILED
+  REFUNDED
+}
+
+// =========================
+// MODELS
+// =========================
+
+// ---------- USERS ----------
+model User {
+  id            String    @id @default(uuid())
+  name          String
+  email         String    @unique
+  passwordHash  String
+  phone         String?
+  role          Role      @default(STANDARD)
+  status        Boolean   @default(true)
+  createdAt     DateTime  @default(now())
+
+  // Relations
+  creditCards   CreditCard[]
+  routes        Route[]
+  vehicles      Vehicle[]
+  trips         Trip[]       @relation("DriverTrips")
+  passengerTrips TripPassenger[]
+  payments      Payment[]    @relation("UserPayments")
+  evaluationsGiven Evaluation[] @relation("GivenEvaluations")
+  evaluationsReceived Evaluation[] @relation("ReceivedEvaluations")
+}
+
+// ---------- CREDIT CARDS ----------
+model CreditCard {
+  id             String    @id @default(uuid())
+  maskedNumber   String
+  brand          String
+  token          String
+  expirationDate String
+  nickname       String?
+
+  userId String
+  user   User      @relation(fields: [userId], references: [id])
+  
+  payments Payment[]
+}
+
+// ---------- VEHICLES ----------
+model Vehicle {
+  id        String    @id @default(uuid())
+  model     String
+  plate     String
+  color     String?
+  year      Int?
+
+  driverId  String
+  driver    User     @relation(fields: [driverId], references: [id])
+}
+
+// ---------- ROUTES ----------
+model Route {
+  id          String    @id @default(uuid())
+  origin      String
+  destination String
+  distanceKm  Float?
+
+  createdById String
+  createdBy   User     @relation(fields: [createdById], references: [id])
+
+  trips       Trip[]
+}
+
+// ---------- TRIPS ----------
+model Trip {
+  id               String     @id @default(uuid())
+  driverId         String
+  routeId          String
+  departureAt      DateTime
+  totalSeats       Int
+  availableSeats   Int
+  pricePerPerson   Float
+  status           TripStatus @default(OPEN)
+
+  driver User   @relation("DriverTrips", fields: [driverId], references: [id])
+  route  Route  @relation(fields: [routeId], references: [id])
+
+  passengers TripPassenger[]
+  payments   Payment[]
+  evaluations Evaluation[]
+}
+
+// ---------- TRIP PASSENGERS ----------
+model TripPassenger {
+  id           String          @id @default(uuid())
+  tripId       String
+  passengerId  String
+  status       PassengerStatus @default(PENDING)
+  createdAt    DateTime        @default(now())
+
+  trip      Trip  @relation(fields: [tripId], references: [id])
+  passenger User  @relation(fields: [passengerId], references: [id])
+}
+
+// ---------- PAYMENTS ----------
+model Payment {
+  id           String        @id @default(uuid())
+  tripId       String
+  payerId      String
+  creditCardId String
+  value        Float
+  status       PaymentStatus @default(PAID)
+  paymentDate  DateTime      @default(now())
+  transactionId String?
+
+  trip        Trip       @relation(fields: [tripId], references: [id])
+  payer       User       @relation("UserPayments", fields: [payerId], references: [id])
+  card        CreditCard @relation(fields: [creditCardId], references: [id])
+}
+
+// ---------- EVALUATIONS ----------
+model Evaluation {
+  id           String    @id @default(uuid())
+  tripId       String
+  evaluatorId  String
+  evaluatedId  String
+  rating       Int
+  comment      String?
+  createdAt    DateTime @default(now())
+
+  trip      Trip @relation(fields: [tripId], references: [id])
+  evaluator User @relation("GivenEvaluations", fields: [evaluatorId], references: [id])
+  evaluated User @relation("ReceivedEvaluations", fields: [evaluatedId], references: [id])
+}
