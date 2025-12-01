@@ -119,16 +119,25 @@
 
 
     // Simular requisição assíncrona (Sem backend)
-    function enviarRotaAssincrona(rota) {
-        
-        // Simula delay de rede (1.5 segundos)
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                console.log("Resposta recebida:", { status: 200, message: "Rota salva!" });
-                resolve({ status: 200, data: rota });
-            }, 1500);
+    async function enviarRota(rota) {
+        const response = await fetch("http://localhost:3000/api/routes", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                origin: rota.origem,
+                destination: rota.destino,
+                distanceKm: Number(rota.valor),
+                createdById: uJSON.parse(sessionStorage.getItem("usuario_logado")).id
+            })
         });
 
+        if(!response.ok){
+            const err = await response.json().catch(() => ({}));
+            console.error("Erro ao salvar rota: ", err);
+            throw new Error("Falha ao criar rota");
+        }
+
+        return response.json();
     }
 
     // WEB STORAGE API
@@ -143,8 +152,9 @@
         sessionStorage.setItem("ultima_rota", JSON.stringify(rota));
     }
 
-    function carregarRotas() {
-        return JSON.parse(localStorage.getItem("rotas")) || [];
+    async function carregarRotas() {
+        const response = await fetch("http://localhost:3000/api/routes");
+        return await response.json()
     }
 
     // FORMULARIO
@@ -161,21 +171,22 @@
             hora: document.getElementById("hora").value
         };
 
-        // Salvar localmente (Web Storage)
-        salvarRota(rota);
-
-        enviarRotaAssincrona(rota);
-
-
-        alert("Rota adicionada com sucesso!");
-        this.reset();
+        try {
+            const resposta = await enviarRota(rota);
+            console.log("Rota salva no backend:", resposta);
+            alert("Rota adicionada com sucesso!");
+            this.reset();
+        } catch (err) {
+            console.error(err);
+            alert("Erro ao salvar rota.");
+        }
         
         // Exibir rotas salvas
         console.log("Rotas salvas:", carregarRotas());
     });
 
 
-    window.addEventListener("load", () => {
+    window.addEventListener("load", async () => {
         const rotas = carregarRotas();
         console.log(`${rotas.length} rotas carregadas do localStorage`);
     });
