@@ -7,36 +7,37 @@
     <link rel="stylesheet" href="../css/home.css">
 </head>
 
-
-<!-- Sessão 1 -->
-
-
 <body>
     <div class="fundo-container">
+        <!-- HEADER -->
         <header>
             <nav class="menu">
                 <div class="logo">
                     <img src="../imagens/home/sessao_01/logo.jpeg">
                 </div>
+
                 <div class="menu-container">
                     <ul class="menu-links">
                         <li><a href="#">INÍCIO</a></li>
                         <li><a href="#" class="open-modal">CONTATO</a></li>
                         <li id="login_menu"><a href="login.html">ENTRAR</a></li>
                         <li id="minhas_rotas_menu"><a href="MinhasRotas.html" class="menu-btn">MINHAS ROTAS</a></li>
-                        <li id="cadastrar_menu"><a id="cadastrar_menu"  href="cadastro_usuario.html" class="btn-cadastrar">CADASTRAR</a></li>
+                        <li id="cadastrar_menu"><a href="cadastro_usuario.html" class="btn-cadastrar">CADASTRAR</a></li>
+                        <li id="viagens_reservadas_menu"><a href="viagens_reservadas.html" class="menu-btn">VIAGENS RESERVADAS</a></li>
                     </ul>
+
                     <div id="usuario_logado">
-                        <button onclick="toggleMenuUsuarioLogado()"><img src="../imagens/login/usuario.png" alt="Ícone de usuário"></button>
+                        <button onclick="toggleMenuUsuarioLogado()"><img src="../imagens/login/usuario.png"></button>
                         <div id="menu_usuario_logado">
-                                <a href="#">Configurações</a>
-                                <a href="#" onclick="sair()">Sair</a>
+                            <a href="#">Configurações</a>
+                            <a href="#" onclick="sair()">Sair</a>
                         </div>
                     </div>
                 </div>
             </nav>
         </header>
 
+        <!-- MODAL -->
         <div id="contact-modal" class="modal">
             <div class="modal-content">
                 <span class="close">&times;</span>
@@ -44,20 +45,21 @@
             </div>
         </div>
 
+        <!-- SESSÃO 1 -->
         <section id="sessao_01" class="sessao-01">
             <div class="content-sessao-01">
                 <form class="search-bar" action="#" method="GET">
                     <div class="search-container">
                         <input type="text" id="search" name="search" placeholder="Pesquisar..." required>
                         <button type="submit">
-                            <img src="../imagens/home/sessao_01/lupa.png" alt="Ícone de busca"> Buscar
+                            <img src="../imagens/home/sessao_01/lupa.png"> Buscar
                         </button>
                     </div>
                 </form>
             </div>
 
             <div class="texto-esquerda-sessao-01">
-                <img src="../imagens/home/sessao_01/texto.png" alt="texto">
+                <img src="../imagens/home/sessao_01/texto.png">
                 <div class="seguir-rotas">
                     <img src="../imagens/home/sessao_01/icon_seguir_rotas.png">
                     <a href="#sessao_03">Seguir Rotas</a>
@@ -65,26 +67,26 @@
             </div>
 
             <div class="imagem-sessao-01">
-                <img src="../imagens/home/sessao_01/imagem_sessao_01.png" alt="viagens">
+                <img src="../imagens/home/sessao_01/imagem_sessao_01.png">
             </div>
         </section>
     </div>
 
-    
-    <!-- Sessão 02 -->
-
+    <!-- SESSÃO 02 -->
     <section id="sessao_02" class="sessao-02">
         <div class="content-sessao-02">
             <b><p>Por que Escolher a Nossa Empresa?</p></b>
-            
+
             <div class="imagem-seguranca">
                 <img src="../imagens/home/sessao_02/teste.jpg">
             </div>
-            
+
             <div class="texto-sessao-02">
                 <h2>Transporte Inteligente, Conexões Reais.</h2>
-                <h4>Nosso site busca conectar pessoas que desejam se locomover para os mesmos destinos, promovendo uma mobilidade mais colaborativa e consciente. Com uma plataforma intuitiva e eficiente, motoristas e passageiros podem se comunicar facilmente, agendar caronas e economizar nos custos de transporte.</h4>
-
+                <h4>
+                    Nosso site busca conectar pessoas que desejam se locomover para os mesmos destinos,
+                    promovendo uma mobilidade mais colaborativa e consciente.
+                </h4>
             </div>
 
             <div class="imagem-localizacao">
@@ -94,334 +96,218 @@
             <div class="imagem-malas">
                 <img src="../imagens/home/sessao_02/malas.png">
             </div>
-
-
         </div>
     </section>
 
-<!-- Sessão 03 -->
+    <!-- SESSÃO 03 - VIAGENS REAIS -->
+    <section id="sessao_03" class="sessao-03">
+        <div class="content-sessao-03">
+            <b><p>Viagens Disponíveis</p></b>
+        </div>
 
-<section id="sessao_03" class="sessao-03">
-    <div class="content-sessao-03">
-        <b><p>Rotas Disponíveis</p></b>
-    </div>
-
-    <div class="container_sessao-03 ">
-        <div class="card">
-            <h2>Rota 06</h2>
-            <p><strong>MOTORISTA A</strong></p>
-            <p>Horário: 19:00</p>
+        <div id="rotas_container" class="container_sessao-03">
+            <!-- CARDS serão inseridos automaticamente via JS -->
+        </div>
+    </section>
 
 
-            <div class="origem">
-                <p><strong>Cidade A</strong></p>
+    <!-- SESSÃO 04 -->
+    <section id="sessao_04" class="sessao-04">
+        <div class="content-sessao-04">
+            <div class="imagem-sessao-04">
+                <img src="../imagens/home/sessao_04/home.jpg">
             </div>
 
-
-            <div class="valor-viagem">
-                <button>R$ 100,50</button>
+            <div class="texto-esquerdo-sessao-04">
+                <h2>Economize enquanto dirige</h2>
+                <p>Cadastre-se como condutor e economize nos custos da viagem levando passageiros.</p>
             </div>
 
-            <div class="destino">
-                <div class="imagem-localizacao-destino">
-                    <img src="../imagens/home/sessao_03/localizacao_sessao_03.png" alt="">
+            <div class="oferecer-carona-botao-sessao-04">
+                <a href="cadastro_rotas.html">Oferecer Carona</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- SESSÃO 05 -->
+    <section id="sessao_05" class="sessao-05">
+        <div class="content-sessao-05">
+            <div class="texto-sessao-05">
+                <h2>Ajude-nos a manter você longe de golpes</h2>
+                <p>Trabalhamos para manter a plataforma segura. Veja nossas dicas.</p>
+            </div>
+            <div class="saiba-mais-botao-sessao-05">
+                <a href="tela_auxiliar.html">Saiba mais</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- SESSÃO 06 -->
+    <section id="sessao_06" class="sessao-06">
+        <div class="content-sessao-06">
+            <div class="sessao-06-esquerda">
+                <p>REDES</p>
+                <img src="../imagens/home/sessao_06/redes.png">
+            </div>
+
+            <div class="coontent-sessao-06">
+                <div class="coluna">
+                    <p class="titulo">CONTATO</p>
+                    <a href="#" class="open-modal">Ajuda - FAQ</a>
                 </div>
-                <p><strong>Cidade B</strong></p>
-            </div>
 
-            <div class="botao-detalhes">
-                <a href="detalhes.html">Detalhes</a>
-            </div>
-            
-        </div>
-
-
-        <div class="card">
-            <h2>Rota 06</h2>
-            <p><strong>MOTORISTA A</strong></p>
-            <p>Horário: 19:00</p>
-
-
-            <div class="origem">
-                <p><strong>Cidade A</strong></p>
-            </div>
-
-
-            <div class="valor-viagem">
-                <button>R$ 15,50</button>
-            </div>
-
-            <div class="destino">
-                <div class="imagem-localizacao-destino">
-                    <img src="../imagens/home/sessao_03/localizacao_sessao_03.png" alt="">
+                <div class="coluna">
+                    <p class="titulo">AJUDA</p>
+                    <a href="helpcenter.html">Help Center</a>
                 </div>
-                <p><strong>Cidade B</strong></p>
-            </div>
-
-            <div class="botao-detalhes">
-                <a href="detalhes.html">Detalhes</a>
-            </div>
-            
-        </div>
-
-
-        <div class="card">
-            <h2>Rota 06</h2>
-            <p><strong>MOTORISTA A</strong></p>
-            <p>Horário: 19:00</p>
-
-
-            <div class="origem">
-                <p><strong>Cidade A</strong></p>
-            </div>
-
-
-            <div class="valor-viagem">
-                <button>R$ 15,50</button>
-            </div>
-
-            <div class="destino">
-                <div class="imagem-localizacao-destino">
-                    <img src="../imagens/home/sessao_03/localizacao_sessao_03.png" alt="">
-                </div>
-                <p><strong>Cidade B</strong></p>
-            </div>
-
-            <div class="botao-detalhes">
-                <a href="detalhes.html">Detalhes</a>
-            </div>
-            
-        </div>
-
-
-
-        <div class="card">
-            <h2>Rota 06</h2>
-            <p><strong>MOTORISTA A</strong></p>
-            <p>Horário: 19:00</p>
-
-
-            <div class="origem">
-                <p><strong>Cidade A</strong></p>
-            </div>
-
-
-            <div class="valor-viagem">
-                <button>R$ 15,50</button>
-            </div>
-
-            <div class="destino">
-                <div class="imagem-localizacao-destino">
-                    <img src="../imagens/home/sessao_03/localizacao_sessao_03.png" alt="">
-                </div>
-                <p><strong>Cidade B</strong></p>
-            </div>
-
-            <div class="botao-detalhes">
-                <a href="detalhes.html">Detalhes</a>
-            </div>
-            
-        </div>
-
-
-        <div class="card">
-            <h2>Rota 06</h2>
-            <p><strong>MOTORISTA A</strong></p>
-            <p>Horário: 19:00</p>
-
-
-            <div class="origem">
-                <p><strong>Cidade A</strong></p>
-            </div>
-
-
-            <div class="valor-viagem">
-                <button>R$ 15,50</button>
-            </div>
-
-            <div class="destino">
-                <div class="imagem-localizacao-destino">
-                    <img src="../imagens/home/sessao_03/localizacao_sessao_03.png" alt="">
-                </div>
-                <p><strong>Cidade B</strong></p>
-            </div>
-
-            <div class="botao-detalhes">
-                <a href="detalhes.html">Detalhes</a>
-            </div>
-            
-        </div>
-
-
-        <div class="card">
-            <h2>Rota 06</h2>
-            <p><strong>MOTORISTA A</strong></p>
-            <p>Horário: 19:00</p>
-
-
-            <div class="origem">
-                <p><strong>Cidade A</strong></p>
-            </div>
-
-
-            <div class="valor-viagem">
-                <button>R$ 15,50</button>
-            </div>
-
-            <div class="destino">
-                <div class="imagem-localizacao-destino">
-                    <img src="../imagens/home/sessao_03/localizacao_sessao_03.png" alt="">
-                </div>
-                <p><strong>Cidade B</strong></p>
-            </div>
-
-            <div class="botao-detalhes">
-                <a href="detalhes.html">Detalhes</a>
-            </div>
-            
-        </div>
-        
-
-    </div>
-
-
-</section>
-
-<!-- Sessão 04 -->
-
-<section id="sessao_04" class="sessao-04">
-    <div class="content-sessao-04">
-        <div class="imagem-sessao-04">
-            <img src="../imagens/home/sessao_04/home.jpg">
-        </div>
-        
-        <div class="texto-esquerdo-sessao-04">
-            <h2>Economize enquanto dirige</h2>
-            <p>Cadastre-se como condutor e economize nos custos da viagem levando passageiros. São só alguns minutos para oferecer uma carona. Tudo
-                pronto para pegar a estrada?</p>
-        </div>
-
-        <div class="oferecer-carona-botao-sessao-04">
-            <a href="cadastro_rotas.html">Oferecer Carona</a>
-        </div>
-
-    </div>
-
-</section>
-
-<!-- Sessão 05 -->
-
-<section id="sessao_05" class="sessao-05">
-    <div class="content-sessao-05">
-        <div class="texto-sessao-05">
-            <h2>Ajude-nos a manter você longe de golpes</h2>
-            <p>Na Empresa, trabalhamos muito para que nossa plataforma seja a mais segura possível. Mas quando golpes aparecem, queremos que
-                você saiba exatamente como evitar e reportá-los. Siga nossas dicas
-                para nos ajudar a manter você em segurança.</p>
-        </div>
-        <div class="saiba-mais-botao-sessao-05">
-            <a href="tela_auxiliar.html">Saiba mais</a>
-        </div>
-    </div>
-</section>
-
-
-<!-- Sessão 06 -->
-
-
-<section id="sessao_06" class="sessao-06">
-    <div class="content-sessao-06">
-        <div class="sessao-06-esquerda">
-            <p>REDES</p>
-            <img src="../imagens/home/sessao_06/redes.png" alt="redes sociais">
-        </div>
-        <div class="coontent-sessao-06">
-            <div class="coluna">
-                <p class="titulo">CONTATO</p>
-                <a href="#" class="open-modal">Ajuda - FAQ</a> 
-            </div>
-            <div class="coluna">
-                <p class="titulo">AJUDA</p>
-                <a href="helpcenter.html">Help Center</a>
             </div>
         </div>
-    </div>
-</section>
-
+    </section>
 
 </body>
-</html>
+
+<!-- ========================= -->
+<!--   SCRIPT PRINCIPAL        -->
+<!-- ========================= -->
 
 <script>
-    const modal = document.getElementById("contact-modal");
-    const openModalLinks = document.querySelectorAll(".open-modal");
+/* =======================
+   LOGIN / MENU
+======================= */
+const authUser = localStorage.getItem("auth_user");
+const authToken = localStorage.getItem("auth_token");
+const usuarioLogado = authUser ? JSON.parse(authUser) : null;
 
-    // Verificar se o usuário está logado usando auth_user e auth_token
-    const authUser = localStorage.getItem("auth_user");
-    const authToken = localStorage.getItem("auth_token");
-    const usuarioLogado = authUser ? JSON.parse(authUser) : null;
+if (!authToken || !usuarioLogado) {
+    document.getElementById("login_menu").innerHTML = `<a href="login.html">ENTRAR</a>`;
+    document.getElementById("minhas_rotas_menu").remove();
+    document.getElementById("usuario_logado").remove();
+    document.getElementById("viagens_reservadas_menu").remove();
+} else {
+    document.getElementById("login_menu").remove();
+    document.getElementById("cadastrar_menu").remove();
+}
 
-    if (!authToken || !usuarioLogado) {
-        // Usuário não está logado
-        document.getElementById("login_menu").innerHTML = `<a href="login.html">ENTRAR</a>`;
-        document.getElementById("minhas_rotas_menu").remove();
-        document.getElementById("usuario_logado").remove();
-        document.getElementById("cadastrar_menu").innerHTML = `<a id="cadastrar_menu"  href="cadastro_usuario.html" class="btn-cadastrar">CADASTRAR</a>`;
-    }
-    else {
-        // Usuário está logado
-        document.getElementById("login_menu").remove();
-        document.getElementById("cadastrar_menu").remove();
-        document.getElementById("usuario_logado").innerHTML = `<button onclick="toggleMenuUsuarioLogado()"><img src="../imagens/login/usuario.png" alt="Ícone de usuário"></button>
-        <div id="menu_usuario_logado">
-                <a href="#">Configurações</a>
-                <a href="#" onclick="sair()">Sair</a>
-        </div>`;
-        document.getElementById("minhas_rotas_menu").innerHTML = `<a href="MinhasRotas.html" class="menu-btn">MINHAS ROTAS</a>`;
-    }
+function sair() {
+    localStorage.clear();
+    sessionStorage.clear();
+    window.location.href = "index.html";
+}
 
-    const closeBtn = document.querySelector(".close");
-    openModalLinks.forEach(link => {
-        link.addEventListener("click", (e) => {
-            e.preventDefault();
-            modal.style.display = "block";
+/* =======================
+   MODAL
+======================= */
+const modal = document.getElementById("contact-modal");
+const openModalLinks = document.querySelectorAll(".open-modal");
+const closeBtn = document.querySelector(".close");
+
+openModalLinks.forEach(link => link.addEventListener("click", e => {
+    e.preventDefault();
+    modal.style.display = "block";
+}));
+
+closeBtn.onclick = () => modal.style.display = "none";
+window.onclick = e => { if (e.target === modal) modal.style.display = "none"; };
+
+/* =======================
+   CARREGAR ROTAS REAIS
+======================= */
+async function carregarRotas() {
+    const container = document.getElementById("rotas_container");
+
+    try {
+        // ID do motorista logado (pode ser undefined)
+        const driverIdLogado = JSON.parse(localStorage.getItem("auth_user"))?.id;
+
+        const res = await fetch("http://localhost:3000/api/trips");
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const tripsRaw = await res.json();
+
+        const trips = Array.isArray(tripsRaw) ? tripsRaw : [];
+
+        // Filtra as trips para NÃO incluir as do motorista logado (se houver)
+        const tripsParaExibir = driverIdLogado
+            ? trips.filter(t => t.driver?.id !== driverIdLogado)
+            : trips;
+
+        if (!tripsParaExibir.length) {
+            container.innerHTML = "<p>Nenhuma viagem disponível no momento.</p>";
+            return;
+        }
+
+        container.innerHTML = "";
+
+        const currencyFormatter = new Intl.NumberFormat("pt-BR", {
+            style: "currency",
+            currency: "BRL",
+            minimumFractionDigits: 2
         });
-    });
 
-    function sair() {
-        localStorage.removeItem("auth_token");
-        localStorage.removeItem("auth_user");
-        localStorage.removeItem("ultimo_email_login");
-        sessionStorage.removeItem("usuario_logado");
-        window.location.href = "index.html";
-    }
+        tripsParaExibir.forEach(trip => {
+            const driverName = trip.driver?.name || "Motorista";
+            const origin = trip.route?.origin || "—";
+            const destination = trip.route?.destination || "—";
+            const departure = trip.departureAt ? new Date(trip.departureAt) : null;
+            const departureText = departure
+                ? departure.toLocaleDateString("pt-BR") + " " + departure.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })
+                : "—";
+            const price = typeof trip.pricePerPerson === "number" ? currencyFormatter.format(trip.pricePerPerson) : (trip.pricePerPerson ? trip.pricePerPerson : "—");
+            const available = (typeof trip.availableSeats === "number") ? trip.availableSeats : "—";
+            const total = (typeof trip.totalSeats === "number") ? trip.totalSeats : "—";
+            const status = trip.status || "—";
 
-    function toggleMenuUsuarioLogado() {
-    const menu = document.getElementById('menu_usuario_logado');
-    if (menu.style.display === 'block') {
-        menu.style.display = 'none';
-    } else {
-        menu.style.display = 'block';
+            const card = document.createElement("div");
+            card.classList.add("card");
+
+            card.innerHTML = `
+                <h2>Viagem</h2>
+
+                <p><strong>${escapeHtml(driverName)}</strong></p>
+
+                <p><strong>Horário:</strong> ${escapeHtml(departureText)}</p>
+
+                <div class="origem">
+                    <p><strong>Origem:</strong> ${escapeHtml(origin)}</p>
+                </div>
+
+                <div class="destino">
+                    <p><strong>Destino:</strong> ${escapeHtml(destination)}</p>
+                </div>
+
+                <div class="valor-viagem">
+                    <button>${escapeHtml(price)}</button>
+                </div>
+
+                <p><strong>Vagas:</strong> ${escapeHtml(String(available))} / ${escapeHtml(String(total))}</p>
+
+                <p><strong>Status:</strong> ${escapeHtml(status)}</p>
+
+                <div class="botao-detalhes">
+                    <a href="detalhes.html?id=${encodeURIComponent(trip.id)}">Detalhes</a>
+                </div>
+            `;
+
+            container.appendChild(card);
+        });
+
+    } catch (error) {
+        container.innerHTML = "<p>Erro ao carregar viagens.</p>";
+        console.error("Erro ao buscar viagens:", error);
     }
 }
 
-// Fecha o dropdown se clicar fora dele
-    document.addEventListener('click', function(event) {
-        const button = document.querySelector('#usuario_logado button');
-        const menu = document.getElementById('menu_usuario_logado');
-        if (!button.contains(event.target) && !menu.contains(event.target)) {
-            menu.style.display = 'none';
-        }
-    });
+/* pequena helper para evitar XSS ao inserir texto vindo da API */
+function escapeHtml(str) {
+    return String(str)
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
+}
 
-    closeBtn.addEventListener("click", () => {
-        modal.style.display = "none";
-    });
-
-    window.addEventListener("click", (e) => {
-        if (e.target === modal) {
-            modal.style.display = "none";
-        }
-    });
+carregarRotas();
 
 </script>
+
+</html>

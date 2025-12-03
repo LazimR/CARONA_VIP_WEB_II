@@ -3,35 +3,43 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tela de Detalhes</title>
+  <title>Detalhes da Viagem</title>
   <link rel="stylesheet" href="../css/Detalhes.css">
 </head>
 <body>
+
   <div class="container">
-    <header class="header">
-    </header>
+    <header class="header"></header>
+
     <div class="content">
       <h1>Encontre <span>o carro</span> no local de partida</h1>
-      <div class="driver-card">
+
+      <!-- CARD DO MOTORISTA E VIAGEM -->
+      <div class="driver-card" id="driverCard">
         <div class="driver-info">
           <img src="../imagens/Detalhes/carinhaDetalhes.png" alt="Motorista" class="driver-photo">
           <div class="driver-details">
-            <p class="driver-name">Motorista A</p>
-            <p class="driver-rating">⭐ 5.0</p>
+            <p class="driver-name" id="driverName">Motorista...</p>
+            <p class="driver-rating" id="driverRating">⭐ -</p>
           </div>
         </div>
+
         <div class="trip-info">
-          <p class="plate">BCD0D19</p>
-          <p class="nomeCarro">Honda Civic</p>
-          <p class="cidade">Cidade A</p>
-        <div class="icone-linha">
-          <img src="../imagens/Detalhes/Localização.png" alt="Motorista" class="icone">
-          <p class="cidade destino">Cidade B</p>
-        </div>
-        <p class="hora">19:00</p>
+          <p class="plate" id="carPlate">---</p>
+          <p class="nomeCarro" id="carModel">---</p>
+          <p class="cidade" id="origin">---</p>
+
+          <div class="icone-linha">
+            <img src="../imagens/Detalhes/Localização.png" class="icone">
+            <p class="cidade destino" id="destination">---</p>
+          </div>
+
+          <p class="hora" id="departureTime">--:--</p>
         </div>
       </div>
-      <a class="reserve-btn" href="pagamento.html">Reservar</a>
+
+      <a class="reserve-btn" id="reserveBtn">Reservar</a>
+
       <div class="contact-section">
         <textarea id="mensagem" class="message-box" placeholder="Digite sua mensagem aqui..."></textarea>
         
@@ -43,9 +51,70 @@
   </div>
 
   <div class="texto-superior-esquerdo">
-      <img src="../imagens/login/seta_esquerda.png" alt= "seta esquerda">
-      <a href="index.html">Retornar ao Menu</a>
-    </div>
+    <img src="../imagens/login/seta_esquerda.png">
+    <a href="index.html">Retornar ao Menu</a>
+  </div>
+
+  <script>
+    async function carregarDetalhes() {
+      const params = new URLSearchParams(window.location.search);
+      const tripId = params.get("id");
+  
+      if (!tripId) {
+        alert("Nenhuma viagem encontrada.");
+        return;
+      }
+  
+      try {
+        // 1️⃣ BUSCA A VIAGEM
+        const res = await fetch(`http://localhost:3000/api/trips/${tripId}`);
+        const trip = await res.json();
+  
+        const driverId = trip.driverId;
+  
+        // 2️⃣ BUSCA O VEÍCULO DO MOTORISTA
+        const vehicleRes = await fetch(`http://localhost:3000/api/vehicles/driver/${driverId}`);
+        const vehicle = await vehicleRes.json();
+        console.log("Veículo:", vehicle);
+  
+        // 3️⃣ MOTORISTA
+        document.getElementById("driverName").textContent =
+          trip.driver?.name || "Motorista";
+  
+        document.getElementById("driverRating").textContent =
+          `⭐ ${trip.driver?.rating ?? "-"}`;
+  
+        // 4️⃣ VEÍCULO (PLACA + MODELO)
+        document.getElementById("carPlate").textContent =
+          vehicle[0]?.plate ?? "Placa não informada";
+  
+        document.getElementById("carModel").textContent =
+          vehicle[0]?.model ?? "Modelo não informado";
+  
+        // 5️⃣ ORIGEM / DESTINO / HORÁRIO
+        document.getElementById("origin").textContent =
+          trip.route?.origin || "Origem";
+  
+        document.getElementById("destination").textContent =
+          trip.route?.destination || "Destino";
+  
+        document.getElementById("departureTime").textContent =
+          new Date(trip.departureAt).toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit"
+          });
+  
+        // 6️⃣ Botão reservar → pagamento.html?id=...
+        document.getElementById("reserveBtn").href = `pagamento.html?id=${trip.id}`;
+  
+      } catch (error) {
+        console.error("Erro ao carregar detalhes:", error);
+        alert("Erro ao carregar dados da viagem.");
+      }
+    }
+  
+    carregarDetalhes();
+  </script> 
 
 </body>
 </html>

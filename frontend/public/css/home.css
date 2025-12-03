@@ -811,6 +811,7 @@ h3, h6 {
     flex-direction: column; /* Organiza os subgrupos verticalmente */
     align-items: flex-start; /* Alinha à esquerda */
     gap: 1.125rem; 
+    margin-bottom: 1.25rem;
     padding-top: 1.25rem;
 }
 
@@ -819,8 +820,8 @@ h3, h6 {
 }
 
 .valor-viagem {
-    transform: translateY(-50%); 
-    margin-left: 10rem;
+    transform: translateY(20%); 
+    margin-left: 1rem;
 }
 
 .valor-viagem button {
@@ -837,7 +838,7 @@ h3, h6 {
 
 .destino {
     position: absolute;
-    transform: translateY(-95%);
+    transform: translateY(-80%);
 }
 
 .destino p {

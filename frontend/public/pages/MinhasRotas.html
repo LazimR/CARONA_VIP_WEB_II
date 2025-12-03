@@ -157,8 +157,10 @@
     <script>
         async function buscarRotas() {
             const container = document.getElementById("container-rotas");
-            const apiUrl = "http://localhost:3000/api/rides"; 
-            const userId = localStorage.getItem("userId");
+            const user = JSON.parse(localStorage.getItem("auth_user") || "{}");
+            const userId = user.id;
+            const apiUrl = `http://localhost:3000/api/routes/user/${userId}`; 
+            
 
             try {
                 const response = await fetch(apiUrl, {
@@ -171,7 +173,7 @@
                 if (!response.ok) {
                     throw new Error("Erro na resposta da API");
                 }
-
+                console.log("Resposta da API:", response);
                 const listaRotas = await response.json();
 
                 // Limpa tabela mantendo o header

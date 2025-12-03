@@ -105,21 +105,12 @@
         }
     });
 
-    
-    // VERIFICAÇÃO DE LOGIN (Web Storage API)
-
-    document.addEventListener("DOMContentLoaded", () => {
-         const user = sessionStorage.getItem("usuario_logado") || localStorage.getItem("user");
-        
-        if (!user) {
-            alert("É necessArio estar logado");
-            window.location.href = "login.html";
-        }
-     });
 
 
     // Simular requisição assíncrona (Sem backend)
     async function enviarRota(rota) {
+        const user = JSON.parse(localStorage.getItem("auth_user") || "{}");
+        const userId = user.id;
         const response = await fetch("http://localhost:3000/api/routes", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -127,7 +118,7 @@
                 origin: rota.origem,
                 destination: rota.destino,
                 distanceKm: Number(rota.valor),
-                createdById: uJSON.parse(sessionStorage.getItem("usuario_logado")).id
+                createdById: userId
             })
         });
 
@@ -175,7 +166,7 @@
             const resposta = await enviarRota(rota);
             console.log("Rota salva no backend:", resposta);
             alert("Rota adicionada com sucesso!");
-            this.reset();
+            window.location.href = "index.html";
         } catch (err) {
             console.error(err);
             alert("Erro ao salvar rota.");

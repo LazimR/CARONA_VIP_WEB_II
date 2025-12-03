@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minhas Viagens Reservadas</title>
+
+    <style>
+        body {
+            font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+            line-height: 1.5;
+            color: rgba(15, 15, 15, 0.87);
+            background-color: #d8d2d2;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .texto-superior-esquerdo {
+            width: 100%;
+            max-width: 800px;
+            margin-bottom: 20px;
+        }
+
+        .texto-superior-esquerdo a {
+            font-size: 1.1rem;
+            color: #0f0f10;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .titulo {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 30px;
+            text-align: center;
+            text-transform: uppercase;
+            color: #121111;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+        }
+
+        .rotas-table {
+            width: 100%;
+            background-color: #ede5e5;
+            border: 1px solid #555;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .table-header {
+            background-color: #2f2f2f;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .table-header span {
+            color: #fff;
+            font-size: 1.8rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .table-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 25px 20px;
+            border-bottom: 1px solid #444;
+        }
+
+        .table-row:last-child {
+            border-bottom: none;
+        }
+
+        .table-row span {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #0f0f0f;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .button-link {
+            padding: 0.6em 1.2em;
+            border-radius: 8px;
+            border: 1px solid transparent;
+            font-size: 1em;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .details {
+            background-color: #f9f9f9;
+            color: #213547;
+        }
+
+        .cancel {
+            background-color: #1a1a1a;
+            color: white;
+            border: 1px solid #555;
+        }
+
+        .cancel:hover,
+        .details:hover {
+            border-color: #646cff;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <div class="texto-superior-esquerdo">
+        <a href="index.html">Retornar ao Menu</a>
+    </div>
+
+    <h1 class="titulo">Minhas Viagens</h1>
+
+    <div class="container">
+        <div class="rotas-table" id="container-viagens">
+            <div class="table-header">
+                <span>Viagens Reservadas</span>
+            </div>
+
+            <div class="table-row">
+                <span>Carregando...</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function carregarViagens() {
+            const container = document.getElementById("container-viagens");
+
+            const user = JSON.parse(localStorage.getItem("auth_user") || "{}");
+            const passengerId = user.id;
+
+            if (!passengerId) {
+                container.innerHTML = `
+                    <div class="table-header"><span>Viagens Reservadas</span></div>
+                    <div class="table-row"><span>Faça login para ver suas viagens.</span></div>
+                `;
+                return;
+            }
+
+            try {
+                // 1️⃣ buscar reservas
+                const res = await fetch(`http://localhost:3000/api/trip-passengers/passenger/${passengerId}`);
+                const reservas = await res.json();
+
+                const header = '<div class="table-header"><span>Viagens Reservadas</span></div>';
+                container.innerHTML = header;
+
+                if (reservas.length === 0) {
+                    container.innerHTML += `
+                        <div class="table-row" style="justify-content: center;">
+                            <span>Nenhuma viagem reservada.</span>
+                        </div>`;
+                    return;
+                }
+
+                // 2️⃣ para cada reserva → buscar a viagem
+                for (const reserva of reservas) {
+                    const tripRes = await fetch(`http://localhost:3000/api/trips/${reserva.tripId}`);
+                    const trip = await tripRes.json();
+
+                    const origin = trip.route?.origin || "Origem desconhecida";
+                    const dest = trip.route?.destination || "Destino desconhecido";
+                    const horario = new Date(trip.departureAt).toLocaleTimeString([], {
+                        hour: "2-digit",
+                        minute: "2-digit"
+                    });
+
+                    const html = `
+                        <div class="table-row">
+                            <span>${origin} → ${dest} (${horario})</span>
+
+                            <div class="buttons">
+                                <a href="../pages/detalhes.html?id=${trip.id}" class="button-link details">Detalhes</a>
+                                <button onclick="cancelarReserva('${reserva.id}')" class="button-link cancel">Cancelar</button>
+                            </div>
+                        </div>
+                    `;
+
+                    container.insertAdjacentHTML("beforeend", html);
+                }
+
+            } catch (err) {
+                console.error("Erro ao carregar viagens:", err);
+                container.innerHTML = `
+                    <div class="table-header"><span>Viagens Reservadas</span></div>
+                    <div class="table-row"><span style="color:red;">Erro ao carregar viagens.</span></div>
+                `;
+            }
+        }
+
+        async function cancelarReserva(id) {
+            if (confirm("Deseja cancelar esta reserva?")) {
+                try {
+                    await fetch(`http://localhost:3000/api/trip-passengers/${id}`, { method: "DELETE" });
+                    alert("Reserva cancelada!");
+                    carregarViagens();
+                } catch (e) {
+                    alert("Erro ao cancelar reserva.");
+                }
+            }
+        }
+
+        window.onload = carregarViagens;
+    </script>
+
+</body>
+
+</html>
