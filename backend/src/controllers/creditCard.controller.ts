@@ -38,10 +38,28 @@ export class CreditCardController {
   async create(req: Request, res: Response) {
     const { maskedNumber, brand, token, expirationDate, nickname, userId } = req.body;
 
-    if (!maskedNumber || !brand || !token || !expirationDate || !userId) {
-      const error: AppError = new Error(
-        'Número mascarado, bandeira, token, data de expiração e ID do usuário são obrigatórios'
-      );
+    if (!userId) {
+      const error: AppError = new Error('ID do usuário é obrigatório');
+      error.statusCode = 400;
+      throw error;
+    }
+    if (!maskedNumber) {
+      const error: AppError = new Error('Número mascarado é obrigatório');
+      error.statusCode = 400;
+      throw error;
+    }
+    if (!brand) {
+      const error: AppError = new Error('Bandeira é obrigatória');
+      error.statusCode = 400;
+      throw error;
+    }
+    if (!token) {
+      const error: AppError = new Error('Token é obrigatório');
+      error.statusCode = 400;
+      throw error;
+    }
+    if (!expirationDate) {
+      const error: AppError = new Error('Data de expiração é obrigatória');
       error.statusCode = 400;
       throw error;
     }

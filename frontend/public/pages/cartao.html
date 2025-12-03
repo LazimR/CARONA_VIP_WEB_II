@@ -61,6 +61,7 @@
     </div>
 
     <script>
+        let brand = "";
         function getCreditCardBrand(cardNumber) {
   // Remove any non-digit characters from the card number
   const cleanCardNumber = String(cardNumber).replace(/\D/g, '');
@@ -114,14 +115,15 @@
             let nomeImpresso = document.getElementById("nomeImpresso").value;
             let dataValidade = document.getElementById("dataValidade").value;
             let cvv = document.getElementById("cvv").value;
-            let userId = localStorage.getItem("userId");
+            let user = JSON.parse(localStorage.getItem("auth_user") || "{}");
+            let userId = user.id;
             let cartao = {
                 maskedNumber: numeroCartao,
                 nickname: nomeImpresso,
                 expirationDate: dataValidade,
                 token: cvv,
                 userId: userId,
-                brand: "VISA",
+                brand: brand,
             };
             
             enviarCartao(cartao).then(resposta => {
@@ -148,11 +150,11 @@ const imagensBandeira = {
     elo: '../imagens/pagamento/cartao-elo-removebg-preview 1.png'
 };
 function identificarBandeira(valor) {
-    const bandeira = getBandeira(valor);
+    brand = getBandeira(valor);
     const img = document.getElementById('bandeira-cartao');
-    if (bandeira && imagensBandeira[bandeira]) {
-        img.src = imagensBandeira[bandeira];
-        img.alt = `Bandeira ${bandeira}`;
+    if (brand && imagensBandeira[brand]) {
+        img.src = imagensBandeira[brand];
+        img.alt = `Bandeira ${brand}`;
     } else {
         img.src = '';
         img.alt = 'Bandeira não identificada';

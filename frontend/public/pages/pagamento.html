@@ -160,22 +160,32 @@
     }
 
 
-    const exibirCartaoSalvo = () => {
-        const cartao = JSON.parse(localStorage.getItem("cartao"));
+    const exibirCartaoSalvo = async () => {
+        const user = JSON.parse(localStorage.getItem("auth_user") || "{}");
+        const cartao = await fetch(`http://localhost:3000/api/credit-cards/user/${user.id}`)
+            .then(response => response.json())
+            .then(data => {
+                return data[0];
+            })
+            .catch(error => {
+                console.error("Erro ao buscar cartões do usuário:", error);
+                return null;
+            });
             if (!cartao) return;
-
-            const final = cartao.numeroCartao.slice(-4);
+            const final = cartao.maskedNumber.slice(-4);
             document.getElementById("area-cartao").innerHTML = `
             <div class="cartao-salvo">
                 <input type="radio" name="metodo_pagamento" value="cartao" id="cartao" checked>
-                <h6>${final} — ${cartao.nomeImpresso}</h6>
+                <h6>${final} — ${cartao.nickname}</h6>
                 <button type="button" id="removerCartao" class="btn-remover">Remover</button>
             </div>
             `;
 
-            document.getElementById("removerCartao").onclick = () => {
+            document.getElementById("removerCartao").onclick = async () => {
             if (confirm("Remover este cartão?")) {
-                localStorage.removeItem("cartao");
+                await fetch(`http://localhost:3000/api/credit-cards/${cartao.id}`, {
+                    method: "DELETE"
+                });
                 location.reload();
             }
         };
