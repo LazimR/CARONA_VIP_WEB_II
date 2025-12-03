@@ -143,37 +143,89 @@
     </div>
 
     <div class="container">
-        <div class="rotas-table">
+        <div class="rotas-table" id="container-rotas">
             <div class="table-header">
                 <span>ROTAS</span>
             </div>
-
+            
             <div class="table-row">
-                <span>ROTA 06</span>
-                <div class="buttons">
-                    <a href="../pages/detalhes.html" class="button-link details">Detalhes</a>
-                    <a href="../pages/index.html" class="button-link cancel">Cancelar</a>
-                </div>
+                <span>Carregando...</span>
             </div>
-
-            <div class="table-row">
-                <span>ROTA 07</span>
-                <div class="buttons">
-                    <a href="../pages/detalhes.html" class="button-link details">Detalhes</a>
-                    <a href="../pages/index.html" class="button-link cancel">Cancelar</a>
-                </div>
-            </div>
-
-            <div class="table-row">
-                <span>ROTA 08</span>
-                <div class="buttons">
-                    <a href="../pages/detalhes.html" class="button-link details">Detalhes</a>
-                    <a href="../pages/index.html" class="button-link cancel">Cancelar</a>
-                </div>
-            </div>
-
         </div>
     </div>
+
+    <script>
+        async function buscarRotas() {
+            const container = document.getElementById("container-rotas");
+            const apiUrl = "http://localhost:3000/api/rides"; 
+            const userId = localStorage.getItem("userId");
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error("Erro na resposta da API");
+                }
+
+                const listaRotas = await response.json();
+
+                // Limpa tabela mantendo o header
+                const headerHTML = '<div class="table-header"><span>ROTAS</span></div>';
+                container.innerHTML = headerHTML;
+
+                if (listaRotas.length === 0) {
+                    container.innerHTML += `
+                        <div class="table-row" style="justify-content: center;">
+                            <span>Nenhuma rota encontrada.</span>
+                        </div>`;
+                    return;
+                }
+
+                listaRotas.forEach(rota => {
+                    const nomeRota = rota.destination || `Rota ${rota.id}`; 
+                    
+                    const htmlLinha = `
+                        <div class="table-row">
+                            <span>${nomeRota}</span>
+                            <div class="buttons">
+                                <a href="../pages/detalhes.html?id=${rota.id}" class="button-link details">Detalhes</a>
+                                <button onclick="cancelarRota(${rota.id})" class="button-link cancel">Cancelar</button>
+                            </div>
+                        </div>
+                    `;
+                    container.insertAdjacentHTML('beforeend', htmlLinha);
+                });
+
+            } catch (err) {
+                console.error("Erro ao buscar rotas: ", err);
+                const container = document.getElementById("container-rotas");
+                const headerHTML = '<div class="table-header"><span>ROTAS</span></div>';
+                container.innerHTML = headerHTML + `
+                    <div class="table-row" style="justify-content: center;">
+                        <span style="color: red;">Erro ao carregar rotas.</span>
+                    </div>`;
+            }
+        }
+
+        async function cancelarRota(id) {
+            if(confirm("Deseja realmente cancelar esta rota?")) {
+                try {
+                    await fetch(`http://localhost:3000/api/rides/${id}`, { method: "DELETE" });
+                    alert("Rota cancelada!");
+                    buscarRotas(); 
+                } catch (error) {
+                    alert("Erro ao cancelar.");
+                }
+            }
+        }
+
+        window.onload = buscarRotas;
+    </script>
 </body>
 
 </html>
