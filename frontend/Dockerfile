@@ -1,0 +1,20 @@
+FROM node:20-alpine
+
+WORKDIR /app
+
+# Copiar arquivos de dependências
+COPY package*.json ./
+COPY tsconfig.json ./
+
+# Instalar dependências
+RUN npm ci
+
+# Copiar código fonte
+COPY . .
+
+# Expor porta do Vite
+EXPOSE 5173
+
+# Comando padrão
+CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0"]
+

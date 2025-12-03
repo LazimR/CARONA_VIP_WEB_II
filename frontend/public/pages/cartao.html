@@ -16,7 +16,7 @@
                 <form action="#" method="post" id="form-cartao">
                     <div class="form-group">
                         <h4>Número do cartão:</h4> 
-                        <input type="number" id="numeroCartao" placeholder="0000 0000 0000 0000" maxlength="19">
+                        <input type="number" oninput="identificarBandeira(this.value)" id="numeroCartao" placeholder="0000 0000 0000 0000" maxlength="19">
                     </div>
         
                     <div class="form-group">
@@ -51,14 +51,8 @@
                 <div class="texto">
                     <h4>Aceitamos várias bandeiras de cartão:</h4>
                 </div>
-                <div class="pyramid-container">
-                    <div class="row">
-                        <img id="visa" src="../imagens/pagamento/visa 1.png" alt="Imagem 1">
-                    </div>
-                    <div class="row">
-                        <img id="elo" src="../imagens/pagamento/cartao-elo-removebg-preview 1.png" alt="Imagem 2">
-                        <img id="mastercard" src="../imagens/pagamento/mastercard.png" alt="Imagem 3">
-                    </div>
+                <div class="bandeira-cartao-container">
+                    <img id="bandeira-cartao" src="../imagens/pagamento/visa 1.png" alt="Bandeira do cartão" style="max-width: 80px; max-height: 50px; border-radius:7px; background:#eee;">
                 </div>
             </div>
         </div>
@@ -67,6 +61,52 @@
     </div>
 
     <script>
+        function getCreditCardBrand(cardNumber) {
+  // Remove any non-digit characters from the card number
+  const cleanCardNumber = String(cardNumber).replace(/\D/g, '');
+
+  // Define regex patterns for common card brands
+  const visaRegex = /^4[0-9]{12}(?:[0-9]{3})?$/;
+  const mastercardRegex = /^(5[1-5]|222[1-9]|22[3-9][0-9]|2[3-6][0-9]{2}|27[01][0-9]|2720)[0-9]{12}$/;
+  const amexRegex = /^3[47][0-9]{13}$/;
+  const discoverRegex = /^6(?:011|5[0-9]{2})[0-9]{12}$/;
+  const dinersClubRegex = /^3(?:0[0-5]|[68][0-9])[0-9]{11}$/;
+  const jcbRegex = /^(?:2131|1800|35\d{3})\d{11}$/;
+
+  if (visaRegex.test(cleanCardNumber)) {
+    return 'VISA';
+  } else if (mastercardRegex.test(cleanCardNumber)) {
+    return 'MASTERCARD';
+  } else if (amexRegex.test(cleanCardNumber)) {
+    return 'AMERICAN_EXPRESS';
+  } else if (discoverRegex.test(cleanCardNumber)) {
+    return 'DISCOVER';
+  } else if (dinersClubRegex.test(cleanCardNumber)) {
+    return 'DINERS_CLUB';
+  } else if (jcbRegex.test(cleanCardNumber)) {
+    return 'JCB';
+  } else {
+    return 'UNKNOWN';
+  }
+}
+        async function enviarCartao(cartao) {
+            const response = await fetch("http://localhost:3000/api/credit-cards", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(cartao)
+            });
+
+            if(!response.ok){
+                const err = await response.json().catch(() => ({}));
+                console.error("Erro ao adicionar cartão: ", err);
+                throw new Error("Falha ao adicionar cartão");
+            }
+
+            return response.json();
+        }
+
         document.querySelector('form').addEventListener('submit', function(event) {
             event.preventDefault();
 
@@ -74,16 +114,50 @@
             let nomeImpresso = document.getElementById("nomeImpresso").value;
             let dataValidade = document.getElementById("dataValidade").value;
             let cvv = document.getElementById("cvv").value;
+            let userId = localStorage.getItem("userId");
             let cartao = {
-                numeroCartao: numeroCartao,
-                nomeImpresso: nomeImpresso,
-                dataValidade: dataValidade,
-                cvv: cvv
+                maskedNumber: numeroCartao,
+                nickname: nomeImpresso,
+                expirationDate: dataValidade,
+                token: cvv,
+                userId: userId,
+                brand: "VISA",
             };
-            localStorage.setItem("cartao", JSON.stringify(cartao));
-            alert("Cartão adicionado com sucesso!");
-            window.location.href = "/pages/pagamento.html";
+            
+            enviarCartao(cartao).then(resposta => {
+                console.log("Cartão adicionado com sucesso: ", resposta);
+                alert("Cartão adicionado com sucesso!");
+                window.location.href = "/pages/pagamento.html";
+            }).catch(err => {
+                console.error("Erro ao adicionar cartão: ", err);
+                alert("Erro ao adicionar cartão");
+            });
         });
     </script>
+    <script>
+function getBandeira(numero) {
+    numero = numero.replace(/\D/g, '');
+    if (/^4/.test(numero)) return 'visa';
+    if (/^5[1-5]/.test(numero) || /^2(2[2-9]|[3-6]|7[0-1])/.test(numero)) return 'mastercard';
+    if (/^(4011|4312|4389|4514|4576|6277|6362|6550|650|6516|5067|5041|6363|6361|360) |(^50[0-9]{14})/.test(numero)) return 'elo';
+    return null;
+}
+const imagensBandeira = {
+    visa: '../imagens/pagamento/visa 1.png',
+    mastercard: '../imagens/pagamento/mastercard.png',
+    elo: '../imagens/pagamento/cartao-elo-removebg-preview 1.png'
+};
+function identificarBandeira(valor) {
+    const bandeira = getBandeira(valor);
+    const img = document.getElementById('bandeira-cartao');
+    if (bandeira && imagensBandeira[bandeira]) {
+        img.src = imagensBandeira[bandeira];
+        img.alt = `Bandeira ${bandeira}`;
+    } else {
+        img.src = '';
+        img.alt = 'Bandeira não identificada';
+    }
+}
+</script>
 </body>
 </html>

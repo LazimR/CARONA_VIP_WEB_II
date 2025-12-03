@@ -20,7 +20,7 @@
                             <h4>Seu Cartão</h4>
                             <!-- Cartão salvo (exibido via JS se existir) -->
                             <div class="imagem-no-input" id="area-cartao">
-                                <button type="button" onclick="window.location.href='cartão.html'">+</button>
+                                <button type="button" onclick="window.location.href='cartao.html'">+</button>
                                 <div class="img-bandeiras">
                                     <img src="../imagens/pagamento/bandeiras.png" alt="Bandeiras">
                                 </div>
@@ -130,14 +130,35 @@
         localStorage.setItem("pagamentos", JSON.stringify(pagamentos));
     };
 
-    const enviarPagamento = (pagamento) =>
-        new Promise((resolve) => {
-        console.log("Enviando pagamento...");
-        setTimeout(() => {
-            console.log("Pagamento aprovado!");
-            resolve({ status: 200, data: pagamento });
-        }, 1500);
+    async function enviarPagamentoBackend(pagamento) {
+        const user = JSON.parse(sessionStorage.getItem("usuario_logado")) 
+                || JSON.parse(localStorage.getItem("user"));
+
+        if (!user || !user.id) {
+            throw new Error("Usuário não está logado.");
+        }
+
+        const response = await fetch("http://localhost:3000/api/payments", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                tripId: pagamento.tripId,
+                payerId: user.id,
+                creditCardId: pagamento.creditCardId || null,
+                value: Number(pagamento.valor),
+                status: "APPROVED"  
+            })
         });
+
+        if (!response.ok) {
+            const err = await response.json().catch(() => ({}));
+            console.error("Erro ao enviar pagamento:", err);
+            throw new Error("Erro ao salvar pagamento no backend");
+        }
+
+        return response.json();
+    }
+
 
     const exibirCartaoSalvo = () => {
         const cartao = JSON.parse(localStorage.getItem("cartao"));
@@ -191,33 +212,63 @@
 
     // ========== EVENTOS ==========
     document.getElementById("form-pagamento").addEventListener("submit", async (e) => {
-        e.preventDefault();
+    e.preventDefault();
 
         const metodo = document.querySelector('input[name="metodo_pagamento"]:checked');
         if (!metodo) return alert("Selecione um método de pagamento!");
 
-        const pagamento = {
-        id: Date.now(),
-        metodo: metodo.value,
-        valor: getRota().valor,
-        data: new Date().toLocaleString(),
-        rota: getRota()
-        };
+        const rota = getRota();
+        const valor = rota.valor;
 
-        // Se o metodo for PIX, redireciona para a tela do PIX
+        // 🔥 CHECK NECESSÁRIO
+        if (!rota.idTrip) {
+            return alert("Erro: rota não possui tripId. Carregue a rota do backend!");
+        }
+
+        // =====================================================
+        // 📌 PAGAMENTO VIA PIX
+        // =====================================================
         if (metodo.value === "pix") {
-            // Salva os dados do pagamento para usar na tela do PIX
-            localStorage.setItem("pagamentoAtual", JSON.stringify(pagamento));
+
+            const pagamentoPIX = {
+                tripId: rota.idTrip,
+                valor: valor,
+                creditCardId: null
+            };
+
+            // guarda somente o necessário
+            localStorage.setItem("pagamentoAtual", JSON.stringify(pagamentoPIX));
+
             window.location.href = "pix.html";
             return;
         }
-        //pagamento com cartao
-        salvarPagamento(pagamento);
-        await enviarPagamento(pagamento);
 
-        alert(`Pagamento via ${metodo.value.toUpperCase()} realizado!`);
-        e.target.reset();
+        // =====================================================
+        // 📌 PAGAMENTO COM CARTÃO
+        // =====================================================
+
+        const cartaoSalvo = JSON.parse(localStorage.getItem("cartao"));
+
+        if (!cartaoSalvo || !cartaoSalvo.id) {
+            return alert("Nenhum cartão salvo encontrado.");
+        }
+
+        try {
+            await enviarPagamentoBackend({
+                tripId: rota.idTrip,
+                creditCardId: cartaoSalvo.id,
+                valor: valor
+            });
+
+            alert("Pagamento com cartão realizado com sucesso!");
+            e.target.reset();
+
+        } catch (err) {
+            console.error(err);
+            alert("Erro ao processar o pagamento.");
+        }
     });
+
 
     window.onload = () => {
         preencherResumoRota();

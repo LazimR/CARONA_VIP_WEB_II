@@ -24,16 +24,15 @@
 
                         <div class="form-group">
                             <div class="imagem-no-input">
-                                <img src="../imagens/cadastro_usuario/cpf.png" alt="Ícone">
-                                <input type="text" id="cpf" name="cpf" placeholder="CPF" required>
+                                <img src="../imagens/cadastro_usuario/usuario.png" alt="Ícone">
+                                <input type="text" id="nome" name="nome" placeholder="Nome completo" required>
                             </div>
                         </div>
 
-
                         <div class="form-group">
                             <div class="imagem-no-input">
-                                <img src="../imagens/cadastro_usuario/usuario.png" alt="Ícone">
-                                <input type="text" id="usuario" name="usuario" placeholder="Nome de usuário" required>
+                                <img src="../imagens/cadastro_usuario/cpf.png" alt="Ícone">
+                                <input type="text" id="phone" name="phone" placeholder="Telefone (opcional)" maxlength="15">
                             </div>
                         </div>
 
@@ -65,9 +64,10 @@
                         <div class="form-group">
                             <div class="imagem-no-input">
                                 <img id="seta-direita" src="../imagens/cadastro_motorista/seta.png" alt="Ícone">
-                                <button type="submit" class="submit-btn">Torne-se um membro</button>
+                                <button type="submit" class="submit-btn" id="submitBtn">Torne-se um membro</button>
                             </div>
                         </div>
+                        <div id="errorMessage" style="display: none; color: red; margin-top: 10px; text-align: center; font-size: 14px;"></div>
                     </form>
                 </div>
 
@@ -116,36 +116,10 @@
         }
     });
 
+    // ========== CONFIGURAÇÃO DA API ==========
+    const API_URL = 'http://localhost:3000';
+
     // ========== VALIDAÇÃO DE FORMULÁRIOS ==========
-
-    // Validação de CPF
-    function validarCPF(cpf) {
-        cpf = cpf.replace(/[^\d]+/g, '');
-        
-        if (cpf.length !== 11 || /^(\d)\1{10}$/.test(cpf)) {
-            return false;
-        }
-
-        let soma = 0;
-        let resto;
-
-        for (let i = 1; i <= 9; i++) {
-            soma += parseInt(cpf.substring(i - 1, i)) * (11 - i);
-        }
-        resto = (soma * 10) % 11;
-        if ((resto === 10) || (resto === 11)) resto = 0;
-        if (resto !== parseInt(cpf.substring(9, 10))) return false;
-
-        soma = 0;
-        for (let i = 1; i <= 10; i++) {
-            soma += parseInt(cpf.substring(i - 1, i)) * (12 - i);
-        }
-        resto = (soma * 10) % 11;
-        if ((resto === 10) || (resto === 11)) resto = 0;
-        if (resto !== parseInt(cpf.substring(10, 11))) return false;
-
-        return true;
-    }
 
     // Validação de Email
     function validarEmail(email) {
@@ -153,38 +127,30 @@
         return regex.test(email);
     }
 
-    // Validação de Senha
+    // Validação de Senha (backend requer mínimo 6 caracteres)
     function validarSenha(senha) {
-        // Mínimo 8 caracteres, pelo menos uma letra e um número
-        const regex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*#?&]{8,}$/;
-        return regex.test(senha);
+        return senha && senha.length >= 6;
     }
 
-    // Formatação de CPF
-    function formatarCPF(cpf) {
-        cpf = cpf.replace(/[^\d]+/g, '');
-        return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
-    }
-
-    // Aplicar máscara de CPF
-    document.getElementById("cpf").addEventListener("input", function(e) {
-        let valor = e.target.value.replace(/[^\d]+/g, '');
-        if (valor.length <= 11) {
-            e.target.value = formatarCPF(valor);
+    // Formatação de Telefone (máscara simples)
+    function formatarTelefone(telefone) {
+        telefone = telefone.replace(/\D/g, '');
+        if (telefone.length <= 10) {
+            return telefone.replace(/(\d{2})(\d{4})(\d{4})/, '($1) $2-$3');
+        } else {
+            return telefone.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
         }
-    });
+    }
+
+    // Aplicar máscara de telefone
+    const phoneInput = document.getElementById("phone");
+    if (phoneInput) {
+        phoneInput.addEventListener("input", function(e) {
+            e.target.value = formatarTelefone(e.target.value);
+        });
+    }
 
     // Validação em tempo real
-    document.getElementById("cpf").addEventListener("blur", function(e) {
-        const cpf = e.target.value;
-        if (cpf && !validarCPF(cpf)) {
-            e.target.setCustomValidity("CPF inválido");
-            e.target.reportValidity();
-        } else {
-            e.target.setCustomValidity("");
-        }
-    });
-
     document.getElementById("email").addEventListener("blur", function(e) {
         const email = e.target.value;
         if (email && !validarEmail(email)) {
@@ -198,7 +164,7 @@
     document.getElementById("senha_usuario").addEventListener("blur", function(e) {
         const senha = e.target.value;
         if (senha && !validarSenha(senha)) {
-            e.target.setCustomValidity("Senha deve ter no mínimo 8 caracteres, incluindo letras e números");
+            e.target.setCustomValidity("Senha deve ter no mínimo 6 caracteres");
             e.target.reportValidity();
         } else {
             e.target.setCustomValidity("");
@@ -216,228 +182,114 @@
         }
     });
 
-    // ========== WEB STORAGE API ==========
+    // ========== FUNÇÕES DE ARMAZENAMENTO ==========
 
-    function salvarUsuario(usuario) {
-        // Verificar se usuário já existe
-        const usuarios = carregarUsuarios();
-        const usuarioExistente = usuarios.find(u => 
-            u.cpf === usuario.cpf || 
-            u.email === usuario.email || 
-            u.usuario === usuario.usuario
-        );
-
-        if (usuarioExistente) {
-            throw new Error("Usuário, CPF ou Email já cadastrado");
-        }
-
-        // Hash simples da senha (em produção, use bcrypt ou similar)
-        usuario.senhaHash = btoa(usuario.senha); // Base64 (não seguro, apenas exemplo)
-        delete usuario.senha; // Remove senha em texto claro
-
-        // localStorage: persiste mesmo fechando navegador
-        usuarios.push(usuario);
-        localStorage.setItem("usuarios", JSON.stringify(usuarios));
-
-        // sessionStorage: apaga ao fechar aba
-        sessionStorage.setItem("ultimo_usuario_cadastrado", JSON.stringify({
-            usuario: usuario.usuario,
-            email: usuario.email
-        }));
+    function salvarToken(token) {
+        localStorage.setItem('auth_token', token);
     }
 
-    function carregarUsuarios() {
-        return JSON.parse(localStorage.getItem("usuarios")) || [];
+    function salvarUsuario(user) {
+        localStorage.setItem('auth_user', JSON.stringify(user));
     }
 
-    // ========== COOKIE STORE API ==========
-
-    async function salvarCookie(nome, valor, diasExpiracao = 7) {
-        try {
-            if ('cookieStore' in window) {
-                // Cookie Store API (moderna)
-                const dataExpiracao = new Date();
-                dataExpiracao.setDate(dataExpiracao.getDate() + diasExpiracao);
-
-                await cookieStore.set({
-                    name: nome,
-                    value: valor,
-                    expires: dataExpiracao.getTime(),
-                    sameSite: 'strict',
-                    secure: window.location.protocol === 'https:'
-                });
-            } else {
-                // Fallback para cookies tradicionais
-                const dataExpiracao = new Date();
-                dataExpiracao.setTime(dataExpiracao.getTime() + (diasExpiracao * 24 * 60 * 60 * 1000));
-                document.cookie = `${nome}=${valor};expires=${dataExpiracao.toUTCString()};path=/;SameSite=Strict`;
-            }
-        } catch (error) {
-            console.error("Erro ao salvar cookie:", error);
-        }
-    }
-
-    async function lerCookie(nome) {
-        try {
-            if ('cookieStore' in window) {
-                const cookie = await cookieStore.get(nome);
-                return cookie ? cookie.value : null;
-            } else {
-                // Fallback para cookies tradicionais
-                const nomeCookie = nome + "=";
-                const cookies = document.cookie.split(';');
-                for (let i = 0; i < cookies.length; i++) {
-                    let cookie = cookies[i].trim();
-                    if (cookie.indexOf(nomeCookie) === 0) {
-                        return cookie.substring(nomeCookie.length, cookie.length);
-                    }
-                }
-                return null;
-            }
-        } catch (error) {
-            console.error("Erro ao ler cookie:", error);
-            return null;
-        }
-    }
-
-    // ========== WEB AUTHENTICATION API (WebAuthn) ==========
-
-    async function registrarCredencialWebAuthn(usuario) {
-        try {
-            if (!window.PublicKeyCredential) {
-                console.warn("Web Authentication API não suportada neste navegador");
-                return null;
-            }
-
-            // Gerar challenge aleatório
-            const challenge = new Uint8Array(32);
-            crypto.getRandomValues(challenge);
-
-            // Configuração para registro
-            const publicKeyCredentialCreationOptions = {
-                challenge: challenge,
-                rp: {
-                    name: "Carona VIP",
-                    id: window.location.hostname,
-                },
-                user: {
-                    id: new TextEncoder().encode(usuario.usuario),
-                    name: usuario.email,
-                    displayName: usuario.usuario,
-                },
-                pubKeyCredParams: [{ alg: -7, type: "public-key" }],
-                authenticatorSelection: {
-                    authenticatorAttachment: "platform",
-                    userVerification: "preferred"
-                },
-                timeout: 60000,
-                attestation: "direct"
-            };
-
-            // Registrar credencial
-            const credential = await navigator.credentials.create({
-                publicKey: publicKeyCredentialCreationOptions
-            });
-
-            // Salvar credencial ID no Web Storage
-            const credentialData = {
-                id: Array.from(new Uint8Array(credential.rawId)),
-                userId: usuario.id,
-                type: credential.type
-            };
-
-            let credenciais = JSON.parse(localStorage.getItem("webauthn_credenciais")) || [];
-            credenciais.push(credentialData);
-            localStorage.setItem("webauthn_credenciais", JSON.stringify(credenciais));
-
-            return credential;
-        } catch (error) {
-            console.warn("Erro ao registrar credencial WebAuthn:", error);
-            return null;
-        }
-    }
-
-    // ========== FORMULÁRIO ==========
+    // ========== FORMULÁRIO DE CADASTRO ==========
 
     document.querySelector("form").addEventListener("submit", async function(e) {
         e.preventDefault();
 
-        // Validações
-        const cpf = document.getElementById("cpf").value;
-        const usuario = document.getElementById("usuario").value;
-        const email = document.getElementById("email").value;
+        const nome = document.getElementById("nome").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const phone = document.getElementById("phone")?.value.replace(/\D/g, '') || '';
         const senha = document.getElementById("senha_usuario").value;
         const confirmaSenha = document.getElementById("confirma_senha").value;
+        const errorDiv = document.getElementById("errorMessage");
+        const submitBtn = document.getElementById("submitBtn");
 
-        // Validação de CPF
-        if (!validarCPF(cpf)) {
-            alert("CPF inválido");
+        // Esconder mensagem de erro anterior
+        errorDiv.style.display = "none";
+        errorDiv.textContent = "";
+
+        // Validações
+        if (!nome || nome.length < 3) {
+            errorDiv.textContent = "Nome deve ter no mínimo 3 caracteres";
+            errorDiv.style.display = "block";
             return;
         }
 
-        // Validação de Email
         if (!validarEmail(email)) {
-            alert("Email inválido");
+            errorDiv.textContent = "Email inválido";
+            errorDiv.style.display = "block";
             return;
         }
 
-        // Validação de Senha
         if (!validarSenha(senha)) {
-            alert("Senha deve ter no mínimo 8 caracteres, incluindo letras e números");
+            errorDiv.textContent = "Senha deve ter no mínimo 6 caracteres";
+            errorDiv.style.display = "block";
             return;
         }
 
-        // Validação de confirmação de senha
         if (senha !== confirmaSenha) {
-            alert("As senhas não coincidem");
+            errorDiv.textContent = "As senhas não coincidem";
+            errorDiv.style.display = "block";
             return;
         }
+
+        // Desabilitar botão e mostrar loading
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Criando conta...";
 
         try {
-            const novoUsuario = {
-                id: Date.now(),
-                cpf: cpf.replace(/[^\d]+/g, ''),
-                usuario: usuario,
+            // Preparar dados para cadastro conforme API do backend
+            const registerData = {
+                name: nome,
                 email: email,
-                senha: senha, // Será removida após hash
-                dataCadastro: new Date().toISOString()
+                password: senha
             };
 
-            // Salvar no Web Storage
-            salvarUsuario(novoUsuario);
+            // Adicionar telefone se preenchido
+            if (phone) {
+                registerData.phone = phone;
+            }
 
-            // Tentar registrar credencial WebAuthn (opcional)
-            await registrarCredencialWebAuthn(novoUsuario);
+            // Fazer requisição para API de cadastro
+            const response = await fetch(`${API_URL}/api/auth/register`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(registerData)
+            });
 
-            // Salvar cookie de sessão
-            const tokenSessao = btoa(JSON.stringify({
-                usuario: novoUsuario.usuario,
-                email: novoUsuario.email,
-                timestamp: Date.now()
-            }));
-            await salvarCookie("session_token", tokenSessao, 7);
+            const data = await response.json();
 
-            // Salvar no sessionStorage
+            if (!response.ok) {
+                throw new Error(data.message || 'Erro ao cadastrar usuário');
+            }
+
+            // Armazenar token e dados do usuário (o backend já retorna após cadastro)
+            salvarToken(data.token);
+            salvarUsuario(data.user);
+
+            // Salvar no sessionStorage para compatibilidade
             sessionStorage.setItem("usuario_logado", JSON.stringify({
-                usuario: novoUsuario.usuario,
-                email: novoUsuario.email
+                usuario: data.user.name,
+                email: data.user.email
             }));
 
-            alert("Cadastro realizado com sucesso!");
-            console.log("Usuários cadastrados:", carregarUsuarios());
+            console.log("Cadastro realizado com sucesso:", data.user);
 
-            // Redirecionar para login
-            window.location.href = "login.html";
+            alert("Cadastro realizado com sucesso! Você já está logado.");
+
+            // Redirecionar para página inicial (já está autenticado)
+            window.location.href = "index.html";
         } catch (error) {
-            alert("Erro ao cadastrar: " + error.message);
-            console.error("Erro:", error);
+            console.error("Erro ao cadastrar:", error);
+            errorDiv.textContent = error.message || "Erro ao cadastrar. Tente novamente.";
+            errorDiv.style.display = "block";
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.textContent = "Torne-se um membro";
         }
-    });
-
-    // Carregar dados ao iniciar
-    window.addEventListener("load", () => {
-        const usuarios = carregarUsuarios();
-        console.log(`${usuarios.length} usuários cadastrados no localStorage`);
     });
 
 </script>

@@ -356,15 +356,20 @@
     const modal = document.getElementById("contact-modal");
     const openModalLinks = document.querySelectorAll(".open-modal");
 
-    const ultimoUsuarioLogado = localStorage.getItem("ultimo_usuario_logado");
-    console.log(ultimoUsuarioLogado);
-    if (ultimoUsuarioLogado == null) {
+    // Verificar se o usuário está logado usando auth_user e auth_token
+    const authUser = localStorage.getItem("auth_user");
+    const authToken = localStorage.getItem("auth_token");
+    const usuarioLogado = authUser ? JSON.parse(authUser) : null;
+
+    if (!authToken || !usuarioLogado) {
+        // Usuário não está logado
         document.getElementById("login_menu").innerHTML = `<a href="login.html">ENTRAR</a>`;
         document.getElementById("minhas_rotas_menu").remove();
         document.getElementById("usuario_logado").remove();
         document.getElementById("cadastrar_menu").innerHTML = `<a id="cadastrar_menu"  href="cadastro_usuario.html" class="btn-cadastrar">CADASTRAR</a>`;
     }
     else {
+        // Usuário está logado
         document.getElementById("login_menu").remove();
         document.getElementById("cadastrar_menu").remove();
         document.getElementById("usuario_logado").innerHTML = `<button onclick="toggleMenuUsuarioLogado()"><img src="../imagens/login/usuario.png" alt="Ícone de usuário"></button>
@@ -384,7 +389,10 @@
     });
 
     function sair() {
-        localStorage.removeItem("ultimo_usuario_logado");
+        localStorage.removeItem("auth_token");
+        localStorage.removeItem("auth_user");
+        localStorage.removeItem("ultimo_email_login");
+        sessionStorage.removeItem("usuario_logado");
         window.location.href = "index.html";
     }
 

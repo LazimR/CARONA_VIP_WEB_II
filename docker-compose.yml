@@ -1,0 +1,75 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: carona_vip_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: carona_user
+      POSTGRES_PASSWORD: carona_password
+      POSTGRES_DB: carona_vip
+      PGDATA: /var/lib/postgresql/data/pgdata
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U carona_user -d carona_vip"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - carona_network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: carona_vip_backend
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: postgresql://carona_user:carona_password@postgres:5432/carona_vip?schema=public
+      PORT: 3000
+      NODE_ENV: development
+      CORS_ORIGIN: http://localhost:5173,http://localhost:3000,http://127.0.0.1:5173
+      MERCADOPAGO_ACCESS_TOKEN: ${MERCADOPAGO_ACCESS_TOKEN:-your_access_token_here}
+      JWT_SECRET: ${JWT_SECRET:-your_super_secret_jwt_key_change_this_in_production}
+      JWT_EXPIRES_IN: ${JWT_EXPIRES_IN:-7d}
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - carona_network
+    command: sh -c "chmod +x scripts/init-db.sh && ./scripts/init-db.sh && npm run dev"
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: carona_vip_frontend
+    restart: unless-stopped
+    environment:
+      VITE_API_URL: http://localhost:3000
+      NODE_ENV: development
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    depends_on:
+      - backend
+    networks:
+      - carona_network
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  carona_network:
+    driver: bridge
+
